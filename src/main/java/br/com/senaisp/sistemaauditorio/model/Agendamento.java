@@ -48,6 +48,8 @@ public class Agendamento {
 	
 	private String periodo;
 	
+	// testando git pull
+	
 	
 	//Faltando o tipo e o ligamento com o Usuario
 	//private Usuario usuario;
