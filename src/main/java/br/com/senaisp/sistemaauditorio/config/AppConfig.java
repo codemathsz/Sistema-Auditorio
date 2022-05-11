@@ -8,10 +8,17 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer{
+	
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		
+		registry.addMapping("/**");// LIBERA O CORS, PARA DE DAR ERRO DE CORS
+	}
 	
 	// ESTRUTURA DO BANCO, dataSource e jpaVendorAdapter, se for migrar para outro bd esse dois método já cria a estrutura, claro que mudando os parametros passados
 
