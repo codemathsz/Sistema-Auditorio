@@ -51,4 +51,5 @@ public class Agendamento {
 	//private Usuario usuario;
 	//private TipoUsuario tipo;
 	
+	//teste 2 rell
 }
