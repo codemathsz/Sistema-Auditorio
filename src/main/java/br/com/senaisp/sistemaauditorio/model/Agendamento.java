@@ -14,6 +14,8 @@ import lombok.Data;
 @Data
 @Entity
 public class Agendamento {
+	
+	//aplicando o pull request
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
