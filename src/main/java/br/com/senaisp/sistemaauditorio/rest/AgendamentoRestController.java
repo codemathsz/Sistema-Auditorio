@@ -28,7 +28,7 @@ public class AgendamentoRestController {
 
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Agendamento> lista(Agendamento agendamento) {
 
 		return repository.findAll();

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+import br.com.senaisp.sistemaauditorio.util.HashUtil;
 import lombok.Data;
 
 @Data
@@ -34,4 +35,13 @@ public class Usuario {
 	private String senha;
 	@NotEmpty
 	private String nivel;
+	
+	
+	// MÉTODO SET QUE APLICA O HASH NA SENHA
+	public void setSenha(String senha) {
+		
+		this.senha = (HashUtil.hash(senha));
+	}
+	
+
 }
