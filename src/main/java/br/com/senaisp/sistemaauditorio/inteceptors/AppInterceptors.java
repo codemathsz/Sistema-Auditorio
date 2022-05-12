@@ -31,7 +31,7 @@ public class AppInterceptors implements HandlerInterceptor{
 		String uri = request.getRequestURI();
 		
 		// VARIAVEL PARA SESSÃO
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 		
 		// SE FOR PAGINA DE ERRO LIBERA
 		if (uri.startsWith("/erro")) {

@@ -60,4 +60,22 @@ public class AgendamentoRestController {
 		return ResponseEntity.ok().build();
 	}
 
+	
+	@RequestMapping(value = "/alteraStatus/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> alterarStatusAceito(@PathVariable("id") Long id, @RequestBody Agendamento agendamento){
+		
+		Status status = null;
+		
+		if (agendamento.getStatus() == status.PENDENTE) {
+			
+			agendamento.setStatus(status.ACEITO);
+			repository.save(agendamento);
+			
+			return ResponseEntity.ok().build();
+		}else {
+			
+			return ResponseEntity.notFound().build();
+		}
+		
+	}
 }
