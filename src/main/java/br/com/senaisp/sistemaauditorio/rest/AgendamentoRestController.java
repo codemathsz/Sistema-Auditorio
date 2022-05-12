@@ -61,21 +61,46 @@ public class AgendamentoRestController {
 	}
 
 	
-	@RequestMapping(value = "/alteraStatus/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/alteraStatusAceito/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> alterarStatusAceito(@PathVariable("id") Long id, @RequestBody Agendamento agendamento){
 		
+		//VARIÁVEL PARA PEGAR O STATUS
 		Status status = null;
 		
+		// VERIFICA SE O STATUS É DO AGENDAMENTO É IGUAL A PENDENTE
 		if (agendamento.getStatus() == status.PENDENTE) {
 			
+			// TROCA O STATUS DO GENDAMENTO DE PENDENTE PARA ACEITA
 			agendamento.setStatus(status.ACEITO);
+			// SALAV O AGENDAMENTO COM O NOVO STATUS
 			repository.save(agendamento);
 			
+			// RETORNA QUE DEU CERTO
 			return ResponseEntity.ok().build();
 		}else {
-			
+			// RETORNA QUE NÃO FOI ECONTRADA
 			return ResponseEntity.notFound().build();
 		}
 		
+	}
+	@RequestMapping(value = "/alterarStatusRecusado/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> alterarStatusRecusado(@PathVariable("id") Long id, @RequestBody Agendamento agendamento){
+		
+		// VARIÁVEL PARA PEGAR O STATUS
+		Status status = null;
+		
+		//VERIFICA SE O STATUS DO AGENDAMENTO É IGUAL A PENDENTE
+		if(agendamento.getStatus() ==  status.PENDENTE) {
+			// TROCA O STATUS DO AGENDAMENTO PARA RECUSADO
+			agendamento.setStatus(status.RECUSADO);
+			// SALVA O AGENDAMENTO NO BANCO DE DADOS COM O NOVO STATUS
+			repository.save(agendamento);
+			
+			// RETORNA QUE DEU CERTO
+			return ResponseEntity.ok().build();
+		}else {
+			// RETORNA QUE NÃO FOI ENCONTRADO
+			return ResponseEntity.notFound().build();
+		}
 	}
 }
