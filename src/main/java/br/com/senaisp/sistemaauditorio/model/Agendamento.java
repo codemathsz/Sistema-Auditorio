@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -44,11 +46,15 @@ public class Agendamento {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss", timezone="GMT-3")
 	private Calendar horaFinalizada;
 	
-	private String status;
+	private Status status;
 	
-	private String periodo;
+	private Periodo periodo;
+	@OneToOne
+	private TipoEvento tipo;
+	@ManyToOne
+	private Usuario usuario;
 	
-	// testando git pull
+	
 	
 	
 	//Faltando o tipo e o ligamento com o Usuario

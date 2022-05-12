@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.senaisp.sistemaauditorio.model.Agendamento;
+import br.com.senaisp.sistemaauditorio.model.Status;
 import br.com.senaisp.sistemaauditorio.repository.AgendamentoRepository;
 
 @RestController
@@ -22,7 +23,7 @@ public class AgendamentoRestController {
 
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Agendamento> criar(@RequestBody Agendamento agendamento) {
-
+		
 		repository.save(agendamento);
 		return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
 
