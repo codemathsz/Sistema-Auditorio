@@ -43,6 +43,8 @@ public class LoginRestController {
 			payload.put("idUsuario", usuario.getId());
 			payload.put("nomeUsuario", usuario.getNome());
 			payload.put("nivelUsuario", usuario.getNivel());
+			payload.put("emailUsuario", usuario.getEmail());
+			payload.put("nifUsuario", usuario.getNif());
 			
 			//criando varievel para data de expiração
 			Calendar expiration = Calendar.getInstance();
