@@ -23,6 +23,12 @@ import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioRestController {
+	
+	
+	public static final String EMISSOR = "SENAI";
+	// CHAVE PARA ACESSAR O EMISSOR
+	public static final String SECRET = "Ag&nd4m&n10DO4ud!t0r!oCOMg4br!&l,ru8&n$,m4t#,k4l$b!,p4u70,8run0";
+	
 
 	@Autowired
 	private UsuarioRepository repository;
@@ -89,6 +95,7 @@ public class UsuarioRestController {
 		repository.deleteById(idUsuario); // EXCLUE O USUÁRIO DO BANCO DE DADOS
 		return ResponseEntity.noContent().build();
 	}
+	
 	
 	
 	
