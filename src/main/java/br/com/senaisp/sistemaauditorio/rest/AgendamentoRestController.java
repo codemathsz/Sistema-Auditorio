@@ -102,5 +102,6 @@ public class AgendamentoRestController {
 			// RETORNA QUE NÃO FOI ENCONTRADO
 			return ResponseEntity.notFound().build();
 		}
+		//
 	}
 }
