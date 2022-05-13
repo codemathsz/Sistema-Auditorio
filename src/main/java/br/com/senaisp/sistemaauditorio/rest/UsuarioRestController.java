@@ -3,8 +3,6 @@ package br.com.senaisp.sistemaauditorio.rest;
 import java.net.URI;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -22,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
+import br.com.senaisp.sistemaauditorio.annotation.Administrador;
+import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
@@ -40,6 +40,7 @@ public class UsuarioRestController {
 	@Autowired
 	private UsuarioRepository repository;
 	
+	@Publico
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario){// ResponseEntity --> MANIPULAR A RESPOSTA, CEFECCIONAR o response, @RequestBody USUARIO VEM DO CORPO DA APLICAÇÃO
 		
@@ -61,6 +62,7 @@ public class UsuarioRestController {
 	}
 	
 	
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Usuario> getUsuarios(){
 		
@@ -70,7 +72,7 @@ public class UsuarioRestController {
 	
 	
 	
-	
+	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") Long idUsuario){
 		Optional<Usuario> optional = repository.findById(idUsuario);
@@ -82,6 +84,9 @@ public class UsuarioRestController {
 		}
 	}
 	
+	
+	@Administrador
+	@br.com.senaisp.sistemaauditorio.annotation.Usuario
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario ){
 		
@@ -96,6 +101,7 @@ public class UsuarioRestController {
 		return ResponseEntity.ok().build();
 	}
 	
+	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Usuario> excluirUsuario(@PathVariable("id") Long idUsuario){
 		
@@ -103,7 +109,7 @@ public class UsuarioRestController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	
+	@Publico
 	@RequestMapping(value = "/logar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<TokenJWT> login(@RequestBody Usuario usuario){
 		

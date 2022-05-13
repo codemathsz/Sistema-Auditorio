@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.senaisp.sistemaauditorio.annotation.Administrador;
+import br.com.senaisp.sistemaauditorio.annotation.Publico;
+import br.com.senaisp.sistemaauditorio.annotation.Usuario;
 import br.com.senaisp.sistemaauditorio.model.Agendamento;
 import br.com.senaisp.sistemaauditorio.model.Status;
 import br.com.senaisp.sistemaauditorio.repository.AgendamentoRepository;
@@ -20,7 +23,9 @@ public class AgendamentoRestController {
 
 	@Autowired
 	public AgendamentoRepository repository;
-
+	
+	@Usuario
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Agendamento> criar(@RequestBody Agendamento agendamento) {
 		
@@ -29,18 +34,23 @@ public class AgendamentoRestController {
 
 	}
 
+	@Publico
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Agendamento> lista(Agendamento agendamento) {
 
 		return repository.findAll();
 	}
 
+	@Usuario
+	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Agendamento getById(@PathVariable("id") Long idAgendamento) {
 		return repository.findById(idAgendamento).get();
 	}
 
 	
+	@Administrador
+	@Usuario
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Agendamento> deletar(@PathVariable("id") Long id) {
 
@@ -49,6 +59,8 @@ public class AgendamentoRestController {
 
 	}
 
+	@Usuario
+	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> alterar(@PathVariable("id") Long id, @RequestBody Agendamento agendamento) {
 
@@ -61,6 +73,7 @@ public class AgendamentoRestController {
 	}
 
 	
+	@Administrador
 	@RequestMapping(value = "/alteraStatusAceito/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> alterarStatusAceito(@PathVariable("id") Long id, @RequestBody Agendamento agendamento){
 		
@@ -83,6 +96,8 @@ public class AgendamentoRestController {
 		}
 		
 	}
+	
+	@Administrador
 	@RequestMapping(value = "/alterarStatusRecusado/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> alterarStatusRecusado(@PathVariable("id") Long id, @RequestBody Agendamento agendamento){
 		
@@ -102,6 +117,6 @@ public class AgendamentoRestController {
 			// RETORNA QUE NÃO FOI ENCONTRADO
 			return ResponseEntity.notFound().build();
 		}
-		//
+		
 	}
 }

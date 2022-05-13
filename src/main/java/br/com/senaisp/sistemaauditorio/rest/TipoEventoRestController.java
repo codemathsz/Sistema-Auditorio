@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.TipoEvento;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
@@ -26,6 +27,7 @@ public class TipoEventoRestController {
 	@Autowired
 	private TipoEventoRepository repository;
 	
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> cadastrarTipoEvento(@RequestBody TipoEvento tipoEvento){
 		
@@ -42,12 +44,14 @@ public class TipoEventoRestController {
 		
 	}
 	
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<TipoEvento> getTipoEventos(){
 	
 		return repository.findAll();
 	}
 	
+	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<TipoEvento> getTipoEventoById(@PathVariable("id") Long id){
 		
@@ -63,6 +67,7 @@ public class TipoEventoRestController {
 		}
 	}
 	
+	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> altualizarTipoEvento(@PathVariable("id") Long idTipoEvento, @RequestBody TipoEvento tipoEvento){
 		
@@ -74,6 +79,7 @@ public class TipoEventoRestController {
 		}
 	}
 	
+	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<TipoEvento> excluirTipoEvento(@PathVariable("id") Long idTipoEvento){
 		
