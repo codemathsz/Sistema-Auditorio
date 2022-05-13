@@ -2,6 +2,7 @@ package br.com.senaisp.sistemaauditorio.rest;
 
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.annotation.Usuario;
 import br.com.senaisp.sistemaauditorio.model.Agendamento;
+import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Status;
 import br.com.senaisp.sistemaauditorio.repository.AgendamentoRepository;
 
@@ -27,11 +29,21 @@ public class AgendamentoRestController {
 	@Usuario
 	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Agendamento> criar(@RequestBody Agendamento agendamento) {
+	public ResponseEntity<Object> criar(@RequestBody Agendamento agendamento) {
 		
-		repository.save(agendamento);
-		return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
-
+		try {
+			if(agendamento != null) {
+				repository.save(agendamento);
+				return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
+			}else {
+				throw new NullPointerException();
+			}
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Agendamento Duplicado", e.getClass().getName());
+			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	@Publico
@@ -44,18 +56,26 @@ public class AgendamentoRestController {
 	@Usuario
 	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Agendamento getById(@PathVariable("id") Long idAgendamento) {
-		return repository.findById(idAgendamento).get();
+	public Agendamento getById(@PathVariable("id") Long idAgendamento, Agendamento agendamento) {
+		if(idAgendamento == agendamento.getId()) {
+			return repository.findById(idAgendamento).get();			
+		}else {
+			throw new RuntimeException();
+		}
 	}
 
 	
 	@Administrador
 	@Usuario
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Agendamento> deletar(@PathVariable("id") Long id) {
+	public ResponseEntity<Agendamento> deletar(@PathVariable("id") Long id, Agendamento agendamento) {
 
-		repository.deleteById(id);
-		return ResponseEntity.noContent().build();
+		if(agendamento.getId() == id) {
+			repository.deleteById(id);
+			return ResponseEntity.noContent().build();
+		}else {
+			throw new RuntimeException();
+		}
 
 	}
 

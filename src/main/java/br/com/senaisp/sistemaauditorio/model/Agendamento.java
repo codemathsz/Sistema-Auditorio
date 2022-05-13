@@ -39,12 +39,10 @@ public class Agendamento {
 	private Calendar dataFinalizada;
 	
 	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone="GMT-3")
-	private Calendar horaInicio;
+	private String horaInicio;
 	
 	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone="GMT-3")
-	private Calendar horaFinalizada;
+	private String horaFinalizada;
 	
 	private Status status;
 	
@@ -56,9 +54,6 @@ public class Agendamento {
 	
 	
 	
-	
-	//Faltando o tipo e o ligamento com o Usuario
-	//private Usuario usuario;
-	//private TipoUsuario tipo;
+
 	
 }
