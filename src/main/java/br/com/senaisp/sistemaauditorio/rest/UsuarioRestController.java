@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
 import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioRestController {

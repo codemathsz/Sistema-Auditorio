@@ -11,6 +11,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
@@ -24,18 +26,18 @@ public class Agendamento {
 	private Long id;
 	
 	@NotEmpty
+	@JsonProperty("title")
 	private String titulo;
 	
 	@NotEmpty
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
+	@JsonProperty("start")
 	@NotNull
-	@JsonFormat(pattern = "dd/MM/yyyy")//para formatar o jeito que a data sera exibida
 	private Calendar dataInicio;
 	
 	@NotNull
-	@JsonFormat(pattern = "dd/MM/yyyy")//para formatar o jeito que a data sera exibida
 	private Calendar dataFinalizada;
 	
 	@NotNull

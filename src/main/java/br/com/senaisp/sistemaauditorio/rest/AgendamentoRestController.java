@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Status;
 import br.com.senaisp.sistemaauditorio.repository.AgendamentoRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/agendamento")
 public class AgendamentoRestController {
@@ -58,7 +60,7 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Agendamento getById(@PathVariable("id") Long idAgendamento, Agendamento agendamento) {
 		if(idAgendamento == agendamento.getId()) {
-			return repository.findById(idAgendamento).get();			
+			return repository.findById(idAgendamento).get();
 		}else {
 			throw new RuntimeException();
 		}
@@ -87,8 +89,9 @@ public class AgendamentoRestController {
 		if (id != agendamento.getId()) {
 			throw new RuntimeException("Id Invalido !!!!!!!");
 		}
+		
 		repository.save(agendamento);
-
+		
 		return ResponseEntity.ok().build();
 	}
 

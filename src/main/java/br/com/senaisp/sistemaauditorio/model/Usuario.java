@@ -33,8 +33,8 @@ public class Usuario {
 	@NotEmpty
 	@JsonProperty(access = Access.WRITE_ONLY)// PARA NÃO MOSTRAR NO GET(JSON)
 	private String senha;
-	@NotEmpty
-	private String nivel;
+	
+	private Nivel nivel;
 	
 	
 	// MÉTODO SET QUE APLICA O HASH NA SENHA
