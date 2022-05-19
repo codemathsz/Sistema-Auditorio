@@ -58,6 +58,7 @@ public class AppInterceptors implements HandlerInterceptor{
 						// SE O METODO FOR USUARIO OU ADM RECUPERA O TOKEN
 						token = request.getHeader("Authorization");
 						
+						
 						// BUSCANDO O ALGORITMO NO USUARIO E ADM
 						Algorithm algoritmo = Algorithm.HMAC256(UsuarioRestController.SECRET);
 						// OBJ PARA VERIFICAR O TOKEN
@@ -67,7 +68,10 @@ public class AppInterceptors implements HandlerInterceptor{
 						// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
 						Map<String, Claim> claims = jwt.getClaims();
 						
+						request.setAttribute("id",claims.get("id"));
+						
 						return true;
+						
 						
 						
 					} catch (Exception e) {

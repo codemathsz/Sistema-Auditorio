@@ -1,0 +1,6 @@
+package br.com.senaisp.sistemaauditorio.model;
+
+public enum TipoLog {
+
+	LOGAR,ALTERAR,DELETAR,AGENDAMENTO, REIVINDICACAO, CADASTRO_EVENTO, CADASTRO_USUARIO, ALTERACAO_STATUS;
+}

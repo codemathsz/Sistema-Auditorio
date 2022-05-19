@@ -37,6 +37,7 @@ public class Agendamento {
 	@NotNull
 	private Calendar dataInicio;
 	
+	
 	@NotNull
 	private Calendar dataFinalizada;
 	
@@ -55,7 +56,5 @@ public class Agendamento {
 	private Usuario usuario;
 	
 	
-	
-
 	
 }

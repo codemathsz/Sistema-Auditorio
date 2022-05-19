@@ -19,6 +19,7 @@ import br.com.senaisp.sistemaauditorio.model.Agendamento;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Status;
 import br.com.senaisp.sistemaauditorio.repository.AgendamentoRepository;
+import br.com.senaisp.sistemaauditorio.services.LogService;
 
 @CrossOrigin
 @RestController
@@ -28,6 +29,9 @@ public class AgendamentoRestController {
 	@Autowired
 	public AgendamentoRepository repository;
 	
+	@Autowired
+	public LogService logService;
+	
 	@Usuario
 	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -36,6 +40,8 @@ public class AgendamentoRestController {
 		try {
 			if(agendamento != null) {
 				repository.save(agendamento);
+				
+				
 				return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
 			}else {
 				throw new NullPointerException();
@@ -46,6 +52,10 @@ public class AgendamentoRestController {
 			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Agendamento Duplicado", e.getClass().getName());
 			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
+//		Log log = new Log()
+//				
+//		repositoryLog.save(log)
 	}
 
 	@Publico

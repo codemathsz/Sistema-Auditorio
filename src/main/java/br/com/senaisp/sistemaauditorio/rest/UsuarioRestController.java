@@ -24,9 +24,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.model.Erro;
+import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
+import br.com.senaisp.sistemaauditorio.repository.LogRepository;
 import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
+import br.com.senaisp.sistemaauditorio.services.LogService;
 
 @CrossOrigin
 @RestController
@@ -42,14 +45,27 @@ public class UsuarioRestController {
 	@Autowired
 	private UsuarioRepository repository;
 	
+	@Autowired
+	private LogService log;
+	
+	@Autowired
+	private LogRepository logRepository;
+	
 	@Publico
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario){// ResponseEntity --> MANIPULAR A RESPOSTA, CEFECCIONAR o response, @RequestBody USUARIO VEM DO CORPO DA APLICAÇÃO
+		
+		
+		
 		
 		try {
 			
 			// SALVA USUARIO NO BD
 			repository.save(usuario);
+			// SALVA LOG NO BD
+			log.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO,null);
+			
+			
 			
 			//	ACRESENTANDO NO CORPO DA RESPOSTA O OBJETO INSERIDO
 			return ResponseEntity.created(URI.create("/api/usuario"+usuario.getId())).body(usuario);// body(usuario) colocar no body a resposta gerada
@@ -60,6 +76,7 @@ public class UsuarioRestController {
 			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Registro Duplicado", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
 			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
 		}
+		
 		
 	}
 	
@@ -101,6 +118,7 @@ public class UsuarioRestController {
 		repository.save(usuario);// SALVA AS ALTERAÇÕES NO BD
 		
 		return ResponseEntity.ok().build();
+		
 	}
 	
 	@Administrador
