@@ -29,7 +29,7 @@ public class LogService {
 		// SE O TIPO DA LOG FOR LOGAR
 		if (log.getTipoLog() == TipoLog.LOGAR) {
 	
-			log.setDescricao("Usuario " + usuario.getNome() + " logou");
+			log.setDescricao("Usuario " + usuario.getNome() + " se logou");
 	
 		} else if (log.getTipoLog() == TipoLog.CADASTRO_USUARIO) { // SE O TIPO DA LOG FOR CADASTRO_USUARIO
 	
@@ -75,8 +75,7 @@ public class LogService {
 
 		} else if (log.getTipoLog() == TipoLog.ALTERAR) {//SE O TIPO DA LOG FOR ALTERAR AGENDAMENTO
 
-			log.setDescricao(
-					"O Usuario " + usuario.getNome() + " alterou o agendamento " + agendamento.getTitulo());
+			log.setDescricao("O Usuario " + usuario.getNome() + " alterou o agendamento " + agendamento.getTitulo());
 		} else if (log.getTipoLog() == TipoLog.ALTERACAO_STATUS) {// SE O TIPO DA LOG FOR ALTERAR STATUS
 
 			String nomeAdm = (String) request.getAttribute("nome");

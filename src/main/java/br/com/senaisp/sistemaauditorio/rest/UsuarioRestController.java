@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -107,7 +109,7 @@ public class UsuarioRestController {
 	@Administrador
 	@br.com.senaisp.sistemaauditorio.annotation.Usuario
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario ){
+	public ResponseEntity<Void> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario,HttpServletRequest request ){
 		
 		// VERIFICA SE O ID DO USUARIO É IGUAL AO INFORMADO( SE EXISTE)
 		if (usuario.getId() != idUsuario) {
@@ -116,6 +118,7 @@ public class UsuarioRestController {
 		}
 		
 		repository.save(usuario);// SALVA AS ALTERAÇÕES NO BD
+		log.salvarLogUsuario(usuario, TipoLog.ALTERAR, request);	
 		
 		return ResponseEntity.ok().build();
 		
@@ -131,7 +134,7 @@ public class UsuarioRestController {
 	
 	@Publico
 	@RequestMapping(value = "/logar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
-	public ResponseEntity<TokenJWT> login(@RequestBody Usuario usuario){
+	public ResponseEntity<TokenJWT> login(@RequestBody Usuario usuario, HttpServletRequest request){
 		
 		usuario = repository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
 		
@@ -141,7 +144,7 @@ public class UsuarioRestController {
 			Map<String, Object> payload = new HashMap<String, Object>();
 			payload.put("id", usuario.getId());
 			payload.put("nome", usuario.getNome());
-			payload.put("nivel", usuario.getNivel());
+			payload.put("nivel", usuario.getNivel().ordinal());
 			payload.put("email", usuario.getEmail());
 			payload.put("nif", usuario.getNif());
 			
@@ -164,6 +167,7 @@ public class UsuarioRestController {
 					.withExpiresAt(expiration.getTime())
 					.sign(algoritmo));
 			
+			log.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
 			return ResponseEntity.ok(tokenJwt);
 			
 		} else {

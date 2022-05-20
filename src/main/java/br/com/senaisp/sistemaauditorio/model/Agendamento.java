@@ -1,5 +1,6 @@
 package br.com.senaisp.sistemaauditorio.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,27 +26,21 @@ public class Agendamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotEmpty
+	@NotNull(message = "{agendamento.titulo.null}")
 	@JsonProperty("title")
 	private String titulo;
 	
-	@NotEmpty
+	@NotNull
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
 	@JsonProperty("start")
-	@NotNull
+	@NotNull(message = "{agendamento.dataInicio.null}")
 	private Calendar dataInicio;
 	
-	
-	@NotNull
+	@JsonProperty("end")
+	@NotNull(message = "{agendamento.dataFinalizada.null}")
 	private Calendar dataFinalizada;
-	
-	@NotNull
-	private String horaInicio;
-	
-	@NotNull
-	private String horaFinalizada;
 	
 	private Status status;
 	
@@ -55,6 +50,32 @@ public class Agendamento {
 	@ManyToOne
 	private Usuario usuario;
 	
+	// METODO QUE FORMATA A DATA INICIO DO AGENDAMENTO NO PADRÃO dd/MM/yyyy
+	public String getDataInicioFormat() {
+		
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		return formatador.format(this.getDataInicio().getTimeInMillis());
+		
+	}
 	
+	// METODO QUE FORMATA A DATA FINALIZADA DO AGENDAMENTO NO PADRÃO dd/MM/yyyy
+	public String getDataFinalizadaFormat() {
+		
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		return formatador.format(this.getDataFinalizada().getTimeInMillis());
+		
+	}
+	
+	// METODO QUE FORMATA A HORA INICIO DO AGENDAMENTO 
+	public String getHoraInicio() {
+		SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
+		return formatador.format(this.getDataFinalizada().getTime());
+	}
+		
+	// METODO QUE FORMATA A HORA FINALIZADA DO AGENDAMENTO
+	public String getHoraFinalizada() {
+		SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
+		return formatador.format(this.getDataFinalizada().getTime());
+	}
 	
 }
