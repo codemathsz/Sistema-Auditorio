@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Data;
 
 @Data
@@ -34,17 +32,25 @@ public class Log {
 
 	private TipoLog tipoLog;
 	
+	@OneToOne
+	private TipoEvento tipoEvento;
 	
-	public Log(Usuario usuario, TipoLog tipoLog) {
+	public Log(Usuario usuario,TipoLog tipoLog) {
 		
 		this.usuario = usuario;
 		this.tipoLog = tipoLog;
 	}
 	
-	public Log(Usuario usuario, TipoLog tipoLog, Agendamento agendamento) {
+	public Log( Usuario usuario,TipoLog tipoLog, Agendamento agendamento) {
 		
 		this.agendamento = agendamento;
-		this.usuario = usuario;
+
+		this.tipoLog = tipoLog;
+	}
+	
+	public Log( TipoLog tipoLog, TipoEvento tipoEvento) {
+		
+		this.tipoEvento = tipoEvento;
 		this.tipoLog = tipoLog;
 	}
 }

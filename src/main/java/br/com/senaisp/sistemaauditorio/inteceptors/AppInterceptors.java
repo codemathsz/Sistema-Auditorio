@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -16,6 +15,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.annotation.Usuario;
@@ -50,7 +50,7 @@ public class AppInterceptors implements HandlerInterceptor{
 				String token = null;
 				
 				// VERIFICA SE É UM METODO  USUARIO OU ADM
-				if (metodo.getMethodAnnotation(Usuario.class) != null || metodo.getMethodAnnotation(Administrador.class) != null) {
+				if (metodo.getMethodAnnotation(Usuario.class) != null ) {
 					
 					try {
 						
@@ -60,7 +60,7 @@ public class AppInterceptors implements HandlerInterceptor{
 						
 						
 						// BUSCANDO O ALGORITMO NO USUARIO E ADM
-						Algorithm algoritmo = Algorithm.HMAC256(UsuarioRestController.SECRET);
+						Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
 						// OBJ PARA VERIFICAR O TOKEN
 						JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
 						// DECODIFICA O TOKEN
@@ -69,6 +69,7 @@ public class AppInterceptors implements HandlerInterceptor{
 						Map<String, Claim> claims = jwt.getClaims();
 						
 						request.setAttribute("id",claims.get("id"));
+						
 						
 						return true;
 						
@@ -89,7 +90,9 @@ public class AppInterceptors implements HandlerInterceptor{
 				}
 				return true;
 				
-			}else {
+			}else if(uri.startsWith("/api") && metodo.getMethodAnnotation(Administrador.class) != null) {
+				
+			} else {
 				
 				// VERFICA SE  ELE É PUBLICO
 				if (metodo.getMethodAnnotation(Publico.class) != null) {

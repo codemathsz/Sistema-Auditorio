@@ -58,7 +58,7 @@ public class AgendamentoRestController {
 	@Usuario
 	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> criar(@RequestBody Agendamento agendamento) {
+	public ResponseEntity<Object> criar(@RequestBody Agendamento agendamento, HttpServletRequest request) {
 		
 		try {
 			// SE O OBJETO agendamento FOR DIFERENTE DE NULO
@@ -66,7 +66,7 @@ public class AgendamentoRestController {
 				// SALVANDO O AGENDAMENTO NO BANCO
 				repository.save(agendamento);
 				// SALVANDO A LOG NO BANCO, INFORMANDO A CRIANDO DE UM NOVO AGENDAMENTO, NOME DO USUARIO QUE A CRIOU
-				logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.AGENDAMENTO, null);
+				logService.salvarLogAgendamento(agendamento.getUsuario(),agendamento, TipoLog.AGENDAMENTO, request);
 				
 				// RETORNO DO METODO
 				return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
@@ -137,7 +137,7 @@ public class AgendamentoRestController {
 	@Administrador
 	@Usuario
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Agendamento> deletar(@PathVariable("id") Long id, Agendamento agendamento) {
+	public ResponseEntity<Agendamento> deletar(@PathVariable("id") Long id, Agendamento agendamento, HttpServletRequest request) {
 
 		// SE O ID DO agendamento É IGUAL AO id PASSADO
 		if(agendamento.getId() == id) {
@@ -145,9 +145,9 @@ public class AgendamentoRestController {
 			// DELETA O agendamento DO BANCO
 			repository.deleteById(id);
 			// LOG, SALVA A AÇÃO NO BANCO, INFORMANDO UM AGENDAMENTO DELETADO E O NOME DE QUE O DELETOU
-			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.DELETAR, null);
+			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.DELETAR, request);
 			// RETORNO DO METODO
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.ok().build();
 		}else {
 			
 			// SE O id PASSADO NÃO EXISTIR
@@ -174,7 +174,7 @@ public class AgendamentoRestController {
 			// SALVA A ALTERAÇÃO QUE FOI FEITA NO BANCO
 			repository.save(agendamento);
 			// LOG, SALVA A LOG NO BANCO INFORMANDO A ALTERACÃO DE QUAL AGENDAMENTO E QUAL USUARIO QUE FEZ A ALTERAÇÃO
-			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.ALTERAR, request);
+			logService.salvarLogAgendamento( agendamento.getUsuario(),agendamento, TipoLog.ALTERAR, request);
 			// RETORNO DO METODO
 			return ResponseEntity.ok().build();
 			
@@ -196,14 +196,12 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "/alteraStatusAceito/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> alterarStatusAceito(@PathVariable("id") Long id, @RequestBody Agendamento agendamento, HttpServletRequest request){
 		
-		//VARIÁVEL PARA PEGAR O STATUS
-		Status status = null;
 		
 		// VERIFICA SE O STATUS É DO AGENDAMENTO É IGUAL A PENDENTE
-		if (agendamento.getStatus() == status.PENDENTE) {
+		if (agendamento.getStatus() == Status.PENDENTE) {
 			
 			// TROCA O STATUS DO GENDAMENTO DE PENDENTE PARA ACEITA
-			agendamento.setStatus(status.ACEITO);
+			agendamento.setStatus(Status.ACEITO);
 			// SALAV O AGENDAMENTO COM O NOVO STATUS
 			repository.save(agendamento);
 			// LOG, SALVA NO BANCO E INFORMA QUE HOUVE UM ALTERAÇÃO NO STATUS DO AGENDAMENTO, COM O NOME DO AGENDAMENTO MUDADO E DO USUARIO QUE MUDOU
@@ -226,19 +224,17 @@ public class AgendamentoRestController {
 	 */
 	@Administrador
 	@RequestMapping(value = "/alterarStatusRecusado/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> alterarStatusRecusado(@PathVariable("id") Long id, @RequestBody Agendamento agendamento){
+	public ResponseEntity<Void> alterarStatusRecusado(@PathVariable("id") Long id, @RequestBody Agendamento agendamento, HttpServletRequest request){
 		
-		// VARIÁVEL PARA PEGAR O STATUS
-		Status status = null;
 		
 		//VERIFICA SE O STATUS DO AGENDAMENTO É IGUAL A PENDENTE
-		if(agendamento.getStatus() ==  status.PENDENTE) {
+		if(agendamento.getStatus() ==  Status.PENDENTE) {
 			// TROCA O STATUS DO AGENDAMENTO PARA RECUSADO
-			agendamento.setStatus(status.RECUSADO);
+			agendamento.setStatus(Status.RECUSADO);
 			// SALVA O AGENDAMENTO NO BANCO DE DADOS COM O NOVO STATUS
 			repository.save(agendamento);
 			// LOG, SALVA NO BANCO E INFORMA QUE HOUVE UM ALTERAÇÃO NO STATUS DO AGENDAMENTO, COM O NOME DO AGENDAMENTO MUDADO E DO USUARIO QUE MUDOU
-			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.ALTERACAO_STATUS, null);
+			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.ALTERACAO_STATUS, request);
 			// RETORNA QUE DEU CERTO
 			return ResponseEntity.ok().build();
 		}else {

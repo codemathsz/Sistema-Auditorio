@@ -1,7 +1,10 @@
 package br.com.senaisp.sistemaauditorio.rest;
 
 import java.net.URI;
+
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.TipoEvento;
-import br.com.senaisp.sistemaauditorio.model.Usuario;
+import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.repository.TipoEventoRepository;
+import br.com.senaisp.sistemaauditorio.services.LogService;
 
 @CrossOrigin
 @RestController
@@ -29,13 +33,20 @@ public class TipoEventoRestController {
 	@Autowired
 	private TipoEventoRepository repository;
 	
+	@Autowired
+	private LogService log;
+	
+	
 	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> cadastrarTipoEvento(@RequestBody TipoEvento tipoEvento){
+	public ResponseEntity<Object> cadastrarTipoEvento(@RequestBody TipoEvento tipoEvento, HttpServletRequest request){
 		
 		try {
-			
+			// SALVANDO TIPO NO BD
 			repository.save(tipoEvento);
+			// CRIADO LOG
+			log.salvarLogTipo(tipoEvento, TipoLog.CADASTRO_EVENTO, request);
+			//RETORNO DO METODO
 			return ResponseEntity.created(URI.create("api/tipoevento"+tipoEvento.getId())).body(tipoEvento);
 		}catch (DataIntegrityViolationException e) {
 			
@@ -71,21 +82,27 @@ public class TipoEventoRestController {
 	
 	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> altualizarTipoEvento(@PathVariable("id") Long idTipoEvento, @RequestBody TipoEvento tipoEvento){
+	public ResponseEntity<Void> altualizarTipoEvento(@PathVariable("id") Long idTipoEvento, @RequestBody TipoEvento tipoEvento, HttpServletRequest request){
 		
 		if(tipoEvento.getId() != idTipoEvento) {
 			throw new RuntimeException("ID Inválido");
 		}else {
+			// SALVA AS ALTERAÇÕES SO BD
 			repository.save(tipoEvento);
+			// CRIA O LOG
+			log.salvarLogTipo(tipoEvento, TipoLog.ALTERAR, request);
 			return ResponseEntity.ok().build();
 		}
 	}
 	
 	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<TipoEvento> excluirTipoEvento(@PathVariable("id") Long idTipoEvento){
+	public ResponseEntity<TipoEvento> excluirTipoEvento(@PathVariable("id") Long idTipoEvento,@RequestBody TipoEvento tipoEvento, HttpServletRequest request){
 		
+		// DELETA DO BANCO
 		repository.deleteById(idTipoEvento);
+		// CRIA O LOG
+		log.salvarLogTipo(tipoEvento , TipoLog.DELETAR, request);
 		return ResponseEntity.noContent().build();
 	}
 }

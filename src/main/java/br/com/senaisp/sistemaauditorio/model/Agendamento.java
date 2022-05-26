@@ -2,6 +2,7 @@ package br.com.senaisp.sistemaauditorio.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -53,7 +53,7 @@ public class Agendamento {
 	// METODO QUE FORMATA A DATA INICIO DO AGENDAMENTO NO PADRÃO dd/MM/yyyy
 	public String getDataInicioFormat() {
 		
-		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
 		return formatador.format(this.getDataInicio().getTimeInMillis());
 		
 	}
@@ -61,7 +61,7 @@ public class Agendamento {
 	// METODO QUE FORMATA A DATA FINALIZADA DO AGENDAMENTO NO PADRÃO dd/MM/yyyy
 	public String getDataFinalizadaFormat() {
 		
-		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatador = new SimpleDateFormat("yyyy-MM-dd");
 		return formatador.format(this.getDataFinalizada().getTimeInMillis());
 		
 	}

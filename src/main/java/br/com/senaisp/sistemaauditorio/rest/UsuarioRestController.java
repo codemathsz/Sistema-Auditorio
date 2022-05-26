@@ -29,7 +29,6 @@ import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
-import br.com.senaisp.sistemaauditorio.repository.LogRepository;
 import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
 import br.com.senaisp.sistemaauditorio.services.LogService;
 
@@ -50,12 +49,10 @@ public class UsuarioRestController {
 	@Autowired
 	private LogService log;
 	
-	@Autowired
-	private LogRepository logRepository;
 	
 	@Publico
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario){// ResponseEntity --> MANIPULAR A RESPOSTA, CEFECCIONAR o response, @RequestBody USUARIO VEM DO CORPO DA APLICAÇÃO
+	public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario, HttpServletRequest request){// ResponseEntity --> MANIPULAR A RESPOSTA, CEFECCIONAR o response, @RequestBody USUARIO VEM DO CORPO DA APLICAÇÃO
 		
 		
 		
@@ -65,7 +62,7 @@ public class UsuarioRestController {
 			// SALVA USUARIO NO BD
 			repository.save(usuario);
 			// SALVA LOG NO BD
-			log.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO,null);
+			log.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO,request);
 			
 			
 			
@@ -132,6 +129,7 @@ public class UsuarioRestController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	
 	@Publico
 	@RequestMapping(value = "/logar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<TokenJWT> login(@RequestBody Usuario usuario, HttpServletRequest request){
@@ -155,7 +153,7 @@ public class UsuarioRestController {
 			expiration.add(Calendar.HOUR, 12);
 			
 			//algoritmo para assinar o token
-			Algorithm algoritmo = Algorithm.HMAC256(SECRET);
+			Algorithm algoritmo = Algorithm.HMAC512(SECRET);
 			
 			// criando token
 			TokenJWT tokenJwt = new TokenJWT();
