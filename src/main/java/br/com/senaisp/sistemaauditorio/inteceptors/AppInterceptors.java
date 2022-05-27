@@ -49,8 +49,49 @@ public class AppInterceptors implements HandlerInterceptor{
 				
 				String token = null;
 				
-				// VERIFICA SE É UM METODO  USUARIO OU ADM
+			
+				
+				// VERIFICA SE É UM METODO  USUARIO E FOR DIFERENTE DE NULO
 				if (metodo.getMethodAnnotation(Usuario.class) != null ) {
+					
+					try {
+						 
+						
+						// SE O METODO FOR USUARIO OU ADM RECUPERA O TOKEN
+						token = request.getHeader("Authorization");
+						
+						
+						// BUSCANDO O ALGORITMO NO USUARIO E ADM
+						Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
+						// OBJ PARA VERIFICAR O TOKEN
+						JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
+						// DECODIFICA O TOKEN
+						DecodedJWT jwt = verifier.verify(token);
+						// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
+						Map<String, Claim> claims = jwt.getClaims();
+						
+						request.setAttribute("id",claims.get("id"));
+						
+						
+						return true;
+						
+						
+						
+					} catch (Exception e) {
+						
+						e.printStackTrace();
+						if (token == null) {
+							
+							response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+						}else {
+							response.sendError(HttpStatus.FORBIDDEN.value(), e.getMessage());
+						}
+						
+						return false;
+					}
+					
+				//	VERIFICA SE É UM MÉTODO ADMINISTRADOR R FOR DIFERENTE DE NULO 	
+				}else if(metodo.getMethodAnnotation(Administrador.class) != null) {
 					
 					try {
 						
@@ -88,9 +129,8 @@ public class AppInterceptors implements HandlerInterceptor{
 						return false;
 					}
 				}
-				return true;
 				
-			}else if(uri.startsWith("/api") && metodo.getMethodAnnotation(Administrador.class) != null) {
+				return true;
 				
 			} else {
 				

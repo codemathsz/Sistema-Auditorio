@@ -41,12 +41,14 @@ public class Agendamento {
 	@JsonProperty("end")
 	@NotNull(message = "{agendamento.dataFinalizada.null}")
 	private Calendar dataFinalizada;
-	
+	@NotNull
 	private Status status;
-	
+	@NotNull
 	private Periodo periodo;
+	@NotNull
 	@OneToOne
 	private TipoEvento tipo;
+	@NotNull
 	@ManyToOne
 	private Usuario usuario;
 	

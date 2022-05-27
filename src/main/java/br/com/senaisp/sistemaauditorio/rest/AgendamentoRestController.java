@@ -61,23 +61,90 @@ public class AgendamentoRestController {
 	public ResponseEntity<Object> criar(@RequestBody Agendamento agendamento, HttpServletRequest request) {
 		
 		try {
-			// SE O OBJETO agendamento FOR DIFERENTE DE NULO
-			if(agendamento != null) {
-				// SALVANDO O AGENDAMENTO NO BANCO
-				repository.save(agendamento);
-				// SALVANDO A LOG NO BANCO, INFORMANDO A CRIANDO DE UM NOVO AGENDAMENTO, NOME DO USUARIO QUE A CRIOU
-				logService.salvarLogAgendamento(agendamento.getUsuario(),agendamento, TipoLog.AGENDAMENTO, request);
-				
-				// RETORNO DO METODO
-				return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
-			}else {
-				
-				// SE DER ERRO DE NULLPOINTER
-				throw new NullPointerException();
-			}
+			
+			// SALVANDO O AGENDAMENTO NO BANCO
+			repository.save(agendamento);
+			// SALVANDO A LOG NO BANCO, INFORMANDO A CRIANDO DE UM NOVO AGENDAMENTO, NOME DO USUARIO QUE A CRIOU
+			logService.salvarLogAgendamento(agendamento.getUsuario(),agendamento, TipoLog.AGENDAMENTO, request);
+			
+			// RETORNO DO METODO
+			return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
+		
 		}catch (Exception e) {
 			
-			// SE O OBJETO agendamento  FOR NULO
+			if (agendamento.getTitulo() == null) {//	*** TITULO AGENDAMENTO NULO
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *TITULO* DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if(agendamento.getDescricao() == null) {//	** DESCRIÇÃO AGENDAMENTO NULO
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *DESCRIÇÃO*  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if (agendamento.getDataInicio() == null) {// 	** DATA DE INICIO DO AGENDAMENTO NULO
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *DATA DE INICIO*  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if (agendamento.getDataFinalizada() == null) {// 	** DATA FINAL DO AGENDAMENTO NULA
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *DATA  FINAL* DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if(agendamento.getStatus() == null) {//	** STATUS DO AGENDAMENTO NULO
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *STATUS*  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if(agendamento.getPeriodo() == null) {//	** PERIODO DO AGENDAMENTO NULO
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *PERIODO*  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if (agendamento.getTipo() == null) {//	** TIPO DE AGENDAMENTO NULO
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *TIPO*  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if (agendamento.getHoraInicio() == null) {//	** HORA INICIO AGENDAMENTO NULO
+				
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *HORA DE INICIO *  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if (agendamento.getHoraFinalizada() == null) {//	** HORA FINAL DO AGENDAENTO NULO
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *HORA FINAL *  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}else if (agendamento.getUsuario() == null) {//	* USUARIO DO AGENDAMENTO NULO
+			
+
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *USUARIO*  DO AGENDAMENTO NÃO PODE SER NULO", e.getClass().getName());
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
 			e.printStackTrace();
 			// ERRO PERSONALIZADO
 			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Agendamento Duplicado", e.getClass().getName());
