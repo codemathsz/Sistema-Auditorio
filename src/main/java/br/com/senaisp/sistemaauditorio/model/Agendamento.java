@@ -71,7 +71,7 @@ public class Agendamento {
 	// METODO QUE FORMATA A HORA INICIO DO AGENDAMENTO 
 	public String getHoraInicio() {
 		SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
-		return formatador.format(this.getDataFinalizada().getTime());
+		return formatador.format(this.getDataInicio ().getTime());
 	}
 		
 	// METODO QUE FORMATA A HORA FINALIZADA DO AGENDAMENTO

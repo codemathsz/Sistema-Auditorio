@@ -62,8 +62,16 @@ public class AgendamentoRestController {
 		
 		try {
 			
-			// SALVANDO O AGENDAMENTO NO BANCO
-			repository.save(agendamento);
+			
+			if (repository.validacaoDataEHora(agendamento.getDataInicio().toString(), agendamento.getDataFinalizada().toString()) == true) {
+			
+				// SALVANDO O AGENDAMENTO NO BANCO
+				repository.save(agendamento);
+				
+			}else {
+				
+			}
+			
 			// SALVANDO A LOG NO BANCO, INFORMANDO A CRIANDO DE UM NOVO AGENDAMENTO, NOME DO USUARIO QUE A CRIOU
 			logService.salvarLogAgendamento(agendamento.getUsuario(),agendamento, TipoLog.AGENDAMENTO, request);
 			

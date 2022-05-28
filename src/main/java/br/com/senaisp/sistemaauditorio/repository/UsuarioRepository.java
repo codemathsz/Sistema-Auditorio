@@ -8,6 +8,6 @@ import br.com.senaisp.sistemaauditorio.model.Usuario;
 @Repository
 public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Long>{
 
-	public Usuario findByEmailAndSenha(String email, String senha);
+	public Usuario findByNifAndSenha(String nif, String senha);
 	
 }

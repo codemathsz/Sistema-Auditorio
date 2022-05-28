@@ -62,7 +62,7 @@ public class UsuarioRestController {
 			// SALVA USUARIO NO BD
 			repository.save(usuario);
 			// SALVA LOG NO BD
-			log.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO,request);
+			
 			
 			
 			
@@ -131,13 +131,13 @@ public class UsuarioRestController {
 	
 	
 	@Publico
-	@RequestMapping(value = "/logar", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE )
 	public ResponseEntity<TokenJWT> login(@RequestBody Usuario usuario, HttpServletRequest request){
 		
-		usuario = repository.findByEmailAndSenha(usuario.getEmail(), usuario.getSenha());
+		usuario = repository.findByNifAndSenha(usuario.getNif(), usuario.getSenha());
 		
 		if (usuario != null) {
-			
+			System.out.println(usuario.getNome());
 			//Fazendo uma variavel para criar dados no payload (payload = informações que você vai mandar)
 			Map<String, Object> payload = new HashMap<String, Object>();
 			payload.put("id", usuario.getId());
@@ -165,7 +165,8 @@ public class UsuarioRestController {
 					.withExpiresAt(expiration.getTime())
 					.sign(algoritmo));
 			
-			log.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
+			System.out.println(tokenJwt);
+//			log.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
 			return ResponseEntity.ok(tokenJwt);
 			
 		} else {
