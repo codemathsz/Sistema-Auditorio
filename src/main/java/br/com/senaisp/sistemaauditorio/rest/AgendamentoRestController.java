@@ -65,7 +65,7 @@ public class AgendamentoRestController {
 		try {
 			
 			
-			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()) != null ) {
+			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()) == null ) {
 			
 				
 				
@@ -98,6 +98,10 @@ public class AgendamentoRestController {
 				
 			}else {
 				
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O HORARIO SELECIONADO DO AGENDAMENTO NÃO ESTÁ DISPONIVEL",null);
+				// RETORNO DO METODO, RETORNA O ERRO
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
 			// SALVANDO A LOG NO BANCO, INFORMANDO A CRIANDO DE UM NOVO AGENDAMENTO, NOME DO USUARIO QUE A CRIOU
