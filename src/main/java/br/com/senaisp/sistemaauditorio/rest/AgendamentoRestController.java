@@ -1,6 +1,7 @@
 package br.com.senaisp.sistemaauditorio.rest;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,8 +21,8 @@ import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.annotation.Usuario;
 import br.com.senaisp.sistemaauditorio.model.Agendamento;
 import br.com.senaisp.sistemaauditorio.model.Erro;
+import br.com.senaisp.sistemaauditorio.model.Periodo;
 import br.com.senaisp.sistemaauditorio.model.Status;
-import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.repository.AgendamentoRepository;
 import br.com.senaisp.sistemaauditorio.services.LogService;
 
@@ -63,8 +64,9 @@ public class AgendamentoRestController {
 		try {
 			
 			
-			if (repository.validacaoDataEHora(agendamento.getDataInicio().toString(), agendamento.getDataFinalizada().toString()) == true) {
+			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()) != null ) {
 			
+				agendamento.setStatus(Status.PENDENTE);
 				// SALVANDO O AGENDAMENTO NO BANCO
 				repository.save(agendamento);
 				
@@ -73,7 +75,7 @@ public class AgendamentoRestController {
 			}
 			
 			// SALVANDO A LOG NO BANCO, INFORMANDO A CRIANDO DE UM NOVO AGENDAMENTO, NOME DO USUARIO QUE A CRIOU
-			logService.salvarLogAgendamento(agendamento.getUsuario(),agendamento, TipoLog.AGENDAMENTO, request);
+			/*logService.salvarLogAgendamento(agendamento.getUsuario(),agendamento, TipoLog.AGENDAMENTO, request);*/
 			
 			// RETORNO DO METODO
 			return ResponseEntity.created(URI.create("/api/agendamento" + agendamento.getId())).body(agendamento);
@@ -212,7 +214,7 @@ public class AgendamentoRestController {
 	@Administrador
 	@Usuario
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Agendamento> deletar(@PathVariable("id") Long id, Agendamento agendamento, HttpServletRequest request) {
+	public ResponseEntity<String> deletar(@PathVariable("id") Long id, Agendamento agendamento) {
 
 		// SE O ID DO agendamento É IGUAL AO id PASSADO
 		if(agendamento.getId() == id) {
@@ -220,9 +222,12 @@ public class AgendamentoRestController {
 			// DELETA O agendamento DO BANCO
 			repository.deleteById(id);
 			// LOG, SALVA A AÇÃO NO BANCO, INFORMANDO UM AGENDAMENTO DELETADO E O NOME DE QUE O DELETOU
-			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.DELETAR, request);
+			/*
+			 * logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento,
+			 * TipoLog.DELETAR, request);
+			 */
 			// RETORNO DO METODO
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok("Agendamento deletado");
 		}else {
 			
 			// SE O id PASSADO NÃO EXISTIR
@@ -241,7 +246,7 @@ public class AgendamentoRestController {
 	@Usuario
 	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> alterar(@PathVariable("id") Long id, @RequestBody Agendamento agendamento, HttpServletRequest request) {
+	public ResponseEntity<Agendamento> alterar(@PathVariable("id") Long id, @RequestBody Agendamento agendamento) {
 
 		// SE O ID PASSADO EXISTIR
 		if (id == agendamento.getId()) {
@@ -249,9 +254,12 @@ public class AgendamentoRestController {
 			// SALVA A ALTERAÇÃO QUE FOI FEITA NO BANCO
 			repository.save(agendamento);
 			// LOG, SALVA A LOG NO BANCO INFORMANDO A ALTERACÃO DE QUAL AGENDAMENTO E QUAL USUARIO QUE FEZ A ALTERAÇÃO
-			logService.salvarLogAgendamento( agendamento.getUsuario(),agendamento, TipoLog.ALTERAR, request);
+			/*
+			 * logService.salvarLogAgendamento( agendamento.getUsuario(),agendamento,
+			 * TipoLog.ALTERAR, request);
+			 */
 			// RETORNO DO METODO
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(agendamento);
 			
 		}else {
 			// SE O ID PASSADO NÃO EXISTIR 
@@ -280,7 +288,10 @@ public class AgendamentoRestController {
 			// SALAV O AGENDAMENTO COM O NOVO STATUS
 			repository.save(agendamento);
 			// LOG, SALVA NO BANCO E INFORMA QUE HOUVE UM ALTERAÇÃO NO STATUS DO AGENDAMENTO, COM O NOME DO AGENDAMENTO MUDADO E DO USUARIO QUE MUDOU
-			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.ALTERACAO_STATUS, request);
+			/*
+			 * logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento,
+			 * TipoLog.ALTERACAO_STATUS, request);
+			 */
 			// RETORNO DO METODO, RETORNA QUE DEU CERTO
 			return ResponseEntity.ok().build();
 		}else {
@@ -309,7 +320,10 @@ public class AgendamentoRestController {
 			// SALVA O AGENDAMENTO NO BANCO DE DADOS COM O NOVO STATUS
 			repository.save(agendamento);
 			// LOG, SALVA NO BANCO E INFORMA QUE HOUVE UM ALTERAÇÃO NO STATUS DO AGENDAMENTO, COM O NOME DO AGENDAMENTO MUDADO E DO USUARIO QUE MUDOU
-			logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento, TipoLog.ALTERACAO_STATUS, request);
+			/*
+			 * logService.salvarLogAgendamento(agendamento.getUsuario(), agendamento,
+			 * TipoLog.ALTERACAO_STATUS, request);
+			 */
 			// RETORNA QUE DEU CERTO
 			return ResponseEntity.ok().build();
 		}else {
@@ -318,4 +332,82 @@ public class AgendamentoRestController {
 		}
 		
 	}
+	
+	
+	@RequestMapping(value = "/usuario/{id}", method = RequestMethod.GET)
+	public List<Agendamento> getByAgendamentoUsuarioId(@PathVariable("id") Long id){
+		
+		
+		return  repository.findByUsuarioId(id);
+	}
+	
+	
+	/*
+	 * 
+	 * 	MÉTODO QUE BUSCA TODOS OS AGENDAMENTOS COM O STATUS PENDENTE
+	 * 
+	 */
+	@RequestMapping(value = "/pendentes", method = RequestMethod.GET)
+	public List<Agendamento> getAgendamentoPendente(Agendamento agendamento){
+		
+		return repository.findByStatusPendente();
+	}
+	
+	/*
+	 * 
+	 * BUSCANDO POR TITULO
+	 * 
+	 */
+	
+	@RequestMapping(value = "/titulo", method = RequestMethod.GET)
+	public List<Agendamento> getAgendamentoTitulo(String titulo){
+		
+		return repository.findByTitulo(titulo);
+	}
+	
+	/*
+	 * 
+	 * BUSCANDO POR DESCRIÇÃO
+	 * 
+	 */
+	
+	@RequestMapping(value = "/descricao", method = RequestMethod.GET)
+	public List<Agendamento> getAgendamentoDescricao(String descricao){
+		return repository.findByDescricao(descricao);
+	}
+	
+	/*
+	 * 
+	 * BUSCANDO POR DATA INICIO
+	 * 
+	 */
+	
+	/*
+	 * @RequestMapping(value = "/dataInicio", method = RequestMethod.GET) public
+	 * List<Agendamento> getAgendamentoDataInicio(String dataInicio){
+	 * 
+	 * return repository.findByDataInicio("2022-05-20"); }
+	 */
+	
+	/*
+	 * 
+	 * BUSCANDO POR STATUS
+	 * 
+	 */
+	 @RequestMapping(value = "/status", method = RequestMethod.GET)
+	 public List<Agendamento> getAgendamentoStatus(Status status){ 
+		 return repository.findByStatus(Status.PENDENTE);
+	 }
+	 
+	 /*
+	  * 
+	  * BUSCANDO POR PERIODO
+	  * 
+	  */
+	 
+	 @RequestMapping(value = "/periodo", method = RequestMethod.GET)
+	 public List<Agendamento> getAgendamentoPeriodo(Periodo periodo){
+		 return repository.findByPeriodo(periodo);
+	 }
+	 
 }

@@ -3,6 +3,7 @@ package br.com.senaisp.sistemaauditorio.rest;
 import java.net.URI;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.model.Erro;
+import br.com.senaisp.sistemaauditorio.model.Nivel;
 import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
@@ -174,5 +176,51 @@ public class UsuarioRestController {
 		}
 	}
 	
+	
+	/*
+	 * 
+	 * MÉTODO QUE BUSCA PELO NOME
+	 * 
+	 */
+	
+	@RequestMapping(value = "/nome", method = RequestMethod.GET)
+	public List<Usuario> getUsuarioNome(String nome){
+		
+		return repository.findByLikeNome(nome);
+	}
+	
+	
+	/*
+	 * 
+	 *  MÉTODO QUE BUSCA POR EMAIL
+	 * 
+	 */
+	@RequestMapping(value = "/email", method = RequestMethod.GET)
+	public List<Usuario> getUsuarioEmail(String email){
+		
+		return repository.findByLikeEmail(email);
+	}
+	
+	/*
+	 * 
+	 *  MÉTODO QUE BUSCA POR NIF
+	 * 
+	 */
+	@RequestMapping(value = "/nif", method = RequestMethod.GET)
+	public List<Usuario> getUsuarioNif(String nif){
+		
+		return repository.findByLikeNif(nif);
+	}
+	
+	/*
+	 * 
+	 *  MÉTODO QUE BUSCA POR NIVEL
+	 * 
+	 */
+	@RequestMapping(value = "/nivel", method = RequestMethod.GET)
+	public List<Usuario> getUsuarioNivel(Nivel nivel){
+		
+		return repository.findByNivel(Nivel.ADMINISTRADOR);
+	}
 	
 }

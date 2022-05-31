@@ -1,7 +1,7 @@
 package br.com.senaisp.sistemaauditorio.rest;
 
 import java.net.URI;
-
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.TipoEvento;
-import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.repository.TipoEventoRepository;
 import br.com.senaisp.sistemaauditorio.services.LogService;
 
@@ -45,7 +44,7 @@ public class TipoEventoRestController {
 			// SALVANDO TIPO NO BD
 			repository.save(tipoEvento);
 			// CRIADO LOG
-			log.salvarLogTipo(tipoEvento, TipoLog.CADASTRO_EVENTO, request);
+			/* log.salvarLogTipo(tipoEvento, TipoLog.CADASTRO_EVENTO, request); */
 			//RETORNO DO METODO
 			return ResponseEntity.created(URI.create("api/tipoevento"+tipoEvento.getId())).body(tipoEvento);
 		}catch (DataIntegrityViolationException e) {
@@ -90,7 +89,7 @@ public class TipoEventoRestController {
 			// SALVA AS ALTERAÇÕES SO BD
 			repository.save(tipoEvento);
 			// CRIA O LOG
-			log.salvarLogTipo(tipoEvento, TipoLog.ALTERAR, request);
+			/* log.salvarLogTipo(tipoEvento, TipoLog.ALTERAR, request); */
 			return ResponseEntity.ok().build();
 		}
 	}
@@ -102,9 +101,21 @@ public class TipoEventoRestController {
 		// DELETA DO BANCO
 		repository.deleteById(idTipoEvento);
 		// CRIA O LOG
-		log.salvarLogTipo(tipoEvento , TipoLog.DELETAR, request);
+		/* log.salvarLogTipo(tipoEvento , TipoLog.DELETAR, request); */
 		return ResponseEntity.noContent().build();
 	}
+	
+	/*
+	 * 
+	 * BUSCANDO POR TIPOS DE EVENTOS
+	 * 
+	 */
+	
+	@RequestMapping(value = "/nome", method = RequestMethod.GET)
+	public List<TipoEvento> getTipoEventoNome (String nome){
+		return repository.findByTipo(nome);
+	}
+	
 }
 
 

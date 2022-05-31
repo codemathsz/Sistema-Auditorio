@@ -1,7 +1,13 @@
 package br.com.senaisp.sistemaauditorio.repository;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import br.com.senaisp.sistemaauditorio.model.Nivel;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
 
 
@@ -9,5 +15,20 @@ import br.com.senaisp.sistemaauditorio.model.Usuario;
 public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Long>{
 
 	public Usuario findByNifAndSenha(String nif, String senha);
+	
+	// BUSCA PELO NOME, LIKE
+	@Query("SELECT u FROM Usuario u WHERE u.nome LIKE %:nome% ")
+	public List<Usuario> findByLikeNome(@Param("nome") String nome);
+	
+	// BUSCA PELO EMAIL, LIKE
+	@Query("SELECT u FROM Usuario u WHERE u.email  LIKE %:email% ")
+	public List<Usuario> findByLikeEmail(@Param("email") String email);
+	
+	// BUSCA PELO NIF, LIKE
+	@Query("SELECT u FROM Usuario u WHERE u.nif  LIKE %:nif% ")
+	public List<Usuario> findByLikeNif(@Param("nif") String nif);
+	
+	// BUSCA PELO NIVEL, LIKE
+	public List<Usuario> findByNivel(Nivel nivel);
 	
 }
