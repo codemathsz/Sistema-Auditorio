@@ -22,7 +22,6 @@ import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.TipoEvento;
 import br.com.senaisp.sistemaauditorio.repository.TipoEventoRepository;
-import br.com.senaisp.sistemaauditorio.services.LogService;
 
 @CrossOrigin
 @RestController
@@ -32,8 +31,8 @@ public class TipoEventoRestController {
 	@Autowired
 	private TipoEventoRepository repository;
 	
-	@Autowired
-	private LogService log;
+//	@Autowired
+//	private LogService log;
 	
 	
 	@Administrador

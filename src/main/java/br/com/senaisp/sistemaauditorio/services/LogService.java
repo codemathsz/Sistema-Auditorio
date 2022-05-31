@@ -100,8 +100,7 @@ public class LogService {
 
 		// INSTANCIANDO A LOG
 		Log log = new Log(usuario,tipoLog,agendamento);
-		// VARIAVEL NIVEL PARA COMPARAR O NIVEL DO USUARIO
-		Nivel nivel = null;
+		
 
 
 		if (log.getTipoLog() == TipoLog.AGENDAMENTO) {// SE O TIPO DA LOG FOR AGENDAMENTO(CRIANDO UM AGENDAMENTO)

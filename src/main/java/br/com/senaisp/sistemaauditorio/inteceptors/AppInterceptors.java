@@ -30,8 +30,7 @@ public class AppInterceptors implements HandlerInterceptor{
 		// VARIAVEL PARA OBTER A URI
 		String uri = request.getRequestURI();
 		
-		// VARIAVEL PARA SESSÃO
-		//HttpSession session = request.getSession();
+	
 		
 		// SE FOR PAGINA DE ERRO LIBERA
 		if (uri.startsWith("/erro")) {

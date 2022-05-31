@@ -30,7 +30,7 @@ public class Agendamento {
 	@JsonProperty("title")
 	private String titulo;
 	
-	@NotNull
+	@NotNull(message = "{agendamento.descricao.null}")
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
@@ -41,14 +41,14 @@ public class Agendamento {
 	@JsonProperty("end")
 	@NotNull(message = "{agendamento.dataFinalizada.null}")
 	private Calendar dataFinalizada;
-	@NotNull
+	@NotNull(message = "{agendamento.status.null}")
 	private Status status;
-	@NotNull
+	@NotNull(message = "{agendamento.periodo.null}")
 	private Periodo periodo;
-	@NotNull
+	@NotNull(message = "{agendamento.tipo.null}")
 	@OneToOne
 	private TipoEvento tipo;
-	@NotNull
+	@NotNull(message = "{agendamento.usuario.null}")
 	@ManyToOne
 	private Usuario usuario;
 	

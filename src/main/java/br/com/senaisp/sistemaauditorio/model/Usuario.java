@@ -33,7 +33,7 @@ public class Usuario {
 	@NotNull(message = "{usuario.senha.null}")
 	@JsonProperty(access = Access.WRITE_ONLY)// PARA NÃO MOSTRAR NO GET(JSON)
 	private String senha;
-	
+	@NotNull(message = "{usuario.nivel.null}")
 	private Nivel nivel;
 	
 	

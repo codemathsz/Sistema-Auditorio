@@ -1,6 +1,7 @@
 package br.com.senaisp.sistemaauditorio.rest;
 
 import java.net.URI;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +67,31 @@ public class AgendamentoRestController {
 			
 			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()) != null ) {
 			
+				
+				
+				/*
+				 * 
+				 *  **************	TESTE	**************
+				 * 
+				 */
+				
+				System.out.println("\nteste Hora : "+agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY)+"\n");
+//				agendamento.setPeriodo(Periodo.MANHÃ);
+				
+				if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) <= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
+					agendamento.setPeriodo(Periodo.MANHÃ);
+				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) <= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 18) {
+					agendamento.setPeriodo(Periodo.MANHA_TARDE);
+				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 18) {
+					agendamento.setPeriodo(Periodo.TARDE);
+				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 22) {
+					agendamento.setPeriodo(Periodo.TARDE_NOITE);
+				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 18 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 22) {
+					agendamento.setPeriodo(Periodo.NOITE);
+				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) < 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 22) {
+					agendamento.setPeriodo(Periodo.MANHA_TARDE_NOITE);
+				}
+				
 				agendamento.setStatus(Status.PENDENTE);
 				// SALVANDO O AGENDAMENTO NO BANCO
 				repository.save(agendamento);
@@ -333,7 +359,7 @@ public class AgendamentoRestController {
 		
 	}
 	
-	
+	@Administrador
 	@RequestMapping(value = "/usuario/{id}", method = RequestMethod.GET)
 	public List<Agendamento> getByAgendamentoUsuarioId(@PathVariable("id") Long id){
 		
@@ -347,6 +373,8 @@ public class AgendamentoRestController {
 	 * 	MÉTODO QUE BUSCA TODOS OS AGENDAMENTOS COM O STATUS PENDENTE
 	 * 
 	 */
+	
+	@Administrador
 	@RequestMapping(value = "/pendentes", method = RequestMethod.GET)
 	public List<Agendamento> getAgendamentoPendente(Agendamento agendamento){
 		
@@ -358,6 +386,7 @@ public class AgendamentoRestController {
 	 * BUSCANDO POR TITULO
 	 * 
 	 */
+	
 	
 	@RequestMapping(value = "/titulo", method = RequestMethod.GET)
 	public List<Agendamento> getAgendamentoTitulo(String titulo){
@@ -396,7 +425,7 @@ public class AgendamentoRestController {
 	 */
 	 @RequestMapping(value = "/status", method = RequestMethod.GET)
 	 public List<Agendamento> getAgendamentoStatus(Status status){ 
-		 return repository.findByStatus(Status.PENDENTE);
+		 return repository.findByStatus(status);
 	 }
 	 
 	 /*
