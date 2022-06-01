@@ -79,7 +79,7 @@ public class AgendamentoRestController {
 //				agendamento.setPeriodo(Periodo.MANHÃ);
 				
 				if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) <= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
-					agendamento.setPeriodo(Periodo.MANHÃ);
+					agendamento.setPeriodo(Periodo.MANHA);
 				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) <= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 18) {
 					agendamento.setPeriodo(Periodo.MANHA_TARDE);
 				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 18) {
