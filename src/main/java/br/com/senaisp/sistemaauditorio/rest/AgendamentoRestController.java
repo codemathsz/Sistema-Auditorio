@@ -67,7 +67,7 @@ public class AgendamentoRestController {
 			System.out.println("Periodo Antes do 1º if "+agendamento.getPeriodo());
 			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()) {
 			
-				
+				agendamento.setStatus(Status.PENDENTE);
 				
 				System.out.println("\nteste Hora : "+agendamento.getHoraInicio()+"\n");
 				System.out.println("\nteste Hora : "+agendamento.getHoraInicio()+"\n");
@@ -80,6 +80,11 @@ public class AgendamentoRestController {
 					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
 					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
 					agendamento.getDataFinalizada().set(Calendar.MINUTE,30);
+					
+					//IF CRIADO PARA QUE A VALIDAÇÃO NÃO DEIXE CADASTRAR NO MESMO DIA OU HORARIO
+					if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()) {
+						 repository.save(agendamento);
+					}
 					
 				}else if (agendamento.getPeriodo() == null) {
 					
@@ -139,7 +144,7 @@ public class AgendamentoRestController {
 				
 				
 				System.out.println("Periodo4 "+agendamento.getPeriodo());
-				agendamento.setStatus(Status.PENDENTE);
+				
 				// SALVANDO O AGENDAMENTO NO BANCO
 				repository.save(agendamento);
 				
