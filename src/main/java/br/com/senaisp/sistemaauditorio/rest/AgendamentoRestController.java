@@ -64,44 +64,92 @@ public class AgendamentoRestController {
 		
 		try {
 			
+			System.out.println("Periodo Antes do 1º if "+agendamento.getPeriodo());
+			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()) {
 			
-			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()) == null ) {
-			
 				
 				
-				/*
-				 * 
-				 *  **************	TESTE	**************
-				 * 
-				 */
+				System.out.println("\nteste Hora : "+agendamento.getHoraInicio()+"\n");
+				System.out.println("\nteste Hora : "+agendamento.getHoraInicio()+"\n");
+				System.out.println("Periodo2 "+agendamento.getPeriodo());
 				
-				System.out.println("\nteste Hora : "+agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY)+"\n");
-//				agendamento.setPeriodo(Periodo.MANHÃ);
 				
-				if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) <= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
-					agendamento.setPeriodo(Periodo.MANHA);
-				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) <= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 18) {
-					agendamento.setPeriodo(Periodo.MANHA_TARDE);
-				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 18) {
-					agendamento.setPeriodo(Periodo.TARDE);
-				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 22) {
-					agendamento.setPeriodo(Periodo.TARDE_NOITE);
-				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 18 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 22) {
-					agendamento.setPeriodo(Periodo.NOITE);
-				}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) < 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 22) {
+				if (agendamento.getPeriodo() == null && agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY ) == 0) {
+					
 					agendamento.setPeriodo(Periodo.MANHA_TARDE_NOITE);
+					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
+					agendamento.getDataFinalizada().set(Calendar.MINUTE,30);
+					
+				}else if (agendamento.getPeriodo() == null) {
+					
+					if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
+											
+						agendamento.setPeriodo(Periodo.MANHA);
+					}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
+						agendamento.setPeriodo(Periodo.TARDE);
+					}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 18 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+						agendamento.setPeriodo(Periodo.NOITE);
+					}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
+						agendamento.setPeriodo(Periodo.MANHA_TARDE);
+					}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+						agendamento.setPeriodo(Periodo.TARDE_NOITE);
+					}else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+						agendamento.setPeriodo(Periodo.MANHA_TARDE_NOITE);
+					}
+				}else {
+					
+					System.out.println("\nteste HoraInicio : "+agendamento.getHoraInicio()+"\n");
+					System.out.println("\nteste HoraFinal : "+agendamento.getHoraFinalizada()+"\n");
+					if (agendamento.getPeriodo() == Periodo.MANHA) { //  SE PERIODO == MANHA
+						
+						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 12);
+						
+					}else if (agendamento.getPeriodo() == Periodo.TARDE) {//  SE PERIODO == MANHA
+						
+						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 12);
+						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 18);
+				
+						
+					}else if (agendamento.getPeriodo() == Periodo.NOITE) {
+						
+						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 18);
+						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
+						agendamento.getDataFinalizada().set(Calendar.MINUTE,30);
+						
+					}else if (agendamento.getPeriodo() == Periodo.MANHA_TARDE) {
+						
+						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 18);
+			
+					}else if (agendamento.getPeriodo() == Periodo.TARDE_NOITE) {
+						
+						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 12);
+						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
+						agendamento.getDataFinalizada().set(Calendar.MINUTE,30);
+					}else {
+						
+						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
+						agendamento.getDataFinalizada().set(Calendar.MINUTE,30);
+					}
+					System.out.println("Periodo3 "+agendamento.getPeriodo());
 				}
 				
+				
+				System.out.println("Periodo4 "+agendamento.getPeriodo());
 				agendamento.setStatus(Status.PENDENTE);
 				// SALVANDO O AGENDAMENTO NO BANCO
 				repository.save(agendamento);
 				
 			}else {
 				
+				System.err.println("\n JA TEM UM AGENDAMENTO CADASTRADO\n");
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O HORARIO SELECIONADO DO AGENDAMENTO NÃO ESTÁ DISPONIVEL",null);
+				Erro erro = new Erro(HttpStatus.UNAUTHORIZED, "O HORARIO SELECIONADO DO AGENDAMENTO NÃO ESTÁ DISPONIVEL",null);
 				// RETORNO DO METODO, RETORNA O ERRO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<Object>(erro, HttpStatus.UNAUTHORIZED);
 			}
 			
 			// SALVANDO A LOG NO BANCO, INFORMANDO A CRIANDO DE UM NOVO AGENDAMENTO, NOME DO USUARIO QUE A CRIOU

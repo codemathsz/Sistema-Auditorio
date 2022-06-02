@@ -15,7 +15,7 @@ import br.com.senaisp.sistemaauditorio.model.Status;
 @Repository
 public interface AgendamentoRepository extends PagingAndSortingRepository<Agendamento, Long> {
 
-	@Query("SELECT a FROM Agendamento a where a.dataInicio >= :dataInicio  AND a.dataFinalizada <= :dataFinal")
+	@Query("SELECT a FROM Agendamento a WHERE a.dataInicio >= :dataInicio  AND a.dataFinalizada <= :dataFinal")
 	public List<Agendamento> validacaoDataEHora(@Param("dataInicio") Calendar dataInicio , @Param("dataFinal") Calendar dataFinal); 
 	
 	
