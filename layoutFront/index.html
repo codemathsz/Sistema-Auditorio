@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <!-- Link do CSS do calendário -->
+    <link rel="stylesheet" href="./Plugin/lib/main.css" />
+    <!-- Script do calendário -->
+    <script src="./Plugin/lib/main.js"></script>
+    <!-- Link JS fullCalendar -->
+    <script src="./js/calendario.js" type="text/javascript"></script>
+    <!-- Link JS para o calendário dos anos e meses -->
+
+    <!-- Link Paulo CSS -->
+    <link rel="stylesheet" href="./css/calendario.css" />
+
+    <!-- Link to JQuare -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <!-- Modal que mostra as informações do evento -->
+    <div
+      class="modal fade"
+      id="modalEventFull"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Informações do seu evento!!!
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <dl class="row">
+              <dt class="col-sm-3">ID:</dt>
+              <dd class="col-sm-9" id="id"></dd>
+
+              <dt class="col-sm-3">Titulo:</dt>
+              <dd class="col-sm-9" id="title"></dd>
+
+              <div class="container">
+                <div class="row">
+                  <dt class="col">Data de inicio:</dt>
+                  <dd class="col" id="dateStart"></dd>
+                </div>
+                <div class="row">
+                  <dt class="col">Hora inicio:</dt>
+                  <dd class="col" id="timeStart"></dd>
+                </div>
+              </div>
+
+              <div class="container">
+                <div class="row">
+                  <dt class="col">Data de termino:</dt>
+                  <dd class="col" id="dateFinish"></dd>
+                </div>
+                <div class="row">
+                  <dt class="col">Hora final:</dt>
+                  <dd class="col" id="timeFinish"></dd>
+                </div>
+              </div>
+
+              <dt class="col-sm-3">Usuário:</dt>
+              <dd class="col-sm-9" id="user"></dd>
+
+              <dt class="col-sm-3">Descrição:</dt>
+              <dd class="col-sm-9" id="desc"></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal que cadastra o evento -->
+
+    <div
+      class="modal fade"
+      id="modalEventRegister"
+      data-backdrop="static"
+      data-keyboard="false"
+      tabindex="-1"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">
+              Cadastre o seu evento!!!
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Corpo do agendamento de eventos -->
+
+            <section class="home-section">
+              <div class="home-content hide">
+                <i class="bx bx-menu"></i>
+              </div>
+              <table border="1px" class="tabela" cellspacing="1">
+                <form id="form">
+                  <tr>
+                    <td>Titulo:</td>
+                    <td>
+                      <input type="text" name="titulo" id="titulo" required />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Descricao:</td>
+                    <td>
+                      <input
+                        type="text"
+                        name="descricao"
+                        id="descricao"
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Inicio:</td>
+                    <td>
+                      <input
+                        type="date"
+                        name="dataInicio"
+                        id="dataInicio"
+                        disabled="true"
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Data Finalizada:</td>
+                    <td id="inputDateFinish">
+                     <!-- fazendo via JS, o input dataFinalizada -->
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Hora Inicio</td>
+                    <td>
+                        <select id="horaInicio"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Hora Finalizada</td>
+                    <td>
+                        <select id="horaFinalizada"></select>
+                        </select>
+                    </td>
+                </tr>
+                 
+                  <tr>
+                    <td>Status:</td>
+                    <td>
+                      <select id="status" required>
+                        <option value="" selected disabled>
+                          Selecione uma opção
+                        </option>
+                        <option value="PENDENTE">Pendente</option>
+                        <option value="ACEITO">Aceito</option>
+                        <option value="RECUSADO">Recusado</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Período:</td>
+                    <td>
+                      <select id="periodo" required>
+                        <option value="" selected disabled>
+                          Selecione uma opção
+                        </option>
+                        <option value="MANHA">Manha</option>
+                        <option value="TARDE">Tarde</option>
+                        <option value="NOITE">Noite</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Tipo:</td>
+                    <td>
+                      <select id="tipo" required>
+                        <option value="" selected disabled>
+                          Selecione um tipo
+                        </option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Usuario:</td>
+                    <td>
+                      <input
+                        type="number"
+                        name="usuario"
+                        id="usuario"
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><button type="submit" id="bt_register">Cadastrar</button></td>
+                  </tr>
+                </form>
+              </table>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script Bootstrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
