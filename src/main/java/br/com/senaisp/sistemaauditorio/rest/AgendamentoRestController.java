@@ -154,9 +154,9 @@ public class AgendamentoRestController {
 				
 			}else {
 				
-				System.err.println("\n Já tem um Agendamento Cadastrado\n");
+				System.err.println("\n JÁ EXISTI UM AGENDAMENTO CADASTRADO\n");
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.UNAUTHORIZED, "O Horario selecionado do Agendamento não está disponivel",null);
+				Erro erro = new Erro(HttpStatus.UNAUTHORIZED, "O *Horario* selecionado não está disponível.",null);
 				// RETORNO DO METODO, RETORNA O ERRO
 				return new ResponseEntity<Object>(erro, HttpStatus.UNAUTHORIZED);
 			}
@@ -173,28 +173,28 @@ public class AgendamentoRestController {
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Titulo* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Titulo* não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if(agendamento.getDescricao() == null) {//	** DESCRIÇÃO AGENDAMENTO NULO
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *Descrição* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Descrição* não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if (agendamento.getDataInicio() == null) {// 	** DATA DE INICIO DO AGENDAMENTO NULO
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *Data de Inicio*  do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo de *Data de Inicio*  não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if (agendamento.getDataFinalizada() == null) {// 	** DATA FINAL DO AGENDAMENTO NULA
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *Data Final* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo da  *Data Final* não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if(agendamento.getStatus() == null) {//	** STATUS DO AGENDAMENTO NULO
@@ -208,14 +208,14 @@ public class AgendamentoRestController {
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Periodo* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Periodo* não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if (agendamento.getTipo() == null) {//	** TIPO DE AGENDAMENTO NULO
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Tipo* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Tipo de Agendamento* não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if (agendamento.getHoraInicio() == null) {//	** HORA INICIO AGENDAMENTO NULO
@@ -223,14 +223,14 @@ public class AgendamentoRestController {
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *Hora de Inicio* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo de  *Hora de Inicio* não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if (agendamento.getHoraFinalizada() == null) {//	** HORA FINAL DO AGENDAENTO NULO
 				
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "A *Hora Final* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo da  *Hora Final* não pode ser vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
 			}else if (agendamento.getUsuario() == null) {//	* USUARIO DO AGENDAMENTO NULO
@@ -238,13 +238,13 @@ public class AgendamentoRestController {
 
 				e.printStackTrace();
 				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Usuario* do Agendamento não pode ser nulo!", e.getClass().getName());
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Usuario* não pode ser Vazio!", e.getClass().getName());
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
 			e.printStackTrace();
 			// ERRO PERSONALIZADO
-			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Agendamento Duplicado", e.getClass().getName());
+			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao salvar!", e.getClass().getName());
 			// RETORNO DO METODO, RETORNA O ERRO
 			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

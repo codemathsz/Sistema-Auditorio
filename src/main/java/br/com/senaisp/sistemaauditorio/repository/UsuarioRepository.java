@@ -31,4 +31,9 @@ public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, L
 	// BUSCA PELO NIVEL, LIKE
 	public List<Usuario> findByNivel(Nivel nivel);
 	
+	@Query("SELECT u FROM Usuario u WHERE u.nif = :nif")
+	public List<Usuario> nifDuplicado(@Param("nif") String nif);
+	
+	@Query("SELECT u FROM Usuario u WHERE u.email = :email")
+	public List<Usuario> emailDuplicado(@Param("email") String email);
 }
