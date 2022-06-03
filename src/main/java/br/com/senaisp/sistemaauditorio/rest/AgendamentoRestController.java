@@ -133,13 +133,17 @@ public class AgendamentoRestController {
 						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 12);
 						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
 						agendamento.getDataFinalizada().set(Calendar.MINUTE,30);
+						
 					}else {
 						
 						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
 						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
 						agendamento.getDataFinalizada().set(Calendar.MINUTE,30);
+						
 					}
+					
 					System.out.println("Periodo3 "+agendamento.getPeriodo());
+					
 				}
 				
 				
