@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,89 +62,20 @@ public class UsuarioRestController {
 		try {
 			
 			// SALVA USUARIO NO BD
-			repository.save(usuario);	
+			repository.save(usuario);
+			// SALVA LOG NO BD
+			
+			
+			
 			
 			//	ACRESENTANDO NO CORPO DA RESPOSTA O OBJETO INSERIDO
 			return ResponseEntity.created(URI.create("/api/usuario"+usuario.getId())).body(usuario);// body(usuario) colocar no body a resposta gerada
 			
-		} catch (Exception e) {
+		} catch (DataIntegrityViolationException e) {// REGISTRO DUPLICADO
 			
-			
-			/* VALIDAÇÕES */
-			
-			/* ERRO NOTNULL*/
-			if (usuario.getNome() == null) { //		*** NOME DO USUARIO NULO
-				
-				e.printStackTrace();
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Nome* não pode ser vazio!", e.getClass().getName());
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-				
-			}else if (usuario.getEmail() == null) {
-				
-				e.printStackTrace();
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Email* não pode ser vazio!", e.getClass().getName());
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-				
-			}else if (usuario.getSenha() == null) {
-				
-				e.printStackTrace();
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Senha* não pode ser vazio!", e.getClass().getName());
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-				
-			}else if (usuario.getNif() == null) {
-				
-				e.printStackTrace();
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Nif* não pode ser vazio!", e.getClass().getName());
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-			
-			}else if (usuario.getNivel() == null) {
-				
-				e.printStackTrace();
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Nivel* de usuario não pode ser nulo!", e.getClass().getName());
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-				
-			}
-			
-			
-			// VÁLIDANDO SE O USUARIO ESTÁ QUERENDO CADASTRAR UM NIF OU UM EMAIL JÁ CADASTRADO
-			if (repository.nifDuplicado(usuario.getNif()).isEmpty()) {
-				
-				if (repository.emailDuplicado(usuario.getEmail()).isEmpty()) {
-					
-					repository.save(usuario);
-					
-					
-					//	ACRESENTANDO NO CORPO DA RESPOSTA O OBJETO INSERIDO
-					return ResponseEntity.created(URI.create("/api/usuario"+usuario.getId())).body(usuario);// body(usuario) colocar no body a resposta gerada
-				}else {
-					
-					e.printStackTrace();
-					// ERRO PERSONALIZADO
-					Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao cadastrar, Nif inválido", e.getClass().getName());
-					// RETORNO DO MÉTODO
-					return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-
-			}else {
-				
-				e.printStackTrace();
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao cadastrar, Email inválido", e.getClass().getName());
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			
-			
+			e.printStackTrace();
+			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Registro Duplicado", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
+			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
 		}
 		
 		
@@ -228,7 +160,6 @@ public class UsuarioRestController {
 			// criando token
 			TokenJWT tokenJwt = new TokenJWT();
 			
-			request.setAttribute("token", tokenJwt);
 			// gera token
 			tokenJwt.setToken(JWT.create()
 					.withPayload(payload)
@@ -236,8 +167,9 @@ public class UsuarioRestController {
 					.withExpiresAt(expiration.getTime())
 					.sign(algoritmo));
 			
-//			request.setAttribute("token", tokenJwt);
+			
 			System.out.println(tokenJwt);
+			
 //			log.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
 			return ResponseEntity.ok(tokenJwt);
 			
