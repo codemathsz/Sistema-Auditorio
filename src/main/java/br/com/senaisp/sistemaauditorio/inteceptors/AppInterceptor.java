@@ -55,7 +55,7 @@ public class AppInterceptor implements HandlerInterceptor{
 			// VARIAVEL PARA O TOKEN
 			
 			
-			String token = request.getHeader("token");
+			String token = request.getHeader("Authorization");
 			
 			if (metodo.getMethodAnnotation(Administrador.class) != null) {
 				System.out.println("Entrou no if Ann/Meth/Admin");

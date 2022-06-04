@@ -25,7 +25,7 @@ if (token == null) {
     window.location.href = '../login.html'
 }
 
-if (payload.nivel == 'ADMINISTRADOR') {
+/* if (payload.nivel == 'ADMINISTRADOR') { */
     nome.addEventListener('blur', () => {
         validaCadastro()
     })
@@ -50,7 +50,8 @@ if (payload.nivel == 'ADMINISTRADOR') {
             body: JSON.stringify(tipo),
             headers: myHeaders
         }
-
+        console.log(fetchData)
+        console.log(myHeaders.get('Authorization'))
         fetch(url, fetchData)
             .then((resp) => {
                 resp.json()
@@ -66,7 +67,7 @@ if (payload.nivel == 'ADMINISTRADOR') {
                             createMessage(`Sucesso ao cadastrar o tipo ${nome.value}!`, type)
                             clearForm()
                             setTimeout(() => {
-                                window.location.reload()
+                                /* window.location.reload() */
                             }, 9000);
                         }
                         console.log(id)
@@ -80,9 +81,9 @@ if (payload.nivel == 'ADMINISTRADOR') {
                 console.log(error);
             })
     })
-} else {
-    /* window.location.href = '../../index.html' */
-}
+/* } else {
+    window.location.href = '../../index.html'
+} */
 
 function getById(id) {
     return document.getElementById(id)
