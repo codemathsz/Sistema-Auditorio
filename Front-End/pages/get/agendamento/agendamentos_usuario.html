@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../css/style.css">
+    <!-- Boxiocns CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" href="../../image/logo_bar.jpg">
+    <title>Seus agendamentos</title>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <img src="../../../../image/logo.png">
+            <span class="logo_name">Sistema Auditório</span>
+        </div>
+        <ul class="nav-links">
+            <li>
+                <a href="../../../index.html">
+                    <i class='bx bx-calendar'></i>
+                    <span class="link_name">Calendário</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="../../../index.html">Calendário</a></li>
+                </ul>
+            </li>
+            <li id="lista">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-collection'></i>
+                        <span class="link_name">Listar</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a href="../usuario.html">Usuarios</a></li>
+                    <li><a href="../tipoEvento.html">Tipos de Evento</a></li>
+                    <li><a href="agendamento.html">Agendamentos</a></li>
+                </ul>
+            </li>
+            <li id="cadastro">
+                <div class="iocn-link">
+                    <a href="#">
+                        <i class='bx bx-book-alt'></i>
+                        <span class="link_name">Cadastrar</span>
+                    </a>
+                    <i class='bx bxs-chevron-down arrow'></i>
+                </div>
+                <ul class="sub-menu">
+                    <li><a href="../../post/usuario.html">Usuarios</a></li>
+                    <li><a href="../../post/tipoEvento.html">Tipos de Evento</a></li>
+                    <li><a href="../../post/agendamento.html">Agendamentos</a></li>
+                </ul>
+            </li>
+            <li id="logs">
+                <a>
+                    <i class='bx bx-file'></i>
+                    <span class="link_name">Logs</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Logs</a></li>
+                </ul>
+            </li>
+            <li id="dashboard">
+                <a href="#">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="link_name">Dashboard</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="#">Dashboard</a></li>
+                </ul>
+            </li>
+            <li id="agendamentos">
+                <a href="agendamentos_usuario.html">
+                    <i class='bx bx-calendar-event'></i>
+                    <span class="link_name">Agendamentos</span>
+                </a>
+                <ul class="sub-menu blank">
+                    <li><a class="link_name" href="agendamentos_usuario.html">Agendamentos</a></li>
+                </ul>
+            </li>
+            <li id="logado">
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <!--<img src="image/profile.jpg" alt="profileImg">-->
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name" id="nomeUsuario"></div>
+                        <div class="job" id="nivelUsuario"></div>
+                    </div>
+                    <i class='bx bx-log-out' id="exit"></i>
+                </div>
+            </li>
+            <li id="naoLogado">
+                <div class="profile-details">
+                    <div class="profile-content">
+                        <!--<img src="image/profile.jpg" alt="profileImg">-->
+                    </div>
+                    <div class="name-job">
+                        <div class="profile_name"><a href="../pages/login.html">Fazer login</a></div>
+                    </div>
+                    <i class='bx bxs-user' id="login"></i>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <section class="home-section">
+        <div class="home-content hide">
+            <i class='bx bx-menu'></i>
+        </div>
+        <!-- <div class="search">
+            <h1>Pesquise por um agendamento</h1>
+            <div class="search-content">
+                <input type="number" name="id" id="id">
+                <select id="selectBusca">
+                    <option selected>Todos</option>
+                    <option value="id">Id</option>
+                    <option value="titulo">Titulo</option>
+                    <option value="descricao">Descricao</option>
+                    <option value="dataInicio">Data de Inicio</option>
+                    <option value="dataFinalizada">Data Final</option>
+                    <option value="horaInicio">Hora de Inicio</option>
+                    <option value="horaFinalizada">Hora Finalizada</option>
+                    <option value="status">Status</option>
+                    <option value="periodo">Periodo</option>
+                    <option value="tipo">Tipo</option>
+                    <option value="usuario">Usuario</option>
+                </select>
+                <button type="button" id="search">Buscar</button>
+            </div>
+            <div class="msg">
+                <div class="erro" id="erro">
+                    <p id="erro-msg"></p>
+                </div>
+                <div class="sucesso" id="sucesso">
+                    <p id="sucesso-msg"></p>
+                </div>
+            </div> -->
+            <!-- <table>
+                <tr>
+                    <td>Id:</td>
+                    <td><input type="number" name="id" id="id"></td>
+                    <td><button type="button" id="search">Buscar</button></td>
+                </tr>
+            </table> -->
+        </div>
+        <div class="scroll">
+            <table id="tabela" class="tabela" border="1px">
+                <tr>
+                    <th>ID</th>
+                    <th>Titulo</th>
+                    <th>Descricao</th>
+                    <th>Data Inicio</th>
+                    <th>Data Finalizada</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Finalizada</th>
+                    <th>Status</th>
+                    <th>Periodo</th>
+                    <th>Tipo</th>
+                    <th>Usuario</th>
+                    <th>Deletar</th>
+                </tr>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </section>
+    <!-- Script Api --------------------------------------------------------------- -->
+    <script src="../../../js/listar/agendamento/agendamento_usuario.js"></script>
+    <!-- script da navbar -->
+    <script src="../../../js/navbar/script.js"></script>
+</body>
+
+</html>

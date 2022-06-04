@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Estilo para modal que fecha ao clicar fora do calendário */
+#modal-fecha {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  z-index: 1;
+}
+
+/* Estilo do calendário inteiro */
+#calendar {
+  display: none;
+  position: fixed;
+  text-align: center;
+  align-items: center;
+  top: 0.5%;
+  left: 20%;
+  margin: auto;
+  padding: 1rem;
+  width: 60%;
+  z-index: 10;
+  background-color: #ffff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 25px 3px rgb(200 132 132 / 25%);
+}
+
+/* Estilos botões bootstrap */
+.btn {
+  background-color: rgba(227, 6, 19, 0.5);
+  margin: 0 2px;
+}
+
+.btn:focus {
+  background-color: rgba(227, 6, 19, 0.4);
+}
+
+/* Estilos do btn */
+
+.btn-primary {
+  color: #f6f6f6 !important;
+  border-color: rgba(227, 6, 19, 0.5) !important;
+}
+
+/* Hover no btn-primary */
+.btn-primary:hover {
+  background-color: rgba(227, 6, 19, 1);
+}
+
+/* Quando o btn-primary está selecionado */
+.btn-primary.active {
+  background-color: rgba(227, 6, 19, 1);
+}
+
+/* Quando  */
+.btn-primary:disabled {
+  border-color: rgba(227, 6, 19, 0.5) !important;
+}
+
+/* Grupo dos botões */
+.btn-group {}
+
+/* Tabela que mostra os dias */
+.fc-scrollgrid {
+  border-radius: 4px;
+}
