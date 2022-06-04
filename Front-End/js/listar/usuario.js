@@ -1,4 +1,3 @@
-/* METHOD GET ---------------------------------------------------------*/
 /* pegando os elementos com id */
 /* input da busca */
 const id = getById('id')
@@ -11,45 +10,44 @@ const tbody = getById('tbody')
 /* pegando a modal de alteração */
 const modalAlterar = getById('modalAlterar')
 
-/* pegando o botao que faz a procura */
-const botaoProcurar = getById('search')
-/* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-botaoProcurar.addEventListener('click', () => {
-    /* reinicializando a variavel do valor */
-    valor = id.value
-    /* vendo se o valor é diferente de vazio */
-    if (valor != '') {
-        /* método que limpa o tbody */
-        clearTbody()
-        /* url de consumo da api que busca um usuario por id */
-        const url = `http://localhost:8080/api/usuario/${valor}`
-        /* método que faz a conexão com a api de pegar pelo id */
-        getId(url);
-    } else {
-        /* se o input for vazio ele faz a busca de todos os usuarios */
-        /* método que limpa o tbody */
-        clearTbody();
-        /* url que busca todos os usuarios */
-        const url = `http://localhost:8080/api/usuario`
-        /* método que faz a conexão da api que traz todos os usuarios */
-        getAll(url);
-    }
-})
-/* if pra ver se o valor do input da busca é vazio */
-/* que no caso sempre que carregarmos ou recarregarmos a pagina ele vai estar vazio, logo entrando no if */
-if (valor == '') {
-    /* método que limpa o tbody */
-    clearTbody();
-    /* url que busca todos os usuarios */
-    const url = `http://localhost:8080/api/usuario`
-    /* método que faz a conexão com a api que traz todos os usuarios */
-    getAll(url);
+const token = localStorage.getItem('token')
+const payload = parseJwt(token)
+
+/* função que decodifica o token */
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
 }
+
+if (token == null) {
+    window.location.href= '../login.html'
+}
+
+/* if (payload.nivel == 'ADMINISTRADOR') {
+
+} else {
+    window.location.href = '../../index.html'
+} */
 
 /* método que faz a conexão com a api que traz um usuario por id */
 function getId(url) {
     /* fazendo a conexão com a url fornecida */
-    fetch(url)
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    let fetchData = {
+        method: 'GET',
+        body: 'body',
+        headers: myHeaders
+    }
+
+    fetch(url, fetchData)
         .then((resp) => resp.json())
         .then(data => {
             /* método que cria as tr */
@@ -65,7 +63,16 @@ function getId(url) {
 /* método que faz a conexão com a api que traz todos os usuarios */
 function getAll(url) {
     /* fazendo conexão com a url fornecida */
-    fetch(url)
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    let fetchData = {
+        method: 'GET',
+        headers: myHeaders
+    }
+
+    fetch(url, fetchData)
         .then((resp) => resp.json())
         .then(data => {
             console.log(data)

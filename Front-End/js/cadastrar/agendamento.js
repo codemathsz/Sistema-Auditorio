@@ -50,7 +50,7 @@ function parseJwt(token) {
 if (token == null) {
     window.location.href = '../login.html'
 }
-if (payload.nivel == 'ADMINISTRADOR') {
+/* if (payload.nivel == 'ADMINISTRADOR') { */
     titulo.addEventListener('blur', () => {
         validaCadastro()
     })
@@ -214,9 +214,9 @@ if (payload.nivel == 'ADMINISTRADOR') {
                 console.log(error)
             })
     })
-} else {
-    /* window.location.href='../../index.html' */
-}
+/* } else {
+    window.location.href='../../index.html'
+} */
 
 
 
