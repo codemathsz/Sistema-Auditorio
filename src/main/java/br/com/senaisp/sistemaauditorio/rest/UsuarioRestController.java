@@ -52,7 +52,7 @@ public class UsuarioRestController {
 	private LogService log;
 	
 	
-	@Publico
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario, HttpServletRequest request){// ResponseEntity --> MANIPULAR A RESPOSTA, CEFECCIONAR o response, @RequestBody USUARIO VEM DO CORPO DA APLICAÇÃO
 		
@@ -167,7 +167,9 @@ public class UsuarioRestController {
 					.withExpiresAt(expiration.getTime())
 					.sign(algoritmo));
 			
+			
 			System.out.println(tokenJwt);
+			
 //			log.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
 			return ResponseEntity.ok(tokenJwt);
 			
