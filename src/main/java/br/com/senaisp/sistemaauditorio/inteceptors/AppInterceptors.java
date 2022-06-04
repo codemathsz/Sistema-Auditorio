@@ -17,6 +17,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
+import br.com.senaisp.sistemaauditorio.annotation.Usuario;
 import br.com.senaisp.sistemaauditorio.model.Nivel;
 import br.com.senaisp.sistemaauditorio.rest.UsuarioRestController;
 
@@ -68,8 +69,24 @@ public class AppInterceptors implements HandlerInterceptor{
 				
 				Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
 				
-				if (metodo.getMethodAnnotation(Administrador.class) != null && nivel.equals(Nivel.ADMINISTRADOR)) {
-					return true;
+				if (metodo.getMethodAnnotation(Administrador.class) != null) {
+					
+					if (nivel == Nivel.ADMINISTRADOR) {
+						return true;
+					}else {
+						return false;
+					}
+				}
+				
+				if (metodo.getMethodAnnotation(Usuario.class) != null) {
+					
+					if (nivel == Nivel.USUARIO) {
+						
+						return true;
+					}else {
+						return false;
+					}
+					
 				}
 				
 				return true;
