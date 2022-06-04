@@ -40,17 +40,40 @@ public class TipoEventoRestController {
 	public ResponseEntity<Object> cadastrarTipoEvento(@RequestBody TipoEvento tipoEvento, HttpServletRequest request){
 		
 		try {
-			// SALVANDO TIPO NO BD
-			repository.save(tipoEvento);
+			
+			if (repository.nomeDuplicado(tipoEvento.getNome()).isEmpty()) {
+			
+				// SALVANDO TIPO NO BD
+				repository.save(tipoEvento);
+			}else {
+				
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Nome* do Tipo de Evento já foi cadastrado!", null);
+				// RETORNO DO MÉTODO
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}
+			
+			
 			// CRIADO LOG
 			/* log.salvarLogTipo(tipoEvento, TipoLog.CADASTRO_EVENTO, request); */
 			//RETORNO DO METODO
 			return ResponseEntity.created(URI.create("api/tipoevento"+tipoEvento.getId())).body(tipoEvento);
 		}catch (DataIntegrityViolationException e) {
 			
+			if (tipoEvento.getNome() == null) {
+							
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Nome* não pode ser vazio!", e.getClass().getName());
+				// RETORNO DO MÉTODO
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+			}
+		
 			e.printStackTrace();
-			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Registro Duplicado", e.getClass().getName());
-			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro não indentificado ao cadastrar.", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
+			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
 		}
 		
 	}
