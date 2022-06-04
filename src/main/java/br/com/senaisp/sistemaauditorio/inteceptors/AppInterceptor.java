@@ -56,12 +56,20 @@ public class AppInterceptor implements HandlerInterceptor {
 				System.out.println("Entrou no if api");
 				// VARIAVEL PARA O TOKEN
 
+<<<<<<< HEAD
 				String token = request.getHeader("Authorization");
+=======
+				String token = null;
+>>>>>>> dec45298b452c558083ac52247cc083797e1f8bc
 
 				if (metodo.getMethodAnnotation(Administrador.class) != null) {
 					System.out.println("Entrou no if Ann/Meth/Admin");
 
+<<<<<<< HEAD
 //								token = (String) request.getAttribute("token");
+=======
+					token = request.getHeader("Authorization");
+>>>>>>> dec45298b452c558083ac52247cc083797e1f8bc
 
 					// BUSCANDO O ALGORITMO NO USUARIO
 					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
@@ -86,6 +94,7 @@ public class AppInterceptor implements HandlerInterceptor {
 						return false;
 					}
 
+<<<<<<< HEAD
 				}
 
 				if (metodo.getMethodAnnotation(Usuario.class) != null) {
@@ -123,6 +132,52 @@ public class AppInterceptor implements HandlerInterceptor {
 				}
 			}
 		}
+=======
+				}
+
+				if (metodo.getMethodAnnotation(Usuario.class) != null) {
+					System.out.println("Entrou no if Ann/Meth/User");
+
+					token = request.getHeader("Authorization");
+
+					// BUSCANDO O ALGORITMO NO USUARIO
+					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
+
+					// OBJ PARA VERIFICAR O TOKEN
+					JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
+
+					// DECODIFICA O TOKEN
+					DecodedJWT jwt = verifier.verify(token);
+
+					// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
+					Map<String, Claim> claims = jwt.getClaims();
+
+					Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
+
+					if (nivel == Nivel.USUARIO) {
+
+						return true;
+					} else {
+
+						response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado");
+						return false;
+					}
+				}
+
+				// VERFICA SE ELE É PUBLICO
+				if (metodo.getMethodAnnotation(Publico.class) != null) {
+
+					return true;
+				}
+
+				return true;
+			} else {
+
+				return false;
+			}
+		}
+
+>>>>>>> dec45298b452c558083ac52247cc083797e1f8bc
 		return true;
 	}
 
