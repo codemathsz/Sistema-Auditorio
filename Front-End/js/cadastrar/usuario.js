@@ -11,93 +11,112 @@ const mensagens = getById('mensagens')
 let type = ''
 let id = 0
 
+const token = localStorage.getItem('token')
+const payload = parseJwt(token)
 
-nome.addEventListener('blur', () => {
-    validaCadastro()
-})
+/* função que decodifica o token */
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-nif.addEventListener('blur', () => {
-    validaCadastro()
-})
+    return JSON.parse(jsonPayload);
+}
 
-email.addEventListener('blur', () => {
-    validaCadastro()
-})
+if (payload.nivel == 'ADMINISTRADOR') {
+    nome.addEventListener('blur', () => {
+        validaCadastro()
+    })
 
-senha.addEventListener('blur', () => {
-    validaCadastro()
-})
+    nif.addEventListener('blur', () => {
+        validaCadastro()
+    })
 
-confirmaSenha.addEventListener('blur', () => {
-    validaCadastro()
-})
+    email.addEventListener('blur', () => {
+        validaCadastro()
+    })
 
-nivel.addEventListener('blur', () => {
-    validaCadastro()
-})
+    senha.addEventListener('blur', () => {
+        validaCadastro()
+    })
 
-/* METODO POST ------------------------------------ */
-const form = getById('form')
-form.addEventListener('submit', function () {
-    event.preventDefault();
-    if (senha.value === confirmaSenha.value) {
-        const url = `http://10.92.198.22:8080/api/usuario`;
+    confirmaSenha.addEventListener('blur', () => {
+        validaCadastro()
+    })
 
-        let usuario = {
-            nome: nome.value,
-            email: email.value,
-            senha: senha.value,
-            nif: nif.value,
-            nivel: nivel.value
+    nivel.addEventListener('blur', () => {
+        validaCadastro()
+    })
+
+    /* METODO POST ------------------------------------ */
+    const form = getById('form')
+    form.addEventListener('submit', function () {
+        event.preventDefault();
+        if (senha.value === confirmaSenha.value) {
+            const url = `http://localhost:8080/api/usuario`;
+
+            let usuario = {
+                nome: nome.value,
+                email: email.value,
+                senha: senha.value,
+                nif: nif.value,
+                nivel: nivel.value
+            }
+
+
+            const myHeaders = new Headers()
+            myHeaders.append('Content-Type', 'application/json')
+            myHeaders.append('Authorization', token)
+
+            let fetchData = {
+                method: 'POST',
+                body: JSON.stringify(usuario),
+                headers: myHeaders
+            }
+
+            fetch(url, fetchData)
+                .then((resp) => {
+                    resp.json()
+                        .then((resposta) => {
+                            console.log(resposta)
+                            if (resposta.statusCode == 'INTERNAL_SERVER_ERROR') {
+                                console.log('erro')
+                                type = 'error'
+                                createMessage(resposta.mensagem, type)
+                            } else {
+                                console.log('sucesso')
+                                type = 'success'
+                                createMessage(`Sucesso ao cadastrar o usuario ${nome.value}!`, type)
+                                clearForm()
+                                setTimeout(() => {
+                                    window.location.reload()
+                                }, 9000);
+                            }
+                            console.log(id)
+                            deleteMessage()
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+
+        } else {
+            type = 'error'
+            createMessage('Senhas não compativeis', type)
+            setTimeout(() => {
+                deleteMessage()
+            }, 9000);
         }
+    })
+} else {
+    /* window.location.href = '../../index.html' */
+}
 
-
-        const myHeaders = new Headers()
-        myHeaders.append('Content-Type', 'application/json')
-
-        let fetchData = {
-            method: 'POST',
-            body: JSON.stringify(usuario),
-            headers: myHeaders
-        }
-
-        fetch(url, fetchData)
-            .then((resp) => {
-                resp.json()
-                    .then((resposta) => {
-                        console.log(resposta)
-                        if (resposta.statusCode == 'INTERNAL_SERVER_ERROR') {
-                            console.log('erro')
-                            type = 'error'
-                            createMessage(resposta.mensagem, type)
-                        } else {
-                            console.log('sucesso')
-                            type = 'success'
-                            createMessage(`Sucesso ao cadastrar o usuario ${nome.value}!`, type)
-                            clearForm()
-                            setTimeout(() => {
-                                window.location.reload()
-                            }, 9000);
-                        }
-                        console.log(id)
-                        deleteMessage()
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-
-    } else {
-        type = 'error'
-        createMessage('Senhas não compativeis', type)
-        setTimeout(() => {
-            deleteMessage()
-        }, 9000);
-    }
-})
 function getById(id) {
     return document.getElementById(id)
 }

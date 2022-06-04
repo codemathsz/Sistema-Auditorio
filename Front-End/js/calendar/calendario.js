@@ -44,7 +44,7 @@ function fechaModal() {
 /* METHOD GET ---------------------------------------------------------*/
 // Usando somente para visualizar os eventos cadastrados no console
 
-const url = "http://10.92.198.22:8080/api/agendamento";
+const url = "http://localhost:8080/api/agendamento";
 fetch(url)
   .then((resp) => resp.json())
   .then((data) => {
@@ -392,7 +392,7 @@ function calendar(meses, ano) {
         /* METOD GET ------------------ */
         /* Preenchendo o select do tipo */
         /* Url da lista do tipo */
-        const urlTipo = "http://10.92.198.22:8080/api/tipo";
+        const urlTipo = "http://localhost:8080/api/tipo";
         /* variavel que pega o select do html */
         const select = tipo;
         /* fazendo conexão com a api */
@@ -423,7 +423,7 @@ function calendar(meses, ano) {
           /* evento para nao submeter o formulario */
           event.preventDefault();
           /* url que faz a conexão com a api do back-end */
-          const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
+          const urlAgendamento = `http://localhost:8080/api/agendamento`;
 
           /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
           const horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5);
@@ -517,7 +517,7 @@ function calendar(meses, ano) {
 
     // colocar a API para consumir
 
-    events: "http://10.92.198.22:8080/api/agendamento",
+    events: "http://localhost:8080/api/agendamento",
 
     // limitando a quantidade de ventos
     eventLimit: true,

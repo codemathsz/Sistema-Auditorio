@@ -1,3 +1,4 @@
+
 /* pegando os inputs pelo id */
 const form = getById('form')
 const titulo = getById('titulo')
@@ -46,168 +47,178 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-titulo.addEventListener('blur', () => {
-    validaCadastro()
-})
-
-descricao.addEventListener("blur", () => {
-    validaCadastro()
-})
-
-dataInicio.addEventListener("blur", () => {
-    validaCadastro()
-})
-
-dataFinalizada.addEventListener("blur", () => {
-    validaCadastro()
-})
-
-/* evento no select da hora inicio para quando o valor for trocado ele atualiza o select com os valores novos */
-horaInicio.addEventListener("change", () => {
-    createHoraFinalizada(horaFormat, minutoFormat)
-})
-
-const checks = document.getElementsByName('check')
-let validaChecks = ''
-for (let i = 0; i < checks.length; i++) {
-    checks[i].addEventListener('click', () => {
-        validaCadastro()
-        if (i == 0) {
-            horaInicio.innerText = ''
-            createHoraInicio()
-            /* criando o select da horaFinalizada com hora e minutos formatados */
-            createHoraFinalizada(horaFormat, minutoFormat)
-            showHoras()
-
-            validaChecks = 0
-        } else if (i == 1) {
-            showPeriodo()
-            validaChecks = 1
-
-        } else {
-            hiddenChoice()
-            validaChecks = 2
-        }
-    })
+if (token == null) {
+    window.location.href = '../login.html'
 }
-
-/* METOD GET ------------------ */
-/* Preenchendo o select do tipo */
-/* Url da lista do tipo */
-const urlTipo = 'http://10.92.198.22:8080/api/tipo'
-/* variavel que pega o select do html */
-const select = tipo
-/* fazendo conexão com a api */
-fetch(urlTipo)
-    .then((resp) => {
-        resp.json()
-            .then(data => {
-                /* dando um nome para o objeto */
-                let tipos = data
-                /* fazendo tipo um forEach por cada tipo */
-                return tipos.map((tipo) => {
-                    /* criando um elemento option */
-                    let option = createNode('option')
-                    /* colocando no valor desse option o id do tipo */
-                    option.value = tipo.id
-                    /* colocando no texto desse option o nome do tipo */
-                    option.innerHTML = tipo.nome
-
-                    /* falando que o option é filho do select */
-                    append(select, option)
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            })
-    })
-    .catch((error) => {
-        console.log(error);
+if (payload.nivel == 'ADMINISTRADOR') {
+    titulo.addEventListener('blur', () => {
+        validaCadastro()
     })
 
-/* METODO POST ------------------------------------ */
-form.addEventListener('submit', function () {
-    /* evento para nao submeter o formulario */
-    event.preventDefault();
-    /* url que faz a conexão com a api do back-end */
-    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
+    descricao.addEventListener("blur", () => {
+        validaCadastro()
+    })
 
-    /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
-    let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5)
-    let horaInicioFormatada = horaInicio.value
+    dataInicio.addEventListener("blur", () => {
+        validaCadastro()
+    })
 
-    console.log(horaInicio.value)
-    if (validaChecks == 0) {
-        periodo.value = ''
-    } else if (validaChecks == 1) {
-        horaInicioFormatada = '00:00'
-        horaFinalizadaFormatada = '00:00'
-    } else {
-        periodo.value = ''
-        horaInicioFormatada = '00:00'
-        horaFinalizadaFormatada = '00:00'
+    dataFinalizada.addEventListener("blur", () => {
+        validaCadastro()
+    })
+
+    /* evento no select da hora inicio para quando o valor for trocado ele atualiza o select com os valores novos */
+    horaInicio.addEventListener("change", () => {
+        createHoraFinalizada(horaFormat, minutoFormat)
+    })
+
+    const checks = document.getElementsByName('check')
+    let validaChecks = ''
+    for (let i = 0; i < checks.length; i++) {
+        checks[i].addEventListener('click', () => {
+            validaCadastro()
+            if (i == 0) {
+                horaInicio.innerText = ''
+                createHoraInicio()
+                /* criando o select da horaFinalizada com hora e minutos formatados */
+                createHoraFinalizada(horaFormat, minutoFormat)
+                showHoras()
+
+                validaChecks = 0
+            } else if (i == 1) {
+                showPeriodo()
+                validaChecks = 1
+
+            } else {
+                hiddenChoice()
+                validaChecks = 2
+            }
+        })
     }
 
-    /* construindo a váriavel da dataInicio e dataFinalizada completa, precisa-se ter a data e a hora juntas */
-    const dataInicioCompleta = dataInicio.value + "T" + horaInicioFormatada + ":00"
-    const dataFinalizadaCompleta = dataFinalizada.value + "T" + horaFinalizadaFormatada + ":00"
-
-    /* construindo o objeto agendamento */
-    let agendamento = {
-        title: titulo.value,
-        descricao: descricao.value,
-        start: dataInicioCompleta,
-        end: dataFinalizadaCompleta,
-        periodo: periodo.value == '' ? null : periodo.value,
-        tipo: {
-            id: tipo.value
-        },
-        usuario: {
-            id: payload.id
-        }
-    }
-
-    const myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/json')
-
-    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
-    let fetchData = {
-        method: 'POST',
-        body: JSON.stringify(agendamento),
-        headers: myHeaders
-    }
-
-    /* fazendo a conexão com a api */
-    fetch(urlAgendamento, fetchData)
+    /* METOD GET ------------------ */
+    /* Preenchendo o select do tipo */
+    /* Url da lista do tipo */
+    const urlTipo = 'http://10.92.198.22:8080/api/tipo'
+    /* variavel que pega o select do html */
+    const select = tipo
+    /* fazendo conexão com a api */
+    fetch(urlTipo)
         .then((resp) => {
-            console.log(resp)
             resp.json()
-                .then((resposta) => {
-                    console.log(resposta)
-                    if (resposta.statusCode == 'UNAUTHORIZED') {
-                        console.log('erro')
-                        type = 'error'
-                        createMessage(resposta.mensagem, type)
-                    } else {
-                        console.log('sucesso')
-                        type = 'success'
-                        createMessage('Sucesso ao cadastrar o agendamento!', type)
-                        clearForm()
-                        setTimeout(() => {
-                            window.location.reload()
-                        }, 8000);
-                    }
-                    console.log(id)
-                    deleteMessage()
+                .then(data => {
+                    /* dando um nome para o objeto */
+                    let tipos = data
+                    /* fazendo tipo um forEach por cada tipo */
+                    return tipos.map((tipo) => {
+                        /* criando um elemento option */
+                        let option = createNode('option')
+                        /* colocando no valor desse option o id do tipo */
+                        option.value = tipo.id
+                        /* colocando no texto desse option o nome do tipo */
+                        option.innerHTML = tipo.nome
+
+                        /* falando que o option é filho do select */
+                        append(select, option)
+                    })
                 })
                 .catch((error) => {
-                    console.log(error)
+                    console.log(error);
                 })
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error);
         })
-})
+
+    /* METODO POST ------------------------------------ */
+    form.addEventListener('submit', function () {
+        /* evento para nao submeter o formulario */
+        event.preventDefault();
+        /* url que faz a conexão com a api do back-end */
+        const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
+
+        /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
+        let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5)
+        let horaInicioFormatada = horaInicio.value
+
+        console.log(horaInicio.value)
+        if (validaChecks == 0) {
+            periodo.value = ''
+        } else if (validaChecks == 1) {
+            horaInicioFormatada = '00:00'
+            horaFinalizadaFormatada = '00:00'
+        } else {
+            periodo.value = ''
+            horaInicioFormatada = '00:00'
+            horaFinalizadaFormatada = '00:00'
+        }
+
+        /* construindo a váriavel da dataInicio e dataFinalizada completa, precisa-se ter a data e a hora juntas */
+        const dataInicioCompleta = dataInicio.value + "T" + horaInicioFormatada + ":00"
+        const dataFinalizadaCompleta = dataFinalizada.value + "T" + horaFinalizadaFormatada + ":00"
+
+        /* construindo o objeto agendamento */
+        let agendamento = {
+            title: titulo.value,
+            descricao: descricao.value,
+            start: dataInicioCompleta,
+            end: dataFinalizadaCompleta,
+            periodo: periodo.value == '' ? null : periodo.value,
+            tipo: {
+                id: tipo.value
+            },
+            usuario: {
+                id: payload.id
+            }
+        }
+
+        const myHeaders = new Headers()
+        myHeaders.append('Content-Type', 'application/json')
+        myHeaders.append('Authorization', token)
+
+        /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+        let fetchData = {
+            method: 'POST',
+            body: JSON.stringify(agendamento),
+            headers: myHeaders
+        }
+
+        /* fazendo a conexão com a api */
+        fetch(urlAgendamento, fetchData)
+            .then((resp) => {
+                console.log(resp)
+                resp.json()
+                    .then((resposta) => {
+                        console.log(resposta)
+                        if (resposta.statusCode == 'UNAUTHORIZED') {
+                            console.log('erro')
+                            type = 'error'
+                            createMessage(resposta.mensagem, type)
+                        } else {
+                            console.log('sucesso')
+                            type = 'success'
+                            createMessage('Sucesso ao cadastrar o agendamento!', type)
+                            clearForm()
+                            setTimeout(() => {
+                                window.location.reload()
+                            }, 8000);
+                        }
+                        console.log(id)
+                        deleteMessage()
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    })
+} else {
+    /* window.location.href='../../index.html' */
+}
+
+
 
 function createMessage(msg, type) {
     id++

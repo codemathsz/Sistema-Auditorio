@@ -22,7 +22,7 @@ botaoProcurar.addEventListener('click', () => {
         /* método que limpa o tbody */
         clearTbody()
         /* url de consumo da api que busca um tipo por id */
-        const url = `http://10.92.198.22:8080/api/tipo/${valor}`
+        const url = `http://localhost:8080/api/tipo/${valor}`
         /* método que faz a conexão com a api de pegar pelo id */
         getId(url);
     } else {
@@ -30,7 +30,7 @@ botaoProcurar.addEventListener('click', () => {
         /* método que limpa o tbody */
         clearTbody();
         /* url que busca todos os tipos */
-        const url = `http://10.92.198.22:8080/api/tipo`
+        const url = `http://localhost:8080/api/tipo`
         /* método que faz a conexão da api que traz todos os tipos */
         getAll(url);
     }
@@ -41,7 +41,7 @@ if (valor == '') {
     /* método que limpa o tbody */
     clearTbody();
     /* url que busca todos os tipos */
-    const url = `http://10.92.198.22:8080/api/tipo`
+    const url = `http://localhost:8080/api/tipo`
     /* método que faz a conexão com a api que traz todos os tipos */
     getAll(url);
 }
@@ -118,7 +118,7 @@ function createTbody(tipo) {
             const valor = id.value
 
             /* url do tipo com o valor do input do id */
-            const urlTipo = `http://10.92.198.22:8080/api/tipo/${valor}`
+            const urlTipo = `http://localhost:8080/api/tipo/${valor}`
 
             /* fazendo conexão com a api */
             fetch(urlTipo)
@@ -141,7 +141,7 @@ function createTbody(tipo) {
                 event.preventDefault();
 
                 /* url do tipo com o valor do input do id */
-                const urltipo = `http://10.92.198.22:8080/api/tipo/${valor}`
+                const urltipo = `http://localhost:8080/api/tipo/${valor}`
 
                 /* construindo o objeto tipo */
                 let tipo = {
@@ -195,7 +195,7 @@ function createTbody(tipo) {
     btnDeletar.addEventListener('click', () => {
         const valor = tdId.innerHTML
 
-        const urlTipo = `http://10.92.198.22:8080/api/tipo/${valor}`
+        const urlTipo = `http://localhost:8080/api/tipo/${valor}`
         const resultado = confirm(`Deseja deletar o tipo do id: ${valor}?`)
         if (resultado == true) {
             /* construindo o objeto tipo */

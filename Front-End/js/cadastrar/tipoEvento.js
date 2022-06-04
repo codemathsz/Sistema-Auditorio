@@ -1,3 +1,4 @@
+const form = getById('form')
 const nome = getById('nome')
 const submit = getById('submit')
 submit.disabled = true
@@ -6,35 +7,55 @@ const mensagens = getById('mensagens')
 let type = ''
 let id = 0
 
-nome.addEventListener('blur', () => {
-    validaCadastro()
-})
+const token = localStorage.getItem('token')
+const payload = parseJwt(token)
 
-/* METODO POST ------------------------------------ */
-const form = getById('form')
-form.addEventListener('submit', function () {
-    event.preventDefault();
-    const url = `http://10.92.198.22:8080/api/tipo`;
+/* função que decodifica o token */
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
 
-    let tipo = {
-        nome: nome.value
-    }
+    return JSON.parse(jsonPayload);
+}
+
+if (token == null) {
+    window.location.href = '../login.html'
+}
+
+if (payload.nivel == 'ADMINISTRADOR') {
+    nome.addEventListener('blur', () => {
+        validaCadastro()
+    })
+
+    /* METODO POST ------------------------------------ */
+
+    form.addEventListener('submit', function () {
+        event.preventDefault();
+        const url = `http://localhost:8080/api/tipo`;
+
+        let tipo = {
+            nome: nome.value
+        }
 
 
-    const myHeaders = new Headers()
-    myHeaders.append('Content-Type', 'application/json')
+        const myHeaders = new Headers()
+        myHeaders.append('Content-Type', 'application/json')
+        myHeaders.append('Authorization', token)
 
-    let fetchData = {
-        method: 'POST',
-        body: JSON.stringify(tipo),
-        headers: myHeaders
-    }
+        let fetchData = {
+            method: 'POST',
+            body: JSON.stringify(tipo),
+            headers: myHeaders
+        }
 
-    fetch(url, fetchData)
-        .then((resp) => {
-            resp.json()
-                .then((resposta) => {
-                    console.log(resposta)
+        fetch(url, fetchData)
+            .then((resp) => {
+                resp.json()
+                    .then((resposta) => {
+                        console.log(resposta)
                         if (resposta.statusCode == 'INTERNAL_SERVER_ERROR') {
                             console.log('erro')
                             type = 'error'
@@ -50,15 +71,18 @@ form.addEventListener('submit', function () {
                         }
                         console.log(id)
                         deleteMessage()
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-})
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    })
+} else {
+    /* window.location.href = '../../index.html' */
+}
 
 function getById(id) {
     return document.getElementById(id)
