@@ -27,7 +27,6 @@ import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Nivel;
-import br.com.senaisp.sistemaauditorio.model.Sucesso;
 import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
@@ -52,7 +51,7 @@ public class UsuarioRestController {
 	private LogService log;
 	
 	
-	@Publico
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario, HttpServletRequest request){// ResponseEntity --> MANIPULAR A RESPOSTA, CEFECCIONAR o response, @RequestBody USUARIO VEM DO CORPO DA APLICAÇÃO
 		
@@ -62,18 +61,17 @@ public class UsuarioRestController {
 		try {
 			
 			// SALVA USUARIO NO BD
-			repository.save(usuario);
-			// SALVA LOG NO BD
-			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Usuario cadastrado!");
-			
-			
+			repository.save(usuario);	
 			
 			//	ACRESENTANDO NO CORPO DA RESPOSTA O OBJETO INSERIDO
-			return ResponseEntity.created(URI.create("/api/usuario"+usuario.getId())).body(usuario+""+sucesso);// body(usuario) colocar no body a resposta gerada
+			return ResponseEntity.created(URI.create("/api/usuario"+usuario.getId())).body(usuario);// body(usuario) colocar no body a resposta gerada
 			
-		} catch (Exception e) {// REGISTRO DUPLICADO
+		} catch (Exception e) {
 			
 			
+			/* VALIDAÇÕES */
+			
+			/* ERRO NOTNULL*/
 			if (usuario.getNome() == null) { //		*** NOME DO USUARIO NULO
 				
 				e.printStackTrace();
@@ -114,23 +112,38 @@ public class UsuarioRestController {
 				// RETORNO DO MÉTODO
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 				
-			}else if (!repository.nifDuplicado(usuario.getNif()).isEmpty()) {
-				
-				e.printStackTrace();
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao cadastrar, *Nif* já cadastrado.", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
-				
-			}else if (!repository.emailDuplicado(usuario.getEmail()).isEmpty()) {
-				
-				e.printStackTrace();
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao cadastrar, *Email* já cadastrado.", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
-				
 			}
 			
-			e.printStackTrace();
-			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro não indentificado ao cadastrar.", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
-			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
+			
+			// VÁLIDANDO SE O USUARIO ESTÁ QUERENDO CADASTRAR UM NIF OU UM EMAIL JÁ CADASTRADO
+			if (repository.nifDuplicado(usuario.getNif()).isEmpty()) {
+				
+				if (repository.emailDuplicado(usuario.getEmail()).isEmpty()) {
+					
+					repository.save(usuario);
+					
+					
+					//	ACRESENTANDO NO CORPO DA RESPOSTA O OBJETO INSERIDO
+					return ResponseEntity.created(URI.create("/api/usuario"+usuario.getId())).body(usuario);// body(usuario) colocar no body a resposta gerada
+				}else {
+					
+					e.printStackTrace();
+					// ERRO PERSONALIZADO
+					Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao cadastrar, Nif inválido", e.getClass().getName());
+					// RETORNO DO MÉTODO
+					return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+
+			}else {
+				
+				e.printStackTrace();
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao cadastrar, Email inválido", e.getClass().getName());
+				// RETORNO DO MÉTODO
+				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			
 		}
 		
 		
@@ -215,6 +228,7 @@ public class UsuarioRestController {
 			// criando token
 			TokenJWT tokenJwt = new TokenJWT();
 			
+			request.setAttribute("token", tokenJwt);
 			// gera token
 			tokenJwt.setToken(JWT.create()
 					.withPayload(payload)
@@ -222,6 +236,7 @@ public class UsuarioRestController {
 					.withExpiresAt(expiration.getTime())
 					.sign(algoritmo));
 			
+//			request.setAttribute("token", tokenJwt);
 			System.out.println(tokenJwt);
 //			log.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
 			return ResponseEntity.ok(tokenJwt);

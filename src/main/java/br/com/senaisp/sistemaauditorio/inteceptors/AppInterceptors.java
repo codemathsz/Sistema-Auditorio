@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,7 +17,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
-import br.com.senaisp.sistemaauditorio.annotation.Usuario;
+import br.com.senaisp.sistemaauditorio.model.Nivel;
 import br.com.senaisp.sistemaauditorio.rest.UsuarioRestController;
 
 @Component
@@ -26,6 +25,8 @@ public class AppInterceptors implements HandlerInterceptor{
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		
+		System.out.println("\n *************pre handler*************\n");
 		
 		// VARIAVEL PARA OBTER A URI
 		String uri = request.getRequestURI();
@@ -46,91 +47,32 @@ public class AppInterceptors implements HandlerInterceptor{
 			// SE FOR PAGINAS DE API LIBERA
 			if (uri.startsWith("/api")) {
 				
-				String token = null;
+				// VARIAVEL PARA O TOKEN
+				String token;
 				
-			
+				// RECUPERA O TOKEN
+				token = request.getHeader("Authorization");
+//				token = (String) request.getAttribute("token");
 				
-				// VERIFICA SE É UM METODO  USUARIO E FOR DIFERENTE DE NULO
-				if (metodo.getMethodAnnotation(Usuario.class) != null ) {
-					
-					try {
-						 
-						
-						// SE O METODO FOR USUARIO OU ADM RECUPERA O TOKEN
-						token = request.getHeader("Authorization");
-						
-						
-						// BUSCANDO O ALGORITMO NO USUARIO E ADM
-						Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
-						// OBJ PARA VERIFICAR O TOKEN
-						JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
-						// DECODIFICA O TOKEN
-						DecodedJWT jwt = verifier.verify(token);
-						// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
-						Map<String, Claim> claims = jwt.getClaims();
-						
-						request.setAttribute("id",claims.get("id"));
-						
-						
-						return true;
-						
-						
-						
-					} catch (Exception e) {
-						
-						e.printStackTrace();
-						if (token == null) {
-							
-							response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
-						}else {
-							response.sendError(HttpStatus.FORBIDDEN.value(), e.getMessage());
-						}
-						
-						return false;
-					}
-					
-				//	VERIFICA SE É UM MÉTODO ADMINISTRADOR R FOR DIFERENTE DE NULO 	
-				}else if(metodo.getMethodAnnotation(Administrador.class) != null) {
-					
-					try {
-						
-						
-						// SE O METODO FOR USUARIO OU ADM RECUPERA O TOKEN
-						token = request.getHeader("Authorization");
-						
-						
-						// BUSCANDO O ALGORITMO NO USUARIO E ADM
-						Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
-						// OBJ PARA VERIFICAR O TOKEN
-						JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
-						// DECODIFICA O TOKEN
-						DecodedJWT jwt = verifier.verify(token);
-						// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
-						Map<String, Claim> claims = jwt.getClaims();
-						
-						request.setAttribute("id",claims.get("id"));
-						
-						
-						return true;
-						
-						
-						
-					} catch (Exception e) {
-						
-						e.printStackTrace();
-						if (token == null) {
-							
-							response.sendError(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
-						}else {
-							response.sendError(HttpStatus.FORBIDDEN.value(), e.getMessage());
-						}
-						
-						return false;
-					}
+				// BUSCANDO O ALGORITMO NO USUARIO 
+				Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
+				
+				// OBJ PARA VERIFICAR O TOKEN
+				JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
+				
+				// DECODIFICA O TOKEN
+				DecodedJWT jwt = verifier.verify(token);
+				
+				// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
+				Map<String, Claim> claims = jwt.getClaims();
+				
+				Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
+				
+				if (metodo.getMethodAnnotation(Administrador.class) != null && nivel.equals(Nivel.ADMINISTRADOR)) {
+					return true;
 				}
 				
 				return true;
-				
 			} else {
 				
 				// VERFICA SE  ELE É PUBLICO
@@ -138,7 +80,7 @@ public class AppInterceptors implements HandlerInterceptor{
 					
 					return true;
 				}
-				
+					
 				return false;
 			}
 		}
