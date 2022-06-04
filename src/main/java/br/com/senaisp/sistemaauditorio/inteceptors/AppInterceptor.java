@@ -56,20 +56,20 @@ public class AppInterceptor implements HandlerInterceptor {
 				System.out.println("Entrou no if api");
 				// VARIAVEL PARA O TOKEN
 
-<<<<<<< HEAD
+
 				String token = request.getHeader("Authorization");
-=======
+
 				String token = null;
->>>>>>> dec45298b452c558083ac52247cc083797e1f8bc
+
 
 				if (metodo.getMethodAnnotation(Administrador.class) != null) {
 					System.out.println("Entrou no if Ann/Meth/Admin");
 
-<<<<<<< HEAD
+
 //								token = (String) request.getAttribute("token");
-=======
+
 					token = request.getHeader("Authorization");
->>>>>>> dec45298b452c558083ac52247cc083797e1f8bc
+
 
 					// BUSCANDO O ALGORITMO NO USUARIO
 					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
@@ -94,7 +94,7 @@ public class AppInterceptor implements HandlerInterceptor {
 						return false;
 					}
 
-<<<<<<< HEAD
+
 				}
 
 				if (metodo.getMethodAnnotation(Usuario.class) != null) {
@@ -132,7 +132,7 @@ public class AppInterceptor implements HandlerInterceptor {
 				}
 			}
 		}
-=======
+
 				}
 
 				if (metodo.getMethodAnnotation(Usuario.class) != null) {
@@ -177,7 +177,7 @@ public class AppInterceptor implements HandlerInterceptor {
 			}
 		}
 
->>>>>>> dec45298b452c558083ac52247cc083797e1f8bc
+
 		return true;
 	}
 
