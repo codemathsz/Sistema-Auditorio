@@ -38,6 +38,7 @@ public class LogService {
 		
 		// RECUPERA O TOKEN
 		token = request.getHeader("Authorization");
+//		token = (String) request.getAttribute("token");
 		
 		// BUSCANDO O ALGORITMO NO USUARIO 
 		Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);

@@ -15,4 +15,7 @@ public interface TipoEventoRepository extends PagingAndSortingRepository<TipoEve
 	@Query("SELECT t FROM TipoEvento t WHERE t.nome LIKE %:nome% ")
 	public List<TipoEvento> findByTipo(@Param("nome") String nome);
 	
+	@Query("SELECT t FROM TipoEvento t WHERE t.nome = :nome")
+	public List<TipoEvento> nomeDuplicado(@Param("nome") String nome);
+	
 }
