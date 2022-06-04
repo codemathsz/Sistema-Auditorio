@@ -82,7 +82,7 @@ public class UsuarioRestController {
 	}
 	
 	
-	@Administrador
+	@Publico
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Usuario> getUsuarios(){
 		

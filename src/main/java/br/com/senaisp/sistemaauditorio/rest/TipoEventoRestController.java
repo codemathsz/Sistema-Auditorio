@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
+import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.TipoEvento;
 import br.com.senaisp.sistemaauditorio.repository.TipoEventoRepository;
@@ -78,14 +79,14 @@ public class TipoEventoRestController {
 		
 	}
 	
-	@Administrador
+	@Publico
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<TipoEvento> getTipoEventos(){
 	
 		return repository.findAll();
 	}
 	
-	@Administrador
+	@Publico
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<TipoEvento> getTipoEventoById(@PathVariable("id") Long id){
 		
