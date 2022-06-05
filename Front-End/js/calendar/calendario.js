@@ -1,46 +1,32 @@
 // pegando o ano conforme o atual
 var dateGetYear = new Date();
 var ano = dateGetYear.getFullYear();
-meses = null;
 
-console.log(ano)
-const titulo = document.getElementById("tituloYear");
-titulo.innerHTML = ano
+let resto = 0
+let controlador = 0
+const meses = document.getElementsByClassName('mes')
+const bolinhas = document.getElementsByName('bolinhas')
+console.log(bolinhas)
+console.log(bolinhas)
 
-function aumentaAno() {
-  ano = ano + 1;
-  titulo.innerHTML = ano;
-}
-
-function diminueAno() {
-  ano = ano - 1;
-  titulo.innerHTML = ano;
-}
-
-// fazendo variável para levar a data
-function pegaData(meses) {
-  console.log("Pegou a data no normal");
-  if (meses <= 9) {
-    meses = `0${meses}`;
+for (let i = 0; i < bolinhas.length; i++) {
+  console.log(bolinhas[i])
+  resto++
+  if (resto%2 == 0) {
+    controlador = 32
+  } else {
+    controlador = 33
   }
-  abreModal();
-  console.log("Abriu a modal - home");
-  console.log("Pegou os meses e o ano para abrir calendário - home");
-  calendar(meses, ano);
-}
-// função que abre a modal
-function abreModal() {
-  const modal = document.getElementById("calendar");
-  modal.style.display = "block";
-  document.getElementById("modal-fecha").style.display = "block";
+  for (let j = 0; j < controlador; j++) {
+    const bolinha = createNode('div')
+    bolinha.classList.add('bolinha')
+    append(bolinhas[i], bolinha)
+  }
+  meses[i].addEventListener("click", () => {
+    pegaData(i+1)
+  })
 }
 
-// função que fecha a modal
-function fechaModal() {
-  const container = document.getElementById("calendar");
-  container.style.display = "none";
-  document.getElementById("modal-fecha").style.display = "none";
-}
 /* METHOD GET ---------------------------------------------------------*/
 // Usando somente para visualizar os eventos cadastrados no console
 
@@ -204,191 +190,6 @@ function calendar(meses, ano) {
         horaInicio.addEventListener("change", () => {
           createHoraFinalizada(horaFormat, minutoFormat);
         });
-
-        /* função que cria o select da horaFinalizada */
-        function createHoraFinalizada(horaFormat, minutoFormat) {
-          /* instanciando a variavel da diferenca da hora, ela começa valendo vazia */
-          horaDiferenca = "";
-          /* método que limpa o select antes de criar */
-          clearElement(horaFinalizada);
-          /* vendo se os minutos são diferentes de 00 */
-          if (!(horaInicio.value.substring(3, 5) == "00")) {
-            /* vendo se a hora é 08 ou 09, pois assim tiramos o primeiro numero, caso contrario deixamos */
-            if (parseInt(getHora(horaInicio)) < 10) {
-              /* tirando o primeiro caracter e adicionando uma hora */
-              horaFormat = parseInt(horaInicio.value.substring(1, 2)) + 1;
-            } else {
-              /* apenas adicionando uma hora */
-              horaFormat = parseInt(getHora(horaInicio)) + 1;
-            }
-            /* quando o minuto da horaInicio for 30 falamos que aqui tambem vai ser 30 */
-            minutoFormat = "30";
-            /* se os minutos da hora de cima forem == 0 */
-          } else {
-            /* mesmo if para retirar caracter de cima, mas aqui nao adicionamos uma hora */
-            if (parseInt(horaInicio.value.substring(0, 2)) < 10) {
-              horaFormat = parseInt(horaInicio.value.substring(1, 2));
-            } else {
-              horaFormat = parseInt(getHora(horaInicio));
-            }
-            /* se cair aqui é porque os minutos da hora de cima sao 00:00 e aqui tambem sao */
-            minutoFormat = "00";
-          }
-          /* resetando a variavel minutoDifenca */
-          minutosDiferenca = 0;
-          /* zerando a variavel controlador para que sempre ocorra a mudança no horaInicio o controlador comece valendo 1 */
-          controlador = 1;
-          /* for para percorrer as horas, e começa valendo a variavel horaFormat */
-          for (let h = horaFormat; h < 23; h++) {
-            /* for para percorrer duas vezes a hora e setar as duas posicoes do array na hora */
-            for (let m = 0; m < minutos.length; m++) {
-              /* toda vez que passar por esse for a diferenca entre a hora inicial e a hora final vai incrementando de 30 em 30 */
-              minutosDiferenca += 30;
-              /* dando o o retorno do metodo converterMinutosParaHora(minutosDiferenca) para a variavel horaDiferenca */
-              horaDiferenca = converterMinutosParaHora(minutosDiferenca);
-              /* criando um option */
-              const option = createNode("option");
-              /* if para colocar um 0 antes da hora se for menor que 10 */
-              if (h < 10) {
-                hora = "0" + h;
-              } else {
-                hora = h;
-              }
-              /* vendo se os minutos do select anterior é 00 e vendo se é a primeira vez que estamos passando no for */
-              if (minutoFormat == "00" && controlador == 1) {
-                /* setando a segunda posição do vetor nos minutos, que no caso são '30' */
-                minutos = min[m + 1];
-
-                /* falando que a variavel controlador é igual a 2 pra ele nunca mais passar por esse if */
-                controlador++;
-                /* setando a hora no option */
-                setHoraFinalInOption(
-                  horaFinalizada,
-                  option,
-                  hora,
-                  minutos,
-                  horaDiferenca
-                );
-
-                /* dando um continue para ele ir pra segunda repetição e nao continuar nessa... */
-                break;
-              } else {
-                minutos = min[m];
-                /* vendo se o valor do select é 22:30 para ele nao repetir duas vezes no for e acabar imprimido duas vezes tbm */
-                if (horaFinalizada.value == "22:30") {
-                  break;
-                }
-                /* setando a hora no option */
-                setHoraFinalInOption(
-                  horaFinalizada,
-                  option,
-                  hora,
-                  minutos,
-                  horaDiferenca
-                );
-              }
-            }
-          }
-        }
-
-        /* função que converte uma quantidade de minutos para hora */
-        function converterMinutosParaHora(minutos) {
-          let hora = 0;
-          /* um while para repetir se a quantidade de minutos passada no parametro é maior ou igual a 60 */
-          while (minutos >= 60) {
-            /* se a quantidade de minutos for maior que 60, eu tiro 60 minutos e adiciono 1 a variavel da hora */
-            minutos = minutos - 60;
-            hora++;
-          }
-          /* if para formatação do texto */
-          /* se a hora for menor que 10 e os minutos forem iguais a 0 */
-          if (hora < 10 && minutos == 0) {
-            /* retorna Ex: 01h 00min */
-            return `0${hora}h ${minutos}0min`;
-            /* se a hora for maior ou igual a 10 e os minutos iguais a 0 */
-          } else if (hora >= 10 && minutos == 0) {
-            /* retorna Ex: 10h 00min */
-            return `${hora}h ${minutos}0min`;
-            /* se a hora for menor que 1p e os minutos forem igual a 30*/
-          } else if (hora < 10 && minutos == 30) {
-            /* retorna Ex: 01h 30min */
-            return `0${hora}h ${minutos}min`;
-            /* se a hora for maior ou igual a 10 e os minutos forem iguais a 30*/
-          } else if (hora >= 10 && minutos == 30) {
-            /* retorna Ex: 10h 30min */
-            return `${hora}h ${minutos}min`;
-          }
-        }
-
-        /* função que coloca as horas no option do select da horaFinalizada */
-        function setHoraFinalInOption(
-          select,
-          option,
-          hora,
-          minutos,
-          horaDiferenca
-        ) {
-          /* se a horaDiferenca chegar assim 00h 30min */
-          if (horaDiferenca == "00h 30min") {
-            /* o option fica com o valor: (30min) */
-            option.innerHTML =
-              hora + ":" + minutos + " (" + horaDiferenca.substring(4, 9) + ")";
-            /* se os minutos chegarem igual a 00*/
-          } else if (horaDiferenca.substring(4, 6) == "00") {
-            /* vendo se a a hora é menor que 10, mas a validação eu pego o primeiro caracter, se for 0, Ex: 01h eu tiro esse 0 da frente */
-            if (horaDiferenca.substring(0, 1) == "0") {
-              /* o option fica com o valor Ex: (1h) */
-              option.innerHTML =
-                hora +
-                ":" +
-                minutos +
-                " (" +
-                horaDiferenca.substring(1, 3) +
-                ")";
-            } else {
-              /* o option fica com o valor Ex: (10h) */
-              option.innerHTML =
-                hora +
-                ":" +
-                minutos +
-                " (" +
-                horaDiferenca.substring(0, 3) +
-                ")";
-            }
-            /* se os minutos forem iguais a 30 */
-          } else {
-            /* vendo se a a hora é menor que 10, mas a validação eu pego o primeiro caracter, se for 0, Ex: 01h eu tiro esse 0 da frente */
-            if (horaDiferenca.substring(0, 1) == "0") {
-              /* o option fica com o valor Ex: (1h 30min) */
-              option.innerHTML =
-                hora +
-                ":" +
-                minutos +
-                " (" +
-                horaDiferenca.substring(1, 10) +
-                ")";
-            } else {
-              /* o option fica com o valor Ex: (10h 30min) */
-              option.innerHTML =
-                hora + ":" + minutos + " (" + horaDiferenca + ")";
-            }
-          }
-
-          /* falando que o option é filho do select */
-          append(select, option);
-        }
-
-        /* função que pega apenas a hora em si da hora completa */
-        function getHora(element) {
-          const elementFormat = element.value.substring(0, 2);
-          return elementFormat;
-        }
-
-        /* função que limpa qualquer elemento */
-        function clearElement(element) {
-          element.innerText = "";
-        }
-
         /* METOD GET ------------------ */
         /* Preenchendo o select do tipo */
         /* Url da lista do tipo */
@@ -419,7 +220,7 @@ function calendar(meses, ano) {
           });
 
         /* METODO POST ------------------------------------ */
-        form.addEventListener("submit", function () {
+        form.addEventListener("submit", () => {
           /* evento para nao submeter o formulario */
           event.preventDefault();
           /* url que faz a conexão com a api do back-end */
@@ -479,22 +280,6 @@ function calendar(meses, ano) {
               console.log(error);
             });
         });
-
-        /* método que pega os elementos pelo id */
-        function getById(id) {
-          return document.getElementById(id);
-        }
-
-        /* método que cria um elemento */
-        function createNode(element) {
-          return document.createElement(element);
-        }
-
-        /* método que indica quem é filho de quem */
-        function append(parent, el) {
-          return parent.appendChild(el);
-        }
-
         function createSelectHora(element) { }
       }
     },
@@ -537,4 +322,239 @@ function calendar(meses, ano) {
   });
   // renderiza o calendário
   calendar.render();
+}
+
+
+/* método que pega os elementos pelo id */
+function getById(id) {
+  return document.getElementById(id);
+}
+
+/* método que cria um elemento */
+function createNode(element) {
+  return document.createElement(element);
+}
+
+/* método que indica quem é filho de quem */
+function append(parent, el) {
+  return parent.appendChild(el);
+}
+function aumentaAno() {
+  ano = ano + 1;
+  titulo.innerHTML = ano;
+}
+
+function diminueAno() {
+  ano = ano - 1;
+  titulo.innerHTML = ano;
+}
+
+// fazendo variável para levar a data
+function pegaData(meses) {
+  console.log("Pegou a data no normal");
+  if (meses <= 9) {
+    meses = `0${meses}`;
+  }
+  abreModal();
+  console.log("Abriu a modal - home");
+  console.log("Pegou os meses e o ano para abrir calendário - home");
+  calendar(meses, ano);
+}
+// função que abre a modal
+function abreModal() {
+  const modal = document.getElementById("calendar");
+  modal.style.display = "block";
+  document.getElementById("modal-fecha").style.display = "block";
+}
+
+// função que fecha a modal
+function fechaModal() {
+  const container = document.getElementById("calendar");
+  container.style.display = "none";
+  document.getElementById("modal-fecha").style.display = "none";
+}
+
+
+/* função que pega apenas a hora em si da hora completa */
+function getHora(element) {
+  const elementFormat = element.value.substring(0, 2);
+  return elementFormat;
+}
+
+/* função que limpa qualquer elemento */
+function clearElement(element) {
+  element.innerText = "";
+}
+
+/* função que coloca as horas no option do select da horaFinalizada */
+function setHoraFinalInOption(
+  select,
+  option,
+  hora,
+  minutos,
+  horaDiferenca
+) {
+  /* se a horaDiferenca chegar assim 00h 30min */
+  if (horaDiferenca == "00h 30min") {
+    /* o option fica com o valor: (30min) */
+    option.innerHTML =
+      hora + ":" + minutos + " (" + horaDiferenca.substring(4, 9) + ")";
+    /* se os minutos chegarem igual a 00*/
+  } else if (horaDiferenca.substring(4, 6) == "00") {
+    /* vendo se a a hora é menor que 10, mas a validação eu pego o primeiro caracter, se for 0, Ex: 01h eu tiro esse 0 da frente */
+    if (horaDiferenca.substring(0, 1) == "0") {
+      /* o option fica com o valor Ex: (1h) */
+      option.innerHTML =
+        hora +
+        ":" +
+        minutos +
+        " (" +
+        horaDiferenca.substring(1, 3) +
+        ")";
+    } else {
+      /* o option fica com o valor Ex: (10h) */
+      option.innerHTML =
+        hora +
+        ":" +
+        minutos +
+        " (" +
+        horaDiferenca.substring(0, 3) +
+        ")";
+    }
+    /* se os minutos forem iguais a 30 */
+  } else {
+    /* vendo se a a hora é menor que 10, mas a validação eu pego o primeiro caracter, se for 0, Ex: 01h eu tiro esse 0 da frente */
+    if (horaDiferenca.substring(0, 1) == "0") {
+      /* o option fica com o valor Ex: (1h 30min) */
+      option.innerHTML =
+        hora +
+        ":" +
+        minutos +
+        " (" +
+        horaDiferenca.substring(1, 10) +
+        ")";
+    } else {
+      /* o option fica com o valor Ex: (10h 30min) */
+      option.innerHTML =
+        hora + ":" + minutos + " (" + horaDiferenca + ")";
+    }
+  }
+
+  /* falando que o option é filho do select */
+  append(select, option);
+}
+
+/* função que converte uma quantidade de minutos para hora */
+function converterMinutosParaHora(minutos) {
+  let hora = 0;
+  /* um while para repetir se a quantidade de minutos passada no parametro é maior ou igual a 60 */
+  while (minutos >= 60) {
+    /* se a quantidade de minutos for maior que 60, eu tiro 60 minutos e adiciono 1 a variavel da hora */
+    minutos = minutos - 60;
+    hora++;
+  }
+  /* if para formatação do texto */
+  /* se a hora for menor que 10 e os minutos forem iguais a 0 */
+  if (hora < 10 && minutos == 0) {
+    /* retorna Ex: 01h 00min */
+    return `0${hora}h ${minutos}0min`;
+    /* se a hora for maior ou igual a 10 e os minutos iguais a 0 */
+  } else if (hora >= 10 && minutos == 0) {
+    /* retorna Ex: 10h 00min */
+    return `${hora}h ${minutos}0min`;
+    /* se a hora for menor que 1p e os minutos forem igual a 30*/
+  } else if (hora < 10 && minutos == 30) {
+    /* retorna Ex: 01h 30min */
+    return `0${hora}h ${minutos}min`;
+    /* se a hora for maior ou igual a 10 e os minutos forem iguais a 30*/
+  } else if (hora >= 10 && minutos == 30) {
+    /* retorna Ex: 10h 30min */
+    return `${hora}h ${minutos}min`;
+  }
+}
+
+/* função que cria o select da horaFinalizada */
+function createHoraFinalizada(horaFormat, minutoFormat) {
+  /* instanciando a variavel da diferenca da hora, ela começa valendo vazia */
+  horaDiferenca = "";
+  /* método que limpa o select antes de criar */
+  clearElement(horaFinalizada);
+  /* vendo se os minutos são diferentes de 00 */
+  if (!(horaInicio.value.substring(3, 5) == "00")) {
+    /* vendo se a hora é 08 ou 09, pois assim tiramos o primeiro numero, caso contrario deixamos */
+    if (parseInt(getHora(horaInicio)) < 10) {
+      /* tirando o primeiro caracter e adicionando uma hora */
+      horaFormat = parseInt(horaInicio.value.substring(1, 2)) + 1;
+    } else {
+      /* apenas adicionando uma hora */
+      horaFormat = parseInt(getHora(horaInicio)) + 1;
+    }
+    /* quando o minuto da horaInicio for 30 falamos que aqui tambem vai ser 30 */
+    minutoFormat = "30";
+    /* se os minutos da hora de cima forem == 0 */
+  } else {
+    /* mesmo if para retirar caracter de cima, mas aqui nao adicionamos uma hora */
+    if (parseInt(horaInicio.value.substring(0, 2)) < 10) {
+      horaFormat = parseInt(horaInicio.value.substring(1, 2));
+    } else {
+      horaFormat = parseInt(getHora(horaInicio));
+    }
+    /* se cair aqui é porque os minutos da hora de cima sao 00:00 e aqui tambem sao */
+    minutoFormat = "00";
+  }
+  /* resetando a variavel minutoDifenca */
+  minutosDiferenca = 0;
+  /* zerando a variavel controlador para que sempre ocorra a mudança no horaInicio o controlador comece valendo 1 */
+  controlador = 1;
+  /* for para percorrer as horas, e começa valendo a variavel horaFormat */
+  for (let h = horaFormat; h < 23; h++) {
+    /* for para percorrer duas vezes a hora e setar as duas posicoes do array na hora */
+    for (let m = 0; m < minutos.length; m++) {
+      /* toda vez que passar por esse for a diferenca entre a hora inicial e a hora final vai incrementando de 30 em 30 */
+      minutosDiferenca += 30;
+      /* dando o o retorno do metodo converterMinutosParaHora(minutosDiferenca) para a variavel horaDiferenca */
+      horaDiferenca = converterMinutosParaHora(minutosDiferenca);
+      /* criando um option */
+      const option = createNode("option");
+      /* if para colocar um 0 antes da hora se for menor que 10 */
+      if (h < 10) {
+        hora = "0" + h;
+      } else {
+        hora = h;
+      }
+      /* vendo se os minutos do select anterior é 00 e vendo se é a primeira vez que estamos passando no for */
+      if (minutoFormat == "00" && controlador == 1) {
+        /* setando a segunda posição do vetor nos minutos, que no caso são '30' */
+        minutos = min[m + 1];
+
+        /* falando que a variavel controlador é igual a 2 pra ele nunca mais passar por esse if */
+        controlador++;
+        /* setando a hora no option */
+        setHoraFinalInOption(
+          horaFinalizada,
+          option,
+          hora,
+          minutos,
+          horaDiferenca
+        );
+
+        /* dando um continue para ele ir pra segunda repetição e nao continuar nessa... */
+        break;
+      } else {
+        minutos = min[m];
+        /* vendo se o valor do select é 22:30 para ele nao repetir duas vezes no for e acabar imprimido duas vezes tbm */
+        if (horaFinalizada.value == "22:30") {
+          break;
+        }
+        /* setando a hora no option */
+        setHoraFinalInOption(
+          horaFinalizada,
+          option,
+          hora,
+          minutos,
+          horaDiferenca
+        );
+      }
+    }
+  }
 }

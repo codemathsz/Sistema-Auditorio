@@ -11,22 +11,15 @@ const modalAlterar = getById('modalAlterar')
 const token = localStorage.getItem('token')
 const payload = parseJwt(token)
 
-/* função que decodifica o token */
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-};
-
-const url = `http://localhost:8080/api/agendamento/usuario/${payload.id}`
-getAll(url)
+if (token == null) {
+    window.location.href = '../../index.html'
+} else {
+    const url = `http://localhost:8080/api/agendamento/usuario/${payload.id}`
+    getAll(url)
+}
 
 /* método que faz a conexão com a api que traz todos os agendamentos */
-function getAll(url) {  
+function getAll(url) {
     /* fazendo conexão com a url fornecida */
     fetch(url)
         .then((resp) => {
@@ -171,4 +164,15 @@ function append(parent, el) {
 /* função para pegar um elemento pelo id */
 function getById(id) {
     return document.getElementById(id)
+}
+
+/* função que decodifica o token */
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
 }

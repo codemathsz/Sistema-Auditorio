@@ -12,7 +12,104 @@ let type = ''
 let id = 0
 
 const token = localStorage.getItem('token')
-const payload = parseJwt(token)
+
+if (token == null) {
+    window.location.href = '../login.html'
+} else {
+    const payload = parseJwt(token)
+    if (payload.nivel == 1) {
+        nome.addEventListener('blur', () => {
+            validaCadastro()
+        })
+
+        nif.addEventListener('blur', () => {
+            validaCadastro()
+        })
+
+        email.addEventListener('blur', () => {
+            validaCadastro()
+        })
+
+        senha.addEventListener('blur', () => {
+            validaCadastro()
+        })
+
+        confirmaSenha.addEventListener('blur', () => {
+            validaCadastro()
+        })
+
+        nivel.addEventListener('blur', () => {
+            validaCadastro()
+        })
+
+        /* METODO POST ------------------------------------ */
+        const form = getById('form')
+        form.addEventListener('submit', function () {
+            event.preventDefault();
+            if (senha.value === confirmaSenha.value) {
+                const url = `http://localhost:8080/api/usuario`;
+
+                let usuario = {
+                    nome: nome.value,
+                    email: email.value,
+                    senha: senha.value,
+                    nif: nif.value,
+                    nivel: nivel.value
+                }
+
+
+                const myHeaders = new Headers()
+                myHeaders.append('Content-Type', 'application/json')
+                myHeaders.append('Authorization', token)
+
+                let fetchData = {
+                    method: 'POST',
+                    body: JSON.stringify(usuario),
+                    headers: myHeaders
+                }
+
+                fetch(url, fetchData)
+                    .then((resp) => {
+                        resp.json()
+                            .then((resposta) => {
+                                console.log(resposta)
+                                /* ARRUMAR ESSE IF AQUI  */
+                                if (resposta.error == 'INTERNAL_SERVER_ERROR' || resposta.error == 'Unauthorized') {
+                                    console.log('erro')
+                                    type = 'error'
+                                    createMessage(resposta.message, type)
+                                } else {
+                                    console.log('sucesso')
+                                    type = 'success'
+                                    createMessage(`Sucesso ao cadastrar o usuario ${nome.value}!`, type)
+                                    clearForm()
+                                    setTimeout(() => {
+                                        window.location.reload()
+                                    }, 9000);
+                                }
+                                console.log(id)
+                                deleteMessage()
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    })
+
+            } else {
+                type = 'error'
+                createMessage('Senhas não compativeis', type)
+                setTimeout(() => {
+                    deleteMessage()
+                }, 9000);
+            }
+        })
+    } else {
+        window.location.href = '../../index.html'
+    }
+}
 
 /* função que decodifica o token */
 function parseJwt(token) {
@@ -24,99 +121,6 @@ function parseJwt(token) {
 
     return JSON.parse(jsonPayload);
 }
-
-/* if (payload.nivel == 'ADMINISTRADOR') { */
-    nome.addEventListener('blur', () => {
-        validaCadastro()
-    })
-
-    nif.addEventListener('blur', () => {
-        validaCadastro()
-    })
-
-    email.addEventListener('blur', () => {
-        validaCadastro()
-    })
-
-    senha.addEventListener('blur', () => {
-        validaCadastro()
-    })
-
-    confirmaSenha.addEventListener('blur', () => {
-        validaCadastro()
-    })
-
-    nivel.addEventListener('blur', () => {
-        validaCadastro()
-    })
-
-    /* METODO POST ------------------------------------ */
-    const form = getById('form')
-    form.addEventListener('submit', function () {
-        event.preventDefault();
-        if (senha.value === confirmaSenha.value) {
-            const url = `http://localhost:8080/api/usuario`;
-
-            let usuario = {
-                nome: nome.value,
-                email: email.value,
-                senha: senha.value,
-                nif: nif.value,
-                nivel: nivel.value
-            }
-
-
-            const myHeaders = new Headers()
-            myHeaders.append('Content-Type', 'application/json')
-            myHeaders.append('Authorization', token)
-
-            let fetchData = {
-                method: 'POST',
-                body: JSON.stringify(usuario),
-                headers: myHeaders
-            }
-
-            fetch(url, fetchData)
-                .then((resp) => {
-                    resp.json()
-                        .then((resposta) => {
-                            console.log(resposta)
-                            /* ARRUMAR ESSE IF AQUI  */
-                            if (resposta.error == 'INTERNAL_SERVER_ERROR' || resposta.error == 'Unauthorized') {
-                                console.log('erro')
-                                type = 'error'
-                                createMessage(resposta.message, type)
-                            } else {
-                                console.log('sucesso')
-                                type = 'success'
-                                createMessage(`Sucesso ao cadastrar o usuario ${nome.value}!`, type)
-                                clearForm()
-                                setTimeout(() => {
-                                    window.location.reload()
-                                }, 9000);
-                            }
-                            console.log(id)
-                            deleteMessage()
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-
-        } else {
-            type = 'error'
-            createMessage('Senhas não compativeis', type)
-            setTimeout(() => {
-                deleteMessage()
-            }, 9000);
-        }
-    })
-/* } else {
-    window.location.href = '../../index.html'
-} */
 
 function getById(id) {
     return document.getElementById(id)

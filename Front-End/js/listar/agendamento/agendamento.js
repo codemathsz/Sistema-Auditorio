@@ -15,50 +15,47 @@ const modalAlterar = getById('modalAlterar')
 const token = localStorage.getItem('token')
 const payload = parseJwt(token)
 
-/* função que decodifica o token */
-function parseJwt(token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-};
-
-/* pegando o botao que faz a procura */
-const botaoProcurar = getById('search')
-/* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-botaoProcurar.addEventListener('click', () => {
-    /* reinicializando a variavel do valor */
-    valor = id.value
-    /* vendo se o valor é diferente de vazio */
-    if (valor != '') {
-        /* método que limpa o tbody */
-        clearTbody()
-        /* url de consumo da api que busca um agendamento por id */
-        const url = `http://localhost:8080/api/agendamento/${valor}`
-        /* método que faz a conexão com a api de pegar pelo id */
-        getId(url);
+if (token == null) {
+    window.location.href = '../../../login.html'
+} else {
+    if (payload.nivel == 1) {
+        /* pegando o botao que faz a procura */
+        const botaoProcurar = getById('search')
+        /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
+        botaoProcurar.addEventListener('click', () => {
+            /* reinicializando a variavel do valor */
+            valor = id.value
+            /* vendo se o valor é diferente de vazio */
+            if (valor != '') {
+                /* método que limpa o tbody */
+                clearTbody()
+                /* url de consumo da api que busca um agendamento por id */
+                const url = `http://localhost:8080/api/agendamento/${valor}`
+                /* método que faz a conexão com a api de pegar pelo id */
+                getId(url);
+            } else {
+                /* se o input for vazio ele faz a busca de todos os agendamentos */
+                /* método que limpa o tbody */
+                clearTbody();
+                /* url que busca todos os agendamentos */
+                const url = `http://localhost:8080/api/agendamento`
+                /* método que faz a conexão da api que traz todos os agendamentos */
+                getAll(url);
+            }
+        })
+        /* if pra ver se o valor do input da busca é vazio */
+        /* que no caso sempre que carregarmos ou recarregarmos a pagina ele vai estar vazio, logo entrando no if */
+        if (valor == '') {
+            /* método que limpa o tbody */
+            clearTbody();
+            /* url que busca todos os agendamentos */
+            const url = `http://localhost:8080/api/agendamento`
+            /* método que faz a conexão com a api que traz todos os agendamentos */
+            getAll(url);
+        }
     } else {
-        /* se o input for vazio ele faz a busca de todos os agendamentos */
-        /* método que limpa o tbody */
-        clearTbody();
-        /* url que busca todos os agendamentos */
-        const url = `http://localhost:8080/api/agendamento`
-        /* método que faz a conexão da api que traz todos os agendamentos */
-        getAll(url);
+        window.location.href = '../../../index.html'
     }
-})
-/* if pra ver se o valor do input da busca é vazio */
-/* que no caso sempre que carregarmos ou recarregarmos a pagina ele vai estar vazio, logo entrando no if */
-if (valor == '') {
-    /* método que limpa o tbody */
-    clearTbody();
-    /* url que busca todos os agendamentos */
-    const url = `http://localhost:8080/api/agendamento`
-    /* método que faz a conexão com a api que traz todos os agendamentos */
-    getAll(url);
 }
 
 /* método que faz a conexão com a api que traz um agendamento por id */
@@ -391,4 +388,15 @@ function append(parent, el) {
 /* função para pegar um elemento pelo id */
 function getById(id) {
     return document.getElementById(id)
+}
+
+/* função que decodifica o token */
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
 }

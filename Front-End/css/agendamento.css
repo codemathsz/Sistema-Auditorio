@@ -17,6 +17,7 @@ body {
     align-items: center;
     justify-content: space-around;
     overflow: scroll;
+    margin: 0;
 }
 
 .home-section h1 {

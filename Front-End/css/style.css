@@ -306,7 +306,7 @@ body {
     position: relative;
     height: 100vh;
     left: 280px;
-    width: calc(100% - 260px);
+    width: calc(100% - 280px);
     transition: all 0.5s ease;
     padding: 50px;
 }
@@ -429,7 +429,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: fixed;
     right: 0;
     bottom: 0;
     margin: 50px;
