@@ -58,80 +58,42 @@ public class AppInterceptor implements HandlerInterceptor {
 
 				String token = null;
 
-				if (metodo.getMethodAnnotation(Administrador.class) != null) {
-					System.out.println("Entrou no if Ann/Meth/Admin");
-
-					token = request.getHeader("Authorization");
-
-					// BUSCANDO O ALGORITMO NO USUARIO
-					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
-
-					// OBJ PARA VERIFICAR O TOKEN
-					JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
-
-					// DECODIFICA O TOKEN
-					DecodedJWT jwt = verifier.verify(token);
-
-					// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
-					Map<String, Claim> claims = jwt.getClaims();
-
-					Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
-
-					if (nivel == Nivel.ADMINISTRADOR) {
-
-						return true;
-					} else {
-
-						response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado");
-						return false;
-					}
-
-				}
-
-				if (metodo.getMethodAnnotation(Usuario.class) != null) {
-					System.out.println("Entrou no if Ann/Meth/User");
-
-					token = request.getHeader("Authorization");
-
-					// BUSCANDO O ALGORITMO NO USUARIO
-					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
-
-					// OBJ PARA VERIFICAR O TOKEN
-					JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
-
-					// DECODIFICA O TOKEN
-					DecodedJWT jwt = verifier.verify(token);
-
-					// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
-					Map<String, Claim> claims = jwt.getClaims();
-
-					Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
-
-					if (nivel == Nivel.USUARIO) {
-
-						return true;
-					} else {
-
-						response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado");
-						return false;
-					}
-				}
-				
-				// VERFICA SE ELE É PUBLICO
 				if (metodo.getMethodAnnotation(Publico.class) != null) {
-
 					return true;
+				} else {
+					token = request.getHeader("Authorization");
+					// BUSCANDO O ALGORITMO NO USUARIO
+					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
+
+					// OBJ PARA VERIFICAR O TOKEN
+					JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
+
+					// DECODIFICA O TOKEN
+					DecodedJWT jwt = verifier.verify(token);
+
+					// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
+					Map<String, Claim> claims = jwt.getClaims();
+
+					Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
+					
+					if (metodo.getMethodAnnotation(Administrador.class) != null) {
+						if (nivel == Nivel.ADMINISTRADOR) {
+							return true;
+						} else {
+							response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado");
+							return false;
+						}
+					} else if (metodo.getMethodAnnotation(Usuario.class) != null) {
+						if (nivel == Nivel.USUARIO) {
+							return true;
+						} else {
+							response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado");
+							return false;
+						}
+					}
 				}
-
-				return true;
-			} else {
-
-
-				return false;
 			}
 		}
-
 		return true;
 	}
-
 }

@@ -7,12 +7,11 @@ import lombok.Data;
 @Data
 public class Sucesso {
 
-	private HttpStatus statusCode;
-	private String mensagem;
+	private HttpStatus error;
+	private String message;
 	
-	public Sucesso(HttpStatus status, String msg) {
-		
-		this.statusCode = status;
-		this.mensagem = msg;
+	public Sucesso(HttpStatus error, String message) {
+		this.error = error;
+		this.message = message;
 	}
 }

@@ -7,17 +7,13 @@ import lombok.Data;
 @Data
 public class Erro {
 
-	private HttpStatus statusCode;
-	private String mensagem;
+	private HttpStatus error;
+	private String message;
 	private String exception;
 	
-	public Erro(HttpStatus status, String msg, String exception ) {
-		this.statusCode = status;
-		this.mensagem = msg;
-		this.exception = exception;
-		
-		
-		
-		
+	public Erro(HttpStatus error, String message, String exception) {
+		this.error = error;
+		this.message = message;
+		this.exception = exception;	
 	}
 }

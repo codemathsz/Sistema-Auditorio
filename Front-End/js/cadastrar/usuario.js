@@ -25,7 +25,7 @@ function parseJwt(token) {
     return JSON.parse(jsonPayload);
 }
 
-if (payload.nivel == 'ADMINISTRADOR') {
+/* if (payload.nivel == 'ADMINISTRADOR') { */
     nome.addEventListener('blur', () => {
         validaCadastro()
     })
@@ -81,10 +81,11 @@ if (payload.nivel == 'ADMINISTRADOR') {
                     resp.json()
                         .then((resposta) => {
                             console.log(resposta)
-                            if (resposta.statusCode == 'INTERNAL_SERVER_ERROR') {
+                            /* ARRUMAR ESSE IF AQUI  */
+                            if (resposta.error == 'INTERNAL_SERVER_ERROR' || resposta.error == 'Unauthorized') {
                                 console.log('erro')
                                 type = 'error'
-                                createMessage(resposta.mensagem, type)
+                                createMessage(resposta.message, type)
                             } else {
                                 console.log('sucesso')
                                 type = 'success'
@@ -113,9 +114,9 @@ if (payload.nivel == 'ADMINISTRADOR') {
             }, 9000);
         }
     })
-} else {
-    /* window.location.href = '../../index.html' */
-}
+/* } else {
+    window.location.href = '../../index.html'
+} */
 
 function getById(id) {
     return document.getElementById(id)

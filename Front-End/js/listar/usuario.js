@@ -13,68 +13,114 @@ const modalAlterar = getById('modalAlterar')
 
 /* pegando o botao que faz a procura */
 const botaoProcurar = getById('search')
-/* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-botaoProcurar.addEventListener('click', () => {
-    /* reinicializando a variavel do valor */
-    valor = id.value
-    /* vendo se o valor é diferente de vazio */
-    if (valor != '') {
-        /* método que limpa o tbody */
-        clearTbody()
-        /* url de consumo da api que busca um usuario por id */
-        const url = `http://10.92.198.22:8080/api/usuario/${valor}`
-        /* método que faz a conexão com a api de pegar pelo id */
-        getId(url);
-    } else {
-        /* se o input for vazio ele faz a busca de todos os usuarios */
+
+/* pegando o token do usuario */
+const token = localStorage.getItem('token')
+const payload = parseJwt(token)
+
+/* função que decodifica o token */
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+if (token != null) {
+    /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
+    botaoProcurar.addEventListener('click', () => {
+        /* reinicializando a variavel do valor */
+        valor = id.value
+        /* vendo se o valor é diferente de vazio */
+        if (valor != '') {
+            /* método que limpa o tbody */
+            clearTbody()
+            /* url de consumo da api que busca um usuario por id */
+            const url = `http://10.92.198.22:8080/api/usuario/${valor}`
+            /* método que faz a conexão com a api de pegar pelo id */
+            getId(url);
+        } else {
+            /* se o input for vazio ele faz a busca de todos os usuarios */
+            /* método que limpa o tbody */
+            clearTbody();
+            /* url que busca todos os usuarios */
+            const url = `http://10.92.198.22:8080/api/usuario`
+            /* método que faz a conexão da api que traz todos os usuarios */
+            getAll(url);
+        }
+    })
+    /* if pra ver se o valor do input da busca é vazio */
+    /* que no caso sempre que carregarmos ou recarregarmos a pagina ele vai estar vazio, logo entrando no if */
+    if (valor == '') {
         /* método que limpa o tbody */
         clearTbody();
         /* url que busca todos os usuarios */
         const url = `http://10.92.198.22:8080/api/usuario`
-        /* método que faz a conexão da api que traz todos os usuarios */
+        /* método que faz a conexão com a api que traz todos os usuarios */
         getAll(url);
     }
-})
-/* if pra ver se o valor do input da busca é vazio */
-/* que no caso sempre que carregarmos ou recarregarmos a pagina ele vai estar vazio, logo entrando no if */
-if (valor == '') {
-    /* método que limpa o tbody */
-    clearTbody();
-    /* url que busca todos os usuarios */
-    const url = `http://10.92.198.22:8080/api/usuario`
-    /* método que faz a conexão com a api que traz todos os usuarios */
-    getAll(url);
+} else {
+    window.location.href = '../../index.html';
 }
 
 /* método que faz a conexão com a api que traz um usuario por id */
 function getId(url) {
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+    let fetchData = {
+        method: 'GET',
+        headers: myHeaders
+    }
     /* fazendo a conexão com a url fornecida */
-    fetch(url)
-        .then((resp) => resp.json())
-        .then(data => {
-            /* método que cria as tr */
-            console.log(data)
-            createTbody(data)
+    fetch(url, fetchData)
+        .then((resp) => {
+            resp.json()
+                .then(data => {
+                    /* método que cria as tr */
+                    console.log(data)
+                    createTbody(data)
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         })
         .catch((error) => {
             console.log(error);
         })
-
 }
 
 /* método que faz a conexão com a api que traz todos os usuarios */
 function getAll(url) {
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+    let fetchData = {
+        method: 'GET',
+        headers: myHeaders
+    }
     /* fazendo conexão com a url fornecida */
-    fetch(url)
-        .then((resp) => resp.json())
-        .then(data => {
-            console.log(data)
-            /* fazendo um forEach no array de usuarios */
-            /* para cada usuario ele cria um objeto usuario */
-            return data.map((usuario) => {
-                /* método que cria o tbody */
-                createTbody(usuario)
-            })
+    fetch(url, fetchData)
+        .then((resp) => {
+            resp.json()
+                .then(data => {
+                    console.log(data)
+                    /* fazendo um forEach no array de usuarios */
+                    /* para cada usuario ele cria um objeto usuario */
+                    return data.map((usuario) => {
+                        /* método que cria o tbody */
+                        createTbody(usuario)
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         })
         .catch((error) => {
             console.log(error);
