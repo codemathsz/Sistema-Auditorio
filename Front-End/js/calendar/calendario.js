@@ -2,15 +2,28 @@
 var dateGetYear = new Date();
 var ano = dateGetYear.getFullYear();
 
+const tituloAno = getById('tituloAno')
+tituloAno.innerHTML = ano
+
+const setas = document.getElementsByClassName('setas')
+console.log(setas)
+
+for (let i = 0; i < setas.length; i++) {
+  setas[i].addEventListener("click", () => {
+    if (i == 0) {
+      diminueAno()
+    } else {
+      aumentaAno()
+    }
+  })
+}
+
 let resto = 0
 let controlador = 0
 const meses = document.getElementsByClassName('mes')
 const bolinhas = document.getElementsByName('bolinhas')
-console.log(bolinhas)
-console.log(bolinhas)
 
 for (let i = 0; i < bolinhas.length; i++) {
-  console.log(bolinhas[i])
   resto++
   if (resto%2 == 0) {
     controlador = 32
@@ -341,12 +354,12 @@ function append(parent, el) {
 }
 function aumentaAno() {
   ano = ano + 1;
-  titulo.innerHTML = ano;
+  tituloAno.innerHTML = ano;
 }
 
 function diminueAno() {
   ano = ano - 1;
-  titulo.innerHTML = ano;
+  tituloAno.innerHTML = ano;
 }
 
 // fazendo variável para levar a data
