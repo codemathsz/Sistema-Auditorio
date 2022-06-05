@@ -24,11 +24,11 @@
   position: fixed;
   text-align: center;
   align-items: center;
-  top: 0.5%;
-  left: 20%;
+  top: 7.5%;
+  right: 15%;
   margin: auto;
   padding: 1rem;
-  width: 60%;
+  width: 45%;
   z-index: 10;
   background-color: #ffff;
   border-radius: 5px;
@@ -37,40 +37,48 @@
 
 /* Estilos botões bootstrap */
 .btn {
+  font-size: 0.8em;
   background-color: rgba(227, 6, 19, 0.5);
-  margin: 0 2px;
 }
 
 .btn:focus {
   background-color: rgba(227, 6, 19, 0.4);
 }
 
-/* Estilos do btn */
+/* Estilos do btn-primary */
 
 .btn-primary {
   color: #f6f6f6 !important;
   border-color: rgba(227, 6, 19, 0.5) !important;
 }
 
-/* Hover no btn-primary */
 .btn-primary:hover {
-  background-color: rgba(227, 6, 19, 1);
+  background-color: rgba(227, 6, 19, 1) !important;
 }
 
-/* Quando o btn-primary está selecionado */
 .btn-primary.active {
-  background-color: rgba(227, 6, 19, 1);
+  background-color: rgba(227, 6, 19, 0.5) !important;
 }
 
-/* Quando  */
+.btn-primary.disabled{
+  border-color: rgba(227, 6, 19, 1) !important;
+}
+
 .btn-primary:disabled {
-  border-color: rgba(227, 6, 19, 0.5) !important;
+  border-color: rgba(227, 6, 19, 1) !important;
 }
 
-/* Grupo dos botões */
-.btn-group {}
+.fc .fc-col-header-cell-cushion {
+  display: inline-block;
+  margin:0;
+  color: #000;
+  background-color: #f6f6f6;
+  font-size: 0.8em;
+  padding: 0.2rem 1rem;
+  border-radius: 5px;
+}
 
-/* Tabela que mostra os dias */
-.fc-scrollgrid {
-  border-radius: 4px;
+.fc .fc-toolbar-title{
+  font-size: 1.2em;
+  
 }
