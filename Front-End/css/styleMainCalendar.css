@@ -56,7 +56,7 @@ body {
 
 .meses {
   width: 95%;
-  margin-top: 30px;
+  margin: 25px auto;
   background-color: transparent;
   display: flex;
   flex-direction: row;
@@ -83,6 +83,21 @@ body {
   cursor: pointer;
 }
 
+.mes-disable:hover {
+  cursor: inherit !important;
+  transform: translateY(0) !important;
+}
+
+.mes-disable-sem-animacao {
+  opacity: 0.5 !important;
+  animation: none !important;
+}
+
+.mes-sem-animacao {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
 .mes p {
   width: 100%;
   font-size: 20px;
@@ -101,7 +116,7 @@ body {
 }
 
 .bolinha {
-  margin: 5px 3%;
+  margin: 5px 3.4%;
   padding: 3.73%;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 30px;
@@ -123,6 +138,26 @@ input[type="date"]::-webkit-inner-spin-button {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+.mes-disable:nth-child(1){
+  animation: fadeDisable 0.4s 0.2s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(2){
+  animation: fadeDisable 0.4s 0.4s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(3){
+  animation: fadeDisable 0.4s 0.6s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(4){
+  animation: fadeDisable 0.4s 0.8s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(5){
+  animation: fadeDisable 0.4s 1s ease-in-out forwards !important;
 }
 
 .mes:nth-child(1) {
@@ -171,4 +206,10 @@ input[type="date"]::-webkit-inner-spin-button {
 
 .mes:nth-child(12) {
   animation: fadeIn 0.5s 2.4s ease-in-out forwards;
+}
+
+@keyframes fadeDisable {
+  to {
+    opacity: 0.5;
+  }
 }
