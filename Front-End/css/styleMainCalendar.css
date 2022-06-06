@@ -13,11 +13,22 @@ body {
   z-index: 1;
 }
 
-.topo-calendario {
+.calendario {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.topo-calendario {
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transform: translateX(-60px);
+  animation: fadeRight 1s ease-in-out forwards;
 }
 
 .topo-calendario h1 {
@@ -44,8 +55,8 @@ body {
 }
 
 .meses {
-  width: 100%;
-  margin-top: 50px;
+  width: 95%;
+  margin-top: 30px;
   background-color: transparent;
   display: flex;
   flex-direction: row;
@@ -55,14 +66,15 @@ body {
 }
 
 .mes {
-  width: 450px;
-  margin: 20px;
+  width: 30%;
+  margin: 20px auto;
   padding: 10px;
   background-color: #fff;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
   transition-duration: 0.4s;
+  opacity: 0;
 }
 
 .mes:hover {
@@ -73,23 +85,24 @@ body {
 
 .mes p {
   width: 100%;
+  font-size: 20px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin: 0 5px;  
+  padding: 5px;
 }
 
 .bolinhas {
   width: 100%;
   display: flex;
-  padding: 20px;
+  padding: 2%;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
 .bolinha {
-  width: 30px;
-  height: 30px;
-  margin: 5px 12.5px;
+  margin: 5px 3%;
+  padding: 3.73%;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 30px;
 }
@@ -97,104 +110,65 @@ body {
 input[type="date"]::-webkit-inner-spin-button {
   display: none;
   -webkit-appearance: none;
-
 }
 
-@media screen and (max-width: 1600px) {
-  .mes {
-    width: 350px;
-  }
-
-  .bolinha {
-    width: 23px;
-    height: 23px;
-    margin: 5px 9px;
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
 }
 
-@media screen and (max-width: 1440px) {
-  .mes {
-    width: 300px;
-  }
-
-  .bolinhas {
-    padding: 15px;
-  }
-
-  .bolinha {
-    width: 22px;
-    height: 22px;
-    margin: 5px 6.8px;
+@keyframes fadeRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@media screen and (max-width: 1366px) {
-  .mes {
-    width: 260px;
-  }
-
-  .bolinhas {
-    padding: 10px;
-  }
-
-  .bolinha {
-    width: 20px;
-    height: 20px;
-    margin: 5px 4.9px;
-  }
+.mes:nth-child(1) {
+  animation: fadeIn 0.5s 0.2s ease-in-out forwards;
 }
 
-@media screen and (max-width: 1200px) {
-  .mes {
-    width: 220px;
-  }
-
-  .bolinha {
-    width: 18px;
-    height: 18px;
-    margin: 5px 3.6px;
-  }
+.mes:nth-child(2) {
+  animation: fadeIn 0.5s 0.4s ease-in-out forwards;
 }
 
-@media screen and (max-width: 1024px) {
-  .mes {
-    width: 170px;
-  }
-
-  .bolinhas {
-    padding: 4px;
-  }
-
-  .bolinha {
-    width: 15px;
-    height: 15px;
-    margin: 2px;
-  }
+.mes:nth-child(3) {
+  animation: fadeIn 0.5s 0.6s ease-in-out forwards;
 }
 
-@media screen and (max-width: 425px) {
-  .mes p {
-    padding: 10%;
-    font-size: 3vw;
-  }
-
-  .setas {
-    width: 5%;
-  }
+.mes:nth-child(4) {
+  animation: fadeIn 0.5s 0.8s ease-in-out forwards;
 }
 
-@media screen and (max-width: 375px) {
-  .mes p {
-    padding: 0;
-    font-size: 4vw;
-  }
+.mes:nth-child(5) {
+  animation: fadeIn 0.5s 1s ease-in-out forwards;
+}
 
-  .setas {
-    width: 7%;
-  }
+.mes:nth-child(6) {
+  animation: fadeIn 0.5s 1.2s ease-in-out forwards;
+}
 
-  .mes {
-    width: 35%;
-    padding: 1%;
-  }
+.mes:nth-child(7) {
+  animation: fadeIn 0.5s 1.4s ease-in-out forwards;
+}
+
+.mes:nth-child(8) {
+  animation: fadeIn 0.5s 1.6s ease-in-out forwards;
+}
+
+.mes:nth-child(9) {
+  animation: fadeIn 0.5s 1.8s ease-in-out forwards;
+}
+
+.mes:nth-child(10) {
+  animation: fadeIn 0.5s 2s ease-in-out forwards;
+}
+
+.mes:nth-child(11) {
+  animation: fadeIn 0.5s 2.2s ease-in-out forwards;
+}
+
+.mes:nth-child(12) {
+  animation: fadeIn 0.5s 2.4s ease-in-out forwards;
 }
