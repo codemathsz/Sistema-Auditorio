@@ -1,6 +1,5 @@
 package br.com.senaisp.sistemaauditorio.rest;
 
-import java.net.URI;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +27,7 @@ import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Nivel;
+import br.com.senaisp.sistemaauditorio.model.Sucesso;
 import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
@@ -49,27 +49,21 @@ public class UsuarioRestController {
 	private UsuarioRepository repository;
 	
 	@Autowired
-	private LogService log;
+	private LogService logService;
 	
 	
 	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> cadastrarUsuario(@RequestBody Usuario usuario, HttpServletRequest request){// ResponseEntity --> MANIPULAR A RESPOSTA, CEFECCIONAR o response, @RequestBody USUARIO VEM DO CORPO DA APLICAÇÃO
 		
-		
-		
-		
 		try {
 			
 			// SALVA USUARIO NO BD
 			repository.save(usuario);
 			// SALVA LOG NO BD
-			
-			
-			
-			
-			//	ACRESENTANDO NO CORPO DA RESPOSTA O OBJETO INSERIDO
-			return ResponseEntity.created(URI.create("/api/usuario"+usuario.getId())).body(usuario);// body(usuario) colocar no body a resposta gerada
+			logService.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO, request);
+			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+			return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
 			
 		} catch (DataIntegrityViolationException e) {// REGISTRO DUPLICADO
 			
@@ -82,7 +76,7 @@ public class UsuarioRestController {
 	}
 	
 	
-	@Publico
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Usuario> getUsuarios(){
 		
@@ -94,41 +88,50 @@ public class UsuarioRestController {
 	
 	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") Long idUsuario){
+	public ResponseEntity<Object> getUsuarioById(@PathVariable("id") Long idUsuario){
 		Optional<Usuario> optional = repository.findById(idUsuario);
 		
 		if(optional.isPresent()) {
-			return ResponseEntity.ok(optional.get());
+			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+			return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
 		}else {
-			return ResponseEntity.notFound().build();
+			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
+			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	
 	@Administrador
-	@br.com.senaisp.sistemaauditorio.annotation.Usuario
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario,HttpServletRequest request ){
+	public ResponseEntity<Object> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario,HttpServletRequest request ){
 		
 		// VERIFICA SE O ID DO USUARIO É IGUAL AO INFORMADO( SE EXISTE)
 		if (usuario.getId() != idUsuario) {
-			
-			throw new RuntimeException("ID inválido");// CASO DE ERRO, EXIBE MENSAGEM
+			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
+			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		repository.save(usuario);// SALVA AS ALTERAÇÕES NO BD
-		log.salvarLogUsuario(usuario, TipoLog.ALTERAR, request);	
+		logService.salvarLogUsuario(usuario, TipoLog.ALTERAR, request);	
 		
-		return ResponseEntity.ok().build();
+		Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+		return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
 		
 	}
 	
 	@Administrador
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Usuario> excluirUsuario(@PathVariable("id") Long idUsuario){
+	public ResponseEntity<Object> excluirUsuario(@PathVariable("id") Long idUsuario, Usuario usuario, HttpServletRequest request){
 		
+		if(usuario.getId() != idUsuario) {
+			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
+			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		repository.deleteById(idUsuario); // EXCLUE O USUÁRIO DO BANCO DE DADOS
-		return ResponseEntity.noContent().build();
+		// CRIA LOG
+		logService.salvarLogUsuario(usuario, TipoLog.DELETAR, request);
+		Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+		return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
 	}
 	
 	
@@ -170,7 +173,8 @@ public class UsuarioRestController {
 			
 			System.out.println(tokenJwt);
 			
-//			log.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
+			// CRIA LOG
+			logService.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
 			return ResponseEntity.ok(tokenJwt);
 			
 		} else {
@@ -185,6 +189,7 @@ public class UsuarioRestController {
 	 * 
 	 */
 	
+	@Administrador
 	@RequestMapping(value = "/nome", method = RequestMethod.GET)
 	public List<Usuario> getUsuarioNome(String nome){
 		
@@ -197,6 +202,7 @@ public class UsuarioRestController {
 	 *  MÉTODO QUE BUSCA POR EMAIL
 	 * 
 	 */
+	@Administrador
 	@RequestMapping(value = "/email", method = RequestMethod.GET)
 	public List<Usuario> getUsuarioEmail(String email){
 		
@@ -208,6 +214,7 @@ public class UsuarioRestController {
 	 *  MÉTODO QUE BUSCA POR NIF
 	 * 
 	 */
+	@Administrador
 	@RequestMapping(value = "/nif", method = RequestMethod.GET)
 	public List<Usuario> getUsuarioNif(String nif){
 		
@@ -219,6 +226,7 @@ public class UsuarioRestController {
 	 *  MÉTODO QUE BUSCA POR NIVEL
 	 * 
 	 */
+	@Administrador
 	@RequestMapping(value = "/nivel", method = RequestMethod.GET)
 	public List<Usuario> getUsuarioNivel(Nivel nivel){
 		

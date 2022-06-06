@@ -38,7 +38,7 @@ public class LogService {
 		
 		// RECUPERA O TOKEN
 		token = request.getHeader("Authorization");
-//		token = (String) request.getAttribute("token");
+		//	token = (String) request.getAttribute("token");
 		
 		// BUSCANDO O ALGORITMO NO USUARIO 
 		Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
@@ -67,7 +67,7 @@ public class LogService {
 			
 			
 			
-			log.setDescricao("O Usuario " + usuario.getNome() + " se cadastrou ");
+			log.setDescricao("O Administrador " + claims.get("nome") + " cadastrou o ("+usuario.getNivel()+") "+ usuario.getNome());
 	
 		} else if (log.getTipoLog() == TipoLog.CADASTRO_EVENTO) { // SE O TIPO DA LOG FOR CADASTRO_EVENTO
 	
@@ -96,35 +96,58 @@ public class LogService {
 
 	}
   
-	public boolean salvarLogAgendamento(Usuario usuario, Agendamento agendamento, TipoLog tipoLog,
+	public boolean salvarLogAgendamento(Agendamento agendamento, TipoLog tipoLog,
 			HttpServletRequest request) {
 
+		// VARIAVEL PARA O TOKEN
+		String token;
+		
+		// RECUPERA O TOKEN
+		token = request.getHeader("Authorization");
+		//	token = (String) request.getAttribute("token");
+		
+		// BUSCANDO O ALGORITMO NO USUARIO 
+		Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
+		
+		// OBJ PARA VERIFICAR O TOKEN
+		JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
+		
+		// DECODIFICA O TOKEN
+		DecodedJWT jwt = verifier.verify(token);
+		
+		// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
+		Map<String, Claim> claims = jwt.getClaims();
+					
+		
 		// INSTANCIANDO A LOG
-		Log log = new Log(usuario,tipoLog,agendamento);
+		Log log = new Log(tipoLog,agendamento);
 		
 
 
-		if (log.getTipoLog() == TipoLog.AGENDAMENTO) {// SE O TIPO DA LOG FOR AGENDAMENTO(CRIANDO UM AGENDAMENTO)
+		if (log.getTipoLog() == TipoLog.CADASTRO_AGENDAMENTO) {// SE O TIPO DA LOG FOR AGENDAMENTO(CRIANDO UM AGENDAMENTO)
 
-			log.setDescricao("O Usuario " + usuario.getNome() + " criou o agendamento " + agendamento.getTitulo());
+			log.setDescricao("O Usuario " + claims.get("nome") + " criou o agendamento " + agendamento.getTitulo());
 
 		} else if (log.getTipoLog() == TipoLog.ALTERAR) {//SE O TIPO DA LOG FOR ALTERAR AGENDAMENTO
 
 			log.setDescricao(
-					"O Usuario " + usuario.getNome() + " alterou o agendamento " + agendamento.getTitulo());
+					"O Usuario " + claims.get("nome") + " alterou o agendamento " + agendamento.getTitulo());
 		} else if (log.getTipoLog() == TipoLog.ALTERACAO_STATUS) {// SE O TIPO DA LOG FOR ALTERAR STATUS
 
-			String nomeAdm = (String) request.getAttribute("nome");
-			log.setDescricao(
-					"O Administrador " + nomeAdm + " alterou o status do agendamento " + agendamento.getTitulo());
+			
+			log.setDescricao("O Administrador " +claims.get("nome")+ " alterou o status do agendamento " + agendamento.getTitulo());
+			
 		} else if (log.getTipoLog() == TipoLog.DELETAR) { // SE O TIPO DA LOG FOR DELETAR AGENDAMENTO
 
-			if (usuario.getNivel() == Nivel.ADMINISTRADOR) {
+			Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
+			
+			if (nivel == Nivel.ADMINISTRADOR) {
 
-				log.setDescricao("O Administrador " + usuario.getNome() + " deletou o agendamento"
+				log.setDescricao("O Administrador " + claims.get("nome")+ " deletou o agendamento"
 						+ agendamento.getTitulo());
 			}
-			log.setDescricao("O Usuario " + usuario.getNome() + " deletou o agendamento" + agendamento.getTitulo());
+			
+			log.setDescricao("O Usuario " + claims.get("nome") + " deletou o agendamento" + agendamento.getTitulo());
 		}
 
 		log.setLogData(Calendar.getInstance());
