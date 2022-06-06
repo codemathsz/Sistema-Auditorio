@@ -6,7 +6,6 @@ const tituloAno = getById('tituloAno')
 tituloAno.innerHTML = ano
 
 const setas = document.getElementsByClassName('setas')
-console.log(setas)
 
 for (let i = 0; i < setas.length; i++) {
   setas[i].addEventListener("click", () => {
@@ -26,9 +25,9 @@ const bolinhas = document.getElementsByName('bolinhas')
 for (let i = 0; i < bolinhas.length; i++) {
   resto++
   if (resto%2 == 0) {
-    controlador = 32
+    controlador = 30
   } else {
-    controlador = 33
+    controlador = 31
   }
   for (let j = 0; j < controlador; j++) {
     const bolinha = createNode('div')
