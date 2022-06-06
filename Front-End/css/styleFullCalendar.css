@@ -41,8 +41,16 @@
   background-color: rgba(227, 6, 19, 0.5);
 }
 
+.btn.disabled{
+  background-color: rgba(227, 6, 19, 1)
+}
+
+.btn:disabled{
+  background-color: rgba(227, 6, 19, 1);
+}
+
 .btn:focus {
-  background-color: rgba(227, 6, 19, 0.4);
+  background-color: rgba(227, 6, 19, 0.5);
 }
 
 /* Estilos do btn-primary */
@@ -57,7 +65,7 @@
 }
 
 .btn-primary.active {
-  background-color: rgba(227, 6, 19, 0.5) !important;
+  background-color: rgba(227, 6, 19, 1) !important;
 }
 
 .btn-primary.disabled{
@@ -66,6 +74,10 @@
 
 .btn-primary:disabled {
   border-color: rgba(227, 6, 19, 1) !important;
+}
+
+.fc-today-button{
+  
 }
 
 .fc .fc-col-header-cell-cushion {
