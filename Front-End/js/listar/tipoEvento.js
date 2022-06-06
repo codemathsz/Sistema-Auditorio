@@ -56,38 +56,45 @@ if (token == null) {
     } else {
         window.location.href = '../../index.html'
     }
-
-
 }
 /* método que faz a conexão com a api que traz um tipo por id */
 function getId(url) {
     /* fazendo a conexão com a url fornecida */
     fetch(url)
-        .then((resp) => resp.json())
-        .then(data => {
-            /* método que cria as tr */
-            console.log(data)
-            createTbody(data)
+        .then((resp) => {
+            resp.json()
+                .then(data => {
+                    /* método que cria as tr */
+                    console.log(data)
+                    createTbody(data)
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         })
         .catch((error) => {
             console.log(error);
         })
-
 }
 
 /* método que faz a conexão com a api que traz todos os tipos */
 function getAll(url) {
     /* fazendo conexão com a url fornecida */
     fetch(url)
-        .then((resp) => resp.json())
-        .then(data => {
-            console.log(data)
-            /* fazendo um forEach no array de tipos */
-            /* para cada tipo ele cria um objeto tipo */
-            return data.map((tipo) => {
-                /* método que cria o tbody */
-                createTbody(tipo)
-            })
+        .then((resp) => {
+            resp.json()
+                .then(data => {
+                    console.log(data)
+                    /* fazendo um forEach no array de tipos */
+                    /* para cada tipo ele cria um objeto tipo */
+                    return data.map((tipo) => {
+                        /* método que cria o tbody */
+                        createTbody(tipo)
+                    })
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         })
         .catch((error) => {
             console.log(error);

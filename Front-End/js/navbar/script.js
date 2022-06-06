@@ -43,14 +43,6 @@ if (tokenLogin == null) {
     nivelUsuario.innerHTML = 'Administrador'
   }
 
-
-  let arrow = document.querySelectorAll(".arrow");
-  for (var i = 0; i < arrow.length; i++) {
-    arrow[i].addEventListener("click", (e) => {
-      let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-      arrowParent.classList.toggle("showMenu");
-    });
-  }
   let sidebar = document.querySelector(".sidebar");
   let sidebarBtn = document.querySelector(".bx-menu");
   const homeContent = document.querySelector(".home-content");
@@ -62,6 +54,41 @@ if (tokenLogin == null) {
     sidebarBtn.addEventListener("click", () => {
       sidebar.classList.toggle("close");
     });
+  }
+
+  let arrow = document.querySelectorAll(".arrow");
+  if (widthWindow < 1600) {
+    arrow[0].addEventListener("click", () => {
+      if (lista.classList.contains('showMenu')) {
+        lista.classList.remove('showMenu')
+      } else {
+        cadastro.classList.remove('showMenu')
+        lista.classList.add('showMenu')
+      }
+    })
+    arrow[1].addEventListener("click", () => {
+      if (cadastro.classList.contains('showMenu')) {
+        cadastro.classList.remove('showMenu')
+      } else {
+        lista.classList.remove('showMenu')
+        cadastro.classList.add('showMenu')
+      }
+    })
+  } else {
+    arrow[0].addEventListener("click", () => {
+      if (lista.classList.contains('showMenu')) {
+        lista.classList.remove('showMenu')
+      } else {
+        lista.classList.add('showMenu')
+      }
+    })
+    arrow[1].addEventListener("click", () => {
+      if (cadastro.classList.contains('showMenu')) {
+        cadastro.classList.remove('showMenu')
+      } else {
+        cadastro.classList.add('showMenu')
+      }
+    })
   }
 
 }
