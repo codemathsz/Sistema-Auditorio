@@ -2,6 +2,7 @@
 /* pegando os elementos com id */
 /* input da busca */
 const id = getById('id')
+/* AAAAAAAAAAAAAAAAAAAAA */
 /* pegando o valor do input da busca */
 let valor = id.value;
 /* pegando a tabela */
