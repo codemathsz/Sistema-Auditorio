@@ -24,11 +24,12 @@
   position: fixed;
   text-align: center;
   align-items: center;
-  top: 7.5%;
-  right: 15%;
+  top: 1.5%;
+  /* right: 30%; */
+  left: 27.5%;
   margin: auto;
   padding: 1rem;
-  width: 45%;
+  width: 60%;
   z-index: 10;
   background-color: #ffff;
   border-radius: 5px;
@@ -50,7 +51,8 @@
 }
 
 .btn:focus {
-  background-color: rgba(227, 6, 19, 0.5);
+  background-color: rgba(227, 6, 19, 1);
+  border-color: #fff;
 }
 
 /* Estilos do btn-primary */
@@ -76,22 +78,57 @@
   border-color: rgba(227, 6, 19, 1) !important;
 }
 
-/* Já */
-.fc-today-button{
-
-}
-
 .fc .fc-col-header-cell-cushion {
+  width: 100%;
   display: inline-block;
   margin:0;
   color: #000;
   background-color: #f6f6f6;
   font-size: 0.8em;
-  padding: 0.2rem 1rem;
-  border-radius: 5px;
 }
 
 .fc .fc-toolbar-title{
   font-size: 1.2em;
   
+}
+
+/* Responsividade para outras telas de computador */
+@media screen and (max-width: 1600px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 7%;
+    left: 28.7%;
+  }
+}
+
+@media screen and (max-width: 1440px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 12%;
+    left: 29.6%;
+  }
+}
+
+@media screen and (max-width: 1366px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 6%;
+    left: 30.1%;
+  }
+}
+
+@media screen and (max-width: 1280px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 20%;
+    left: 31%;
+  }
+}
+
+@media screen and (max-width: 1024px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 8%;
+    left: 35%;
+  }
 }

@@ -13,16 +13,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Link do CSS do calendário -->
     <link rel="stylesheet" href="./Plugin/lib/main.css" />
-    <!-- Script do calendário -->
-    <script src="./Plugin/lib/main.js"></script>
-    <!-- Link JS para o calendário dos anos e meses -->
-
     <!-- Link estilo do calendário principal CSS -->
     <link rel="stylesheet" href="./css/styleMainCalendar.css" />
-
     <!-- Link estilo do calendário feito em fullCalendar -->
     <link rel="stylesheet" href="./css/styleFullCalendar.css" />
-
+    <!-- Link Css plugin mobiScroll -->
+    <link href="./Plugin/mobiscroll/css/mobiscroll.javascript.min.css" rel="stylesheet" />
     <title>Sistema Auditorio | SENAI</title>
 </head>
 
@@ -189,6 +185,7 @@
     </div>
     <div id="modal-fecha" onclick="fechaModal()"></div>
     <div id="calendar"></div>
+    
     <!-- Modal que mostra as informações do evento -->
     <div class="modal fade" id="modalEventFull" data-backdrop="static" data-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -337,10 +334,13 @@
     <script src="js/navbar/script.js"></script>
     <!-- Link JS fullCalendar -->
     <script src="js/calendar/calendario.js" type="text/javascript"></script>
+    <script src="./Plugin/lib/main.js"></script>
     <!-- Link to JQuare -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Mobiscroll plugin -->
+    <script src="./Plugin/mobiscroll/js/mobiscroll.javascript.min.js"></script>
 </body>
 
 </html>

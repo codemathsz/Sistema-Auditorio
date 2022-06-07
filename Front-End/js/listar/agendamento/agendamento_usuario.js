@@ -14,7 +14,7 @@ const payload = parseJwt(token)
 if (token == null) {
     window.location.href = '../../index.html'
 } else {
-    const url = `http://localhost:8080/api/agendamento/usuario/${payload.id}`
+    const url = `http://10.92.198.22:8080/api/agendamento/usuario/${payload.id}`
     getAll(url)
 }
 
@@ -93,7 +93,7 @@ function createTbody(agendamento) {
     btnDeletar.addEventListener('click', () => {
         const valor = tdId.innerHTML
 
-        const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`
+        const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`
         const resultado = confirm(`Deseja deletar o agendamento do id: ${valor}?`)
         if (resultado == true) {
             /* construindo o objeto agendamento */
