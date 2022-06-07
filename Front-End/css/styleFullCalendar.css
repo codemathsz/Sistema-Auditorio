@@ -24,7 +24,7 @@
   position: fixed;
   text-align: center;
   align-items: center;
-  top: 6%;
+  top: 1%;
   left: 27.5%;
   margin: auto;
   padding: 1rem;
@@ -36,9 +36,34 @@
 }
 
 /* Estilos botões bootstrap */
+.active{
+  border: 0 solid transparent !important;
+}
+
+.active:active{
+  border: 0 solid transparent !important;
+}
+
 .btn {
   font-size: 0.8em;
   background-color: rgba(227, 6, 19, 0.5);
+  border: 0 solid transparent !important;
+}
+
+.btn:disabled{
+  background-color: rgba(227, 6, 19, 1);
+}
+
+.btn::selection{
+  border: 0 solid transparent !important; 
+}
+
+.btn:active{
+  border: 0 solid transparent !important;
+}
+
+.btn.active{
+  border: 0 solid transparent !important;
 }
 
 .btn.disabled{
@@ -49,9 +74,13 @@
   background-color: rgba(227, 6, 19, 1);
 }
 
+.btn.focus{
+  border: 0 solid transparent !important;
+}
+
 .btn:focus {
   background-color: rgba(227, 6, 19, 1);
-  border: 0px solid #FFF;
+  border: 0 solid transparent !important;
 }
 
 /* Estilos do btn-primary */
@@ -62,12 +91,21 @@
   background-color: rgba(227, 6, 19, ) !important;
 }
 
+.btn-primary::selection{
+  border: 0 solid transparent !important;
+}
+
 .btn-primary:hover {
   background-color: rgba(227, 6, 19, 1) !important;
 }
 
+.btn-primary:active{
+  border: 0 solid transparent !important;
+}
+
 .btn-primary.active {
   background-color: rgba(227, 6, 19, 1) !important;
+  border: 0 solid transparent !important;
 }
 
 .btn-primary.disabled{
@@ -76,6 +114,19 @@
 
 .btn-primary:disabled {
   border-color: rgba(227, 6, 19, 1) !important;
+}
+
+.btn-primary:focus {
+  border: 0 solid transparent !important;
+}
+
+.btn-primary.focus {
+  border: 0 solid transparent !important;
+}
+
+/* Classe do botão de mês */
+.fc-dayGridMonth-button{
+  border: 0 solid transparent !important;
 }
 
 .fc .fc-col-header-cell-cushion {
@@ -89,7 +140,6 @@
 
 .fc .fc-toolbar-title{
   font-size: 1.2em;
-  
 }
 
 /* CSS para estilização do evento no fullCalendar */
