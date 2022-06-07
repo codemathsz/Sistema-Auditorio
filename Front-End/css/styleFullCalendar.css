@@ -25,7 +25,6 @@
   text-align: center;
   align-items: center;
   top: 1.5%;
-  /* right: 30%; */
   left: 27.5%;
   margin: auto;
   padding: 1rem;
@@ -93,10 +92,18 @@
 }
 
 /* Responsividade para outras telas de computador */
+@media screen and (max-width: 1680px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 10%;
+    left: 28.3%;
+  }
+}
+
 @media screen and (max-width: 1600px){
   /* Estilo da modal do calendário inteiro */
   #calendar {
-    top: 7%;
+    top: 20%;
     left: 28.7%;
   }
 }
@@ -109,11 +116,20 @@
   }
 }
 
+@media screen and (max-width: 1400px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 20%;
+    left: 30%;
+  }
+}
+
 @media screen and (max-width: 1366px){
   /* Estilo da modal do calendário inteiro */
   #calendar {
+    width: 50%;
     top: 6%;
-    left: 30.1%;
+    left: 35.5%;
   }
 }
 
