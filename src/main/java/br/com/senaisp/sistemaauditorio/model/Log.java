@@ -41,7 +41,7 @@ public class Log {
 		this.tipoLog = tipoLog;
 	}
 	
-	public Log( Usuario usuario,TipoLog tipoLog, Agendamento agendamento) {
+	public Log(TipoLog tipoLog, Agendamento agendamento) {
 		
 		this.agendamento = agendamento;
 

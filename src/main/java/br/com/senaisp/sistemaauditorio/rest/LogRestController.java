@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.model.Log;
 import br.com.senaisp.sistemaauditorio.repository.LogRepository;
 
@@ -17,7 +18,7 @@ public class LogRestController {
 	@Autowired
 	private LogRepository repository;
 	
-	
+	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Log> listar(Log log){
 		

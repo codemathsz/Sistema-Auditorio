@@ -163,8 +163,41 @@ fetch(url)
     console.log(error);
   }); */
 
+// Plugin mobiscroll
+
+/* var inst = mobiscroll.eventcalendar('#calendar', {
+  locale: mobiscroll.localePtBR,
+  theme: 'windows',
+  themeVariant: 'light',
+  clickToCreate: false,
+  dragToCreate: false,
+  dragToMove: false,
+  dragToResize: false, 
+  responsive: {
+      xsmall: {
+          view: {
+              calendar: {
+                  type: 'week',
+              },
+              agenda: {
+                  type: 'day'
+              }
+          }
+      },
+      custom: { // Custom breakpoint
+          breakpoint: 600,
+          view: {
+              calendar: {
+                  labels: true
+              }
+          }
+      }
+  }
+});
+ */
 // para renderizar o calendário e colocar opções do fullCalendar
 function calendar(meses, ano) {
+/*   inst.setEvents(events); */
   const date = `${ano}-${meses}-01`;
   // tabela candar
   var calendarEl = document.getElementById("calendar");
@@ -283,7 +316,7 @@ function calendar(meses, ano) {
   });
   // renderiza o calendário
   calendar.render();
-}
+};
 
 
 /* método que pega os elementos pelo id */
