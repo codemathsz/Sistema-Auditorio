@@ -30,7 +30,7 @@ if (token == null) {
                 /* método que limpa o tbody */
                 clearTbody()
                 /* url de consumo da api que busca um tipo por id */
-                const url = `http://localhost:8080/api/tipo/${valor}`
+                const url = `http://10.92.198.22:8080/api/tipo/${valor}`
                 /* método que faz a conexão com a api de pegar pelo id */
                 getId(url);
             } else {
@@ -38,7 +38,7 @@ if (token == null) {
                 /* método que limpa o tbody */
                 clearTbody();
                 /* url que busca todos os tipos */
-                const url = `http://localhost:8080/api/tipo`
+                const url = `http://10.92.198.22:8080/api/tipo`
                 /* método que faz a conexão da api que traz todos os tipos */
                 getAll(url);
             }
@@ -49,7 +49,7 @@ if (token == null) {
             /* método que limpa o tbody */
             clearTbody();
             /* url que busca todos os tipos */
-            const url = `http://localhost:8080/api/tipo`
+            const url = `http://10.92.198.22:8080/api/tipo`
             /* método que faz a conexão com a api que traz todos os tipos */
             getAll(url);
         }
@@ -59,8 +59,17 @@ if (token == null) {
 }
 /* método que faz a conexão com a api que traz um tipo por id */
 function getId(url) {
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+    let fetchData = {
+        method: 'GET',
+        headers: myHeaders
+    }
     /* fazendo a conexão com a url fornecida */
-    fetch(url)
+    fetch(url, fetchData)
         .then((resp) => {
             resp.json()
                 .then(data => {
@@ -79,8 +88,17 @@ function getId(url) {
 
 /* método que faz a conexão com a api que traz todos os tipos */
 function getAll(url) {
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+    let fetchData = {
+        method: 'GET',
+        headers: myHeaders
+    }
     /* fazendo conexão com a url fornecida */
-    fetch(url)
+    fetch(url, fetchData)
         .then((resp) => {
             resp.json()
                 .then(data => {
@@ -123,7 +141,7 @@ function createTbody(tipo) {
     btnAlterar.addEventListener('click', () => {
         if (show === false) {
             modalAlterar.classList.add('show')
-            show = true
+            show = true                             
 
             /* pegando os inputs pelo id */
             const form = getById('form')
@@ -138,7 +156,7 @@ function createTbody(tipo) {
             const valor = id.value
 
             /* url do tipo com o valor do input do id */
-            const urlTipo = `http://localhost:8080/api/tipo/${valor}`
+            const urlTipo = `http://10.92.198.22:8080/api/tipo/${valor}`                                                    
 
             /* fazendo conexão com a api */
             fetch(urlTipo)
@@ -161,7 +179,7 @@ function createTbody(tipo) {
                 event.preventDefault();
 
                 /* url do tipo com o valor do input do id */
-                const urltipo = `http://localhost:8080/api/tipo/${valor}`
+                const urltipo = `http://10.92.198.22:8080/api/tipo/${valor}`
 
                 /* construindo o objeto tipo */
                 let tipo = {
@@ -215,7 +233,7 @@ function createTbody(tipo) {
     btnDeletar.addEventListener('click', () => {
         const valor = tdId.innerHTML
 
-        const urlTipo = `http://localhost:8080/api/tipo/${valor}`
+        const urlTipo = `http://10.92.198.22:8080/api/tipo/${valor}`
         const resultado = confirm(`Deseja deletar o tipo do id: ${valor}?`)
         if (resultado == true) {
             /* construindo o objeto tipo */

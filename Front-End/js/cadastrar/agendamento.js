@@ -14,9 +14,12 @@ const tipo = getById('tipo')
 const submit = getById('submit')
 submit.disabled = true
 
+const checks = document.getElementsByName('check')
+let validaChecks = ''
+
 const mensagens = getById('mensagens')
 let type = ''
-let id = 0
+let idMessage = 0
 
 /* criando variaveis do tipo string para armazenar hora e minuto */
 let hora = '00'
@@ -60,12 +63,9 @@ if (token == null) {
         horaInicio.addEventListener("change", () => {
             createHoraFinalizada(horaFormat, minutoFormat)
         })
-
-        const checks = document.getElementsByName('check')
-        let validaChecks = ''
+        
         for (let i = 0; i < checks.length; i++) {
-            checks[i].addEventListener('click', () => {
-                validaCadastro()
+            checks[i].addEventListener('click', () => { 
                 if (i == 0) {
                     horaInicio.innerText = ''
                     createHoraInicio()
@@ -82,9 +82,18 @@ if (token == null) {
                     hiddenChoice()
                     validaChecks = 2
                 }
+                validaCadastro()
             })
         }
+        const myHeaders = new Headers()
+        myHeaders.append('Content-Type', 'application/json')
+        myHeaders.append('Authorization', token)
 
+        /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+        let fetchData = {
+            method: 'GET',
+            headers: myHeaders
+        }
         /* METOD GET ------------------ */
         /* Preenchendo o select do tipo */
         /* Url da lista do tipo */
@@ -92,7 +101,7 @@ if (token == null) {
         /* variavel que pega o select do html */
         const select = tipo
         /* fazendo conexão com a api */
-        fetch(urlTipo)
+        fetch(urlTipo, fetchData)
             .then((resp) => {
                 resp.json()
                     .then(data => {
@@ -179,11 +188,7 @@ if (token == null) {
                     resp.json()
                         .then((resposta) => {
                             console.log(resposta)
-                            if (resposta.statusCode == 'UNAUTHORIZED') {
-                                console.log('erro')
-                                type = 'error'
-                                createMessage(resposta.mensagem, type)
-                            } else {
+                            if (resposta.error == 'OK') {
                                 console.log('sucesso')
                                 type = 'success'
                                 createMessage('Sucesso ao cadastrar o agendamento!', type)
@@ -191,8 +196,11 @@ if (token == null) {
                                 setTimeout(() => {
                                     window.location.reload()
                                 }, 8000);
+                            } else {
+                                console.log('erro')
+                                type = 'error'
+                                createMessage(resposta.message, type)
                             }
-                            console.log(id)
                             deleteMessage()
                         })
                         .catch((error) => {
@@ -209,10 +217,10 @@ if (token == null) {
 }
 
 function createMessage(msg, type) {
-    id++
+    idMessage++
     let message = createNode('div')
     message.classList.add('message')
-    message.id = 'message' + id
+    message.id = 'message' + idMessage
 
     let messageContent = createNode('div')
     messageContent.classList.add('msg-content')
@@ -247,7 +255,8 @@ function createMessage(msg, type) {
 }
 
 function deleteMessage() {
-    for (let i = 0; i <= id; i++) {
+    console.log(idMessage)
+    for (let i = 0; i <= idMessage; i++) {
         let element = getById('message' + i)
         if (element != null) {
             setTimeout(() => {
@@ -431,7 +440,6 @@ function getHora(element) {
 function clearElement(element) {
     element.innerText = ''
 }
-
 
 function clearForm() {
     titulo.value = ''

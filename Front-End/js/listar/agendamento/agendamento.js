@@ -30,7 +30,7 @@ if (token == null) {
                 /* método que limpa o tbody */
                 clearTbody()
                 /* url de consumo da api que busca um agendamento por id */
-                const url = `http://localhost:8080/api/agendamento/${valor}`
+                const url = `http://10.92.198.22:8080/api/agendamento/${valor}`
                 /* método que faz a conexão com a api de pegar pelo id */
                 getId(url);
             } else {
@@ -38,7 +38,7 @@ if (token == null) {
                 /* método que limpa o tbody */
                 clearTbody();
                 /* url que busca todos os agendamentos */
-                const url = `http://localhost:8080/api/agendamento`
+                const url = `http://10.92.198.22:8080/api/agendamento`
                 /* método que faz a conexão da api que traz todos os agendamentos */
                 getAll(url);
             }
@@ -49,7 +49,7 @@ if (token == null) {
             /* método que limpa o tbody */
             clearTbody();
             /* url que busca todos os agendamentos */
-            const url = `http://localhost:8080/api/agendamento`
+            const url = `http://10.92.198.22:8080/api/agendamento`
             /* método que faz a conexão com a api que traz todos os agendamentos */
             getAll(url);
         }
@@ -60,8 +60,17 @@ if (token == null) {
 
 /* método que faz a conexão com a api que traz um agendamento por id */
 function getId(url) {
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+    let fetchData = {
+        method: 'GET',
+        headers: myHeaders
+    }
     /* fazendo a conexão com a url fornecida */
-    fetch(url)
+    fetch(url, fetchData)
         .then((resp) => {
             resp.json()
                 .then(data => {
@@ -80,8 +89,17 @@ function getId(url) {
 
 /* método que faz a conexão com a api que traz todos os agendamentos */
 function getAll(url) {
+    const myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'application/json')
+    myHeaders.append('Authorization', token)
+
+    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+    let fetchData = {
+        method: 'GET',
+        headers: myHeaders
+    }
     /* fazendo conexão com a url fornecida */
-    fetch(url)
+    fetch(url, fetchData)
         .then((resp) => {
             resp.json()
                 .then(data => {
@@ -178,7 +196,7 @@ function createTbody(agendamento) {
             const valor = id.value
 
             /* url do agendamento com o valor do input do id */
-            const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`
+            const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`
 
             /* fazendo conexão com a api */
             fetch(urlAgendamento)
@@ -208,7 +226,7 @@ function createTbody(agendamento) {
             /* METOD GET ------------------ */
             /* Preenchendo o select do tipo */
             /* Url da lista do tipo */
-            const urlTipo = 'http://localhost:8080/api/tipo'
+            const urlTipo = 'http://10.92.198.22:8080/api/tipo'
             /* variavel que pega o select do html */
             const select = tipo
             /* fazendo conexão com a api */
@@ -248,7 +266,7 @@ function createTbody(agendamento) {
                 event.preventDefault();
 
                 /* url do agendamento com o valor do input do id */
-                const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`
+                const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`
 
                 /* construindo a váriavel da dataInicio e dataFinalizada completa, precisa-se ter a data e a hora juntas */
                 const dataInicioCompleta = dataInicio.value + "T" + horaInicio.value + ":00"
@@ -273,6 +291,7 @@ function createTbody(agendamento) {
 
                 const myHeaders = new Headers()
                 myHeaders.append('Content-Type', 'application/json')
+                myHeaders.append('Authorization', token)
 
                 /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
                 let fetchData = {
@@ -316,7 +335,7 @@ function createTbody(agendamento) {
     btnDeletar.addEventListener('click', () => {
         const valor = tdId.innerHTML
 
-        const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`
+        const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`
         const resultado = confirm(`Deseja deletar o agendamento do id: ${valor}?`)
         if (resultado == true) {
             /* construindo o objeto agendamento */
@@ -326,6 +345,7 @@ function createTbody(agendamento) {
 
             const myHeaders = new Headers()
             myHeaders.append('Content-Type', 'application/json')
+            myHeaders.append('Authorization', token)
 
             /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
             let fetchData = {
@@ -337,8 +357,7 @@ function createTbody(agendamento) {
                 .then((resp) => {
                     resp.json()
                         .then(data => {
-                            alert("O agendamento foi excluido.")
-                            window.location.reload()
+                            console.log(data)
                         })
                         .catch((error) => {
                             console.log(error);

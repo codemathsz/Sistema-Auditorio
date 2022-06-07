@@ -20,7 +20,7 @@ if (token == null) {
         /* evento para nao submeter o formulario */
         event.preventDefault();
         /* url que faz a conexão com a api do back-end */
-        const url = `http://localhost:8080/api/usuario/login`;
+        const url = `http://10.92.198.22:8080/api/usuario/login`;
 
         /* construindo o objeto agendamento */
         let login = {
@@ -43,11 +43,13 @@ if (token == null) {
             .then((resp) => {
                 resp.json()
                     .then((token) => {
+                        console.log(token)
                         erro.style.animation = 'fadeOut 0.5s ease-in-out forwards';
                         localStorage.setItem('token', token.token)
                         window.location.href = '../index.html'
                     })
                     .catch((error) => {
+                        console.error(error)
                         erro.style.animation = 'fadeIn 0.5s ease-in-out forwards';
                     })
             })
