@@ -368,7 +368,7 @@ body {
         left: 0;
     }
 }
-
+/* 
 .scroll {
     border: 1px solid #000;
     overflow: auto;
@@ -382,7 +382,7 @@ body {
 
 .tabela th, .tabela td {
     padding: 5px 10px;
-}
+} */
 
 .modalAlterar {
     background-color: rgba(0, 0, 0, 0.7);
@@ -399,12 +399,15 @@ body {
     width: 700px;
     background-color: #fff;
     margin: 100px auto;
-
 }
 
 .header {
     display: flex;
     justify-content: space-between;
+}
+
+.body {
+    padding: 20px;
 }
 
 .show {

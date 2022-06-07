@@ -216,8 +216,11 @@ input[type="date"]::-webkit-inner-spin-button {
 
 .modal-dialog {
   width: 700px !important;
-  margin: 40px auto !important;
-  
+  margin: 0 auto !important;
+}
+
+.modal-content { 
+  margin: 20px auto 0 auto !important;
 }
 
 .modal-body {

@@ -471,4 +471,132 @@ body {
         opacity: 1;
         transform: translateX(0);
     }
-}   
+}
+
+/* tabela */
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+    outline: none;
+    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
+}
+
+.thead {
+    color: #fff;
+    background-color: #E30613;
+}
+
+.thead th {
+    font-weight: 200;
+    text-align: center;
+    padding: 10px;
+}
+
+.tbody {
+    height: 400px;
+    text-align: center;
+}
+
+.tbody td {
+    padding: 0 5px;
+}
+
+.status {
+    width: fit-content;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    border-radius: 10px;
+}
+
+.spanStatus {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 15px;
+}
+
+.status span {
+    text-align: center;
+    font-size: 14px;
+}
+
+.btnAlterar,
+.btnDeletar {
+    width: 35px;
+    height: 35px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    font-size: 25px;
+    color: #fff;
+    border-radius: 5px;
+    transition-duration: 0.3s;
+    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
+}
+
+.btnAlterar {
+    background-color: #fbc02d;
+}
+
+.btnDeletar {
+    background-color: #E30613;
+}
+
+.btnAlterar:hover,
+.btnDeletar:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.verMais i {
+    font-size: 25px;
+    color: rgba(0, 0, 0, 0.6);
+    transition-duration: .3s;
+}
+
+.verMais i:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.modalInfo {
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: none;
+}
+
+.modal-content {
+    width: 700px;
+    background-color: #fff;
+    margin: 100px auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.formAlterar {
+    padding: 40px 40px 0 40px;
+}
+
+.show {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}

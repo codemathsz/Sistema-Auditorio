@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../../css/style.css">
+    <link rel="stylesheet" href="../../../css/agendamento.css">
     <!-- Boxiocns CDN Link -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" href="../../../image/logo_bar.jpg">
@@ -21,7 +22,7 @@
         <ul class="nav-links">
             <li>
                 <a href="../../../index.html">
-                    <i class='bx bx-calendar' ></i>
+                    <i class='bx bx-calendar'></i>
                     <span class="link_name">Calendário</span>
                 </a>
                 <ul class="sub-menu blank">
@@ -96,7 +97,7 @@
                     <i class='bx bx-log-out' id="exit"></i>
                 </div>
             </li>
-            <li  id="naoLogado">
+            <li id="naoLogado">
                 <div class="profile-details">
                     <div class="profile-content">
                         <!--<img src="image/profile.jpg" alt="profileImg">-->
@@ -141,34 +142,23 @@
                     <p id="sucesso-msg"></p>
                 </div>
             </div>
-            <!-- <table>
-                <tr>
-                    <td>Id:</td>
-                    <td><input type="number" name="id" id="id"></td>
-                    <td><button type="button" id="search">Buscar</button></td>
-                </tr>
-            </table> -->
         </div>
-        <div class="scroll">
-            <table id="tabela" class="tabela" border="1px">
-                <tr>
-                    <th>ID</th>
-                    <th>Titulo</th>
-                    <th>Descricao</th>
-                    <th>Data Inicio</th>
-                    <th>Data Finalizada</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Finalizada</th>
-                    <th>Status</th>
-                    <th>Periodo</th>
-                    <th>Tipo</th>
-                    <th>Usuario</th>
-                    <th>Alterar</th>
-                    <th>Deletar</th>
-                </tr>
-                <tbody id="tbody"></tbody>
-            </table>
-        </div>
+        <!-- <div class="scroll"> -->
+        <table id="tabela" class="tabela">
+            <thead class="thead">
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Status</th>
+                <th>Usuario</th>
+                <th>Alterar</th>
+                <th>Deletar</th>
+                <th></th>
+            </thead>
+            <tbody class="tbody" id="tbody"></tbody>
+        </table>
+        <!-- </div> -->
     </section>
     <div class="modalAlterar" id="modalAlterar">
         <div class="modal-content">
@@ -178,44 +168,86 @@
             </div>
             <div class="formAlterar">
                 <form id="form">
-                    <input type="hidden" name="id" id="id" required>
-                    <input type="text" name="titulo" id="titulo" required>
-                    <p>Descricao:</p>
-                    <input type="text" name="descricao" id="descricao" required>
-                    <p>Data Inicio:</p>
-                    <input type="date" name="dataInicio" id="dataInicio" required>
-                    <p>Data Finalizada:</p>
-                    <input type="date" name="dataFinalizada" id="dataFinalizada" required>
-                    <p>Hora Inicio:</p>
-                    <input type="time" name="horaInicio" id="horaInicio" required>
-                    <p>Hora Final:</p>
-                    <input type="time" name="horaFinalizada" id="horaFinalizada" required>
-                    <p>Status:</p>
-                    <select id="status" required>
-                        <option value="" selected disabled>Selecione uma opção</option>
-                        <option value="PENDENTE">Pendente</option>
-                        <option value="ACEITO">Aceito</option>
-                        <option value="RECUSADO">Recusado</option>
-                    </select>
-                    <p>Periodo:</p>
-                    <select id="periodo" required>
-                        <option value="" selected disabled>Selecione uma opção</option>
-                        <option value="MANHÃ">Manha</option>
-                        <option value="TARDE">Tarde</option>
-                        <option value="NOITE">Noite</option>
-                    </select>
-                    <p>Tipo:</p>
-                    <select id="tipo" required>
-                        <option value="" selected disabled>Selecione um tipo</option>
-                    </select>
-                    <input type="hidden" name="usuario" id="usuario">
-                    <button>Alterar</button>
+                    <div class="input-container">
+                        <input class="form_input" type="text" name="titulo" id="titulo" placeholder=" " required>
+                        <label class="form_label" for="titulo">Titulo:</label>
+                    </div>
+                    <div class="input-container">
+                        <textarea class="form_input" maxlength="100" rows="2" id="descricao" name="descricao"
+                            id="descricao" placeholder=" " required></textarea>
+                        <label class="form_label" for="descricao">Descrição:</label>
+                    </div>
+                    <div class="input-container2">
+                        <div class="data">
+                            <p>Tipo:</p>
+                        </div>
+                        <select id="tipo" required>
+                            <option class="disabled" value="" selected disabled>Selecione uma opção</option>
+                        </select>
+                    </div>
+                    <div class="input-container2">
+                        <div class="data">
+                            <p>Data de Inicio:</p>
+                        </div>
+                        <input type="date" name="dataInicio" id="dataInicio" required>
+                    </div>
+                    <div class="input-container2">
+                        <div class="data">
+                            <p>Data Final:</p>
+                        </div>
+                        <input type="date" name="dataFinalizada" id="dataFinalizada" required>
+                    </div>
+                    <div class="checks">
+                        <div class="check">
+                            <p>Por hora:</p>
+                            <input type="radio" name="check" value="0">
+                        </div>
+                        <div class="check">
+                            <p>Por periodo:</p>
+                            <input type="radio" name="check" value="1">
+                        </div>
+                        <div class="check">
+                            <p>O dia todo</p>
+                            <input type="radio" name="check" value="2">
+                        </div>
+                    </div>
+                    <div class="check-choice">
+                        <div class="choice-hora" id="choice-hora">
+                            <i class='bx bx-time-five'></i>
+                            <select id="horaInicio"></select>
+                            <img src="../../image/flecha.svg">
+                            <select id="horaFinalizada"></select>
+                        </div>
+                        <div class="choice-periodo" id="choice-periodo">
+                            <i class='bx bx-time-five'></i>
+                            <select id="periodo">
+                                <option value="MANHA">Manhã</option>
+                                <option value="TARDE">Tarde</option>
+                                <option value="NOITE">Noite</option>
+                                <option value="MANHA_TARDE">Manhã e Tarde</option>
+                                <option value="TARDE_NOITE">Tarde e Noite</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn" id="submit">Cadastrar</button>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="modalInfo" id="modalInfo">
+        <div class="modal-content">
+            <div class="header">
+                <h1>Agendamento</h1>
+                <button id="closeInfo">X</button>
+            </div>
+            <div class="body">
+                <h1>SALVE</h1>
             </div>
         </div>
     </div>
     <!-- Script Api --------------------------------------------------------------- -->
     <script src="../../../js/listar/agendamento/agendamento.js"></script>
+    <script src="../../../js/cadastrar/agendamento.js"></script>
     <!-- script da navbar -->
     <script src="../../../js/navbar/script.js"></script>
 </body>
