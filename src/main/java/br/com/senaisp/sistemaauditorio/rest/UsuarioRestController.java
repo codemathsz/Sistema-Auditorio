@@ -174,7 +174,7 @@ public class UsuarioRestController {
 			System.out.println(tokenJwt);
 			
 			// CRIA LOG
-			logService.salvarLogUsuario(usuario, TipoLog.LOGAR, request);
+//			logService.salvarLogUsuario(usuario, TipoLog.LOGAR, request);																OBS*
 			return ResponseEntity.ok(tokenJwt);
 			
 		} else {
