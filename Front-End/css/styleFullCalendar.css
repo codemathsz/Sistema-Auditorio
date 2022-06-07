@@ -24,7 +24,7 @@
   position: fixed;
   text-align: center;
   align-items: center;
-  top: 1.5%;
+  top: 6%;
   left: 27.5%;
   margin: auto;
   padding: 1rem;
@@ -51,7 +51,7 @@
 
 .btn:focus {
   background-color: rgba(227, 6, 19, 1);
-  border-color: #fff;
+  border: 0px solid #FFF;
 }
 
 /* Estilos do btn-primary */
@@ -59,6 +59,7 @@
 .btn-primary {
   color: #f6f6f6 !important;
   border-color: rgba(227, 6, 19, 0.5) !important;
+  background-color: rgba(227, 6, 19, ) !important;
 }
 
 .btn-primary:hover {
@@ -91,6 +92,8 @@
   
 }
 
+/* CSS para estilização do evento no fullCalendar */
+
 /* Responsividade para outras telas de computador */
 @media screen and (max-width: 1680px){
   /* Estilo da modal do calendário inteiro */
@@ -103,7 +106,7 @@
 @media screen and (max-width: 1600px){
   /* Estilo da modal do calendário inteiro */
   #calendar {
-    top: 20%;
+    top: 7%;
     left: 28.7%;
   }
 }
@@ -133,18 +136,18 @@
   }
 }
 
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1280px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
-    top: 20%;
-    left: 31%;
+    top: 12%;
+    left: 36%;
   }
 }
 
 @media screen and (max-width: 1024px){
   /* Estilo da modal do calendário inteiro */
   #calendar {
-    top: 8%;
-    left: 35%;
+    top: 22%;
+    left:38.5%;
   }
 }
