@@ -1,0 +1,194 @@
+/* Estilo para modal que fecha ao clicar fora do calendário */
+#modal-fecha {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+  z-index: 1;
+}
+
+/* Estilo do calendário inteiro */
+#calendar {
+  display: none;
+  position: fixed;
+  text-align: center;
+  align-items: center;
+  top: 1%;
+  left: 27.5%;
+  margin: auto;
+  padding: 1rem;
+  width: 60%;
+  z-index: 10;
+  background-color: #ffff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 25px 3px rgb(200 132 132 / 25%);
+}
+
+/* Estilos botões bootstrap */
+.active{
+  border: 0 solid transparent !important;
+}
+
+.active:active{
+  border: 0 solid transparent !important;
+}
+
+.btn {
+  font-size: 0.8em;
+  background-color: rgba(227, 6, 19, 0.5);
+  border: 0 solid transparent !important;
+}
+
+.btn:disabled{
+  background-color: rgba(227, 6, 19, 1);
+}
+
+.btn::selection{
+  border: 0 solid transparent !important; 
+}
+
+.btn:active{
+  border: 0 solid transparent !important;
+}
+
+.btn.active{
+  border: 0 solid transparent !important;
+}
+
+.btn.disabled{
+  background-color: rgba(227, 6, 19, 1)
+}
+
+.btn:disabled{
+  background-color: rgba(227, 6, 19, 1);
+}
+
+.btn.focus{
+  border: 0 solid transparent !important;
+}
+
+.btn:focus {
+  background-color: rgba(227, 6, 19, 1);
+  border: 0 solid transparent !important;
+}
+
+/* Estilos do btn-primary */
+
+.btn-primary {
+  color: #f6f6f6 !important;
+  border-color: rgba(227, 6, 19, 0.5) !important;
+  background-color: rgba(227, 6, 19, ) !important;
+}
+
+.btn-primary::selection{
+  border: 0 solid transparent !important;
+}
+
+.btn-primary:hover {
+  background-color: rgba(227, 6, 19, 1) !important;
+}
+
+.btn-primary:active{
+  border: 0 solid transparent !important;
+}
+
+.btn-primary.active {
+  background-color: rgba(227, 6, 19, 1) !important;
+  border: 0 solid transparent !important;
+}
+
+.btn-primary.disabled{
+  border-color: rgba(227, 6, 19, 1) !important;
+}
+
+.btn-primary:disabled {
+  border-color: rgba(227, 6, 19, 1) !important;
+}
+
+.btn-primary:focus {
+  border: 0 solid transparent !important;
+}
+
+.btn-primary.focus {
+  border: 0 solid transparent !important;
+}
+
+/* Classe do botão de mês */
+.fc-dayGridMonth-button{
+  border: 0 solid transparent !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+  width: 100%;
+  display: inline-block;
+  margin:0;
+  color: #000;
+  background-color: #f6f6f6;
+  font-size: 0.8em;
+}
+
+.fc .fc-toolbar-title{
+  font-size: 1.2em;
+}
+
+/* CSS para estilização do evento no fullCalendar */
+
+/* Responsividade para outras telas de computador */
+@media screen and (max-width: 1680px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 10%;
+    left: 28.3%;
+  }
+}
+
+@media screen and (max-width: 1600px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 7%;
+    left: 28.7%;
+  }
+}
+
+@media screen and (max-width: 1440px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 12%;
+    left: 29.6%;
+  }
+}
+
+@media screen and (max-width: 1400px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 20%;
+    left: 30%;
+  }
+}
+
+@media screen and (max-width: 1366px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    width: 50%;
+    top: 6%;
+    left: 35.5%;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 12%;
+    left: 36%;
+  }
+}
+
+@media screen and (max-width: 1024px){
+  /* Estilo da modal do calendário inteiro */
+  #calendar {
+    top: 22%;
+    left:38.5%;
+  }
+}

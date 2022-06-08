@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../../css/navbar/navbar.css" />
+    <link rel="stylesheet" href="../../../css/post/usuario.css" />
+    <link rel="stylesheet" href="../../../css/mensagem/mensagem.css" />
     <!-- Boxiocns CDN Link -->
     <link
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
       rel="stylesheet"
     />
     <link rel="icon" href="../../../image/logo_bar.jpg" />
-    <title>Seus agendamentos</title>
+    <title>Cadastro de Usuario</title>
   </head>
 
   <body>
@@ -34,7 +36,7 @@
         </li>
         <li id="lista">
           <div class="iocn-link">
-            <a href="#">
+            <a>
               <i class="bx bx-collection"></i>
               <span class="link_name">Listar</span>
             </a>
@@ -45,25 +47,39 @@
             <li>
               <a href="../../get/tipo/tipoEvento.html">Tipos de Evento</a>
             </li>
-            <li><a href="agendamento.html">Agendamentos</a></li>
+            <li>
+              <a href="../../get/agendamento/agendamento.html">Agendamentos</a>
+            </li>
           </ul>
         </li>
-        <li id="cadastro">
+        <li
+          id="cadastro"
+          style="
+            animation: showSelected 0.5s ease-in-out forwards;
+            background-color: rgba(227, 6, 19, 0.1);
+            border-left: 8px solid rgba(227, 6, 19, 0.6);
+          "
+        >
           <div class="iocn-link">
-            <a href="#">
-              <i class="bx bx-book-alt"></i>
-              <span class="link_name">Cadastrar</span>
+            <a>
+              <i
+                class="bx bx-book-alt"
+                style="color: rgba(227, 6, 19, 0.6)"
+              ></i>
+              <span class="link_name" style="color: rgba(227, 6, 19, 0.6)"
+                >Cadastrar</span
+              >
             </a>
             <i class="bx bxs-chevron-down arrow"></i>
           </div>
           <ul class="sub-menu">
-            <li><a href="../../post/usuario/usuario.html">Usuarios</a></li>
             <li>
-              <a href="../../post/tipo/tipoEvento.html">Tipos de Evento</a>
+              <a href="usuario.html" style="color: rgba(227, 6, 19, 0.6)"
+                >Usuarios</a
+              >
             </li>
-            <li>
-              <a href="../../post/agendamento/agendamento.html">Agendamentos</a>
-            </li>
+            <li><a href="../tipo/tipoEvento.html">Tipos de Evento</a></li>
+            <li><a href="../agendamento/agendamento.html">Agendamentos</a></li>
           </ul>
         </li>
         <li id="logs">
@@ -85,13 +101,15 @@
           </ul>
         </li>
         <li id="agendamentos">
-          <a href="agendamentos_usuario.html">
+          <a href="../../get/agendamento/agendamentos_usuario.html">
             <i class="bx bx-calendar-event"></i>
             <span class="link_name">Agendamentos</span>
           </a>
           <ul class="sub-menu blank">
             <li>
-              <a class="link_name" href="agendamentos_usuario.html"
+              <a
+                class="link_name"
+                href="../../get/agendamento/agendamentos_usuario.html"
                 >Agendamentos</a
               >
             </li>
@@ -128,28 +146,82 @@
       <div class="home-content hide">
         <i class="bx bx-menu"></i>
       </div>
-      <div class="scroll">
-        <table id="tabela" class="tabela" border="1px">
-          <tr>
-            <th>ID</th>
-            <th>Titulo</th>
-            <th>Descricao</th>
-            <th>Data Inicio</th>
-            <th>Data Finalizada</th>
-            <th>Hora Inicio</th>
-            <th>Hora Finalizada</th>
-            <th>Status</th>
-            <th>Periodo</th>
-            <th>Tipo</th>
-            <th>Usuario</th>
-            <th>Deletar</th>
-          </tr>
-          <tbody id="tbody"></tbody>
-        </table>
+      <h1>Usuario</h1>
+      <div class="conteiner">
+        <form id="form">
+          <div class="input-container">
+            <input
+              class="form_input"
+              type="text"
+              name="nome"
+              id="nome"
+              placeholder=" "
+              required
+            />
+            <label class="form_label" for="nome">Nome</label>
+          </div>
+          <div class="input-container">
+            <input
+              class="form_input"
+              type="Number"
+              name="nif"
+              id="nif"
+              placeholder=" "
+              required
+            />
+            <label class="form_label" for="nif">Nif</label>
+          </div>
+          <div class="input-container">
+            <input
+              class="form_input"
+              type="email"
+              name="email"
+              id="email"
+              placeholder=" "
+              required
+            />
+            <label class="form_label" for="email">Email</label>
+          </div>
+          <div class="input-container">
+            <input
+              class="form_input"
+              type="password"
+              name="senha"
+              id="senha"
+              placeholder=" "
+              required
+            />
+            <label class="form_label" for="senha">Senha</label>
+          </div>
+          <div class="input-container">
+            <input
+              class="form_input"
+              type="password"
+              name="confirmaSenha"
+              id="confirmaSenha"
+              placeholder=" "
+              required
+            />
+            <label class="form_label" for="confirmaSenha"
+              >Confirmar a Senha</label
+            >
+          </div>
+          <div class="input-container2">
+            <div class="data">
+              <p>Nível:</p>
+            </div>
+            <select id="nivel" required>
+              <option value="" selected disabled>Selecione um nível</option>
+              <option value="USUARIO">Usuario</option>
+              <option value="ADMINISTRADOR">Administrador</option>
+            </select>
+          </div>
+          <button type="submit" class="btn" id="submit">Cadastrar</button>
+        </form>
       </div>
+      <div class="mensagens" id="mensagens"></div>
     </section>
-    <!-- Script Api --------------------------------------------------------------- -->
-    <script src="../../../js/get/"></script>
+    <script src="../../../js/post/usuario/usuario.js"></script>
     <!-- script da navbar -->
     <script src="../../../js/navbar/script.js"></script>
   </body>

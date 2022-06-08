@@ -5,15 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../../css/navbar/navbar.css" />
-    <link rel="stylesheet" href="../../../css/get/agendamento.css" />
-    <link rel="stylesheet" href="../../../css/mensagem/mensagem.css" />
     <!-- Boxiocns CDN Link -->
     <link
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../../../css/mensagem/mensagem.css">
     <link rel="icon" href="../../../image/logo_bar.jpg" />
-    <title>Lista de Agendamentos</title>
+    <title>Lista de Usuarios</title>
   </head>
 
   <body>
@@ -55,15 +54,13 @@
             <i class="bx bxs-chevron-down arrow"></i>
           </div>
           <ul class="sub-menu">
-            <li><a href="../../get/usuario/usuario.html">Usuarios</a></li>
             <li>
-              <a href="../../get/tipo/tipoEvento.html">Tipos de Evento</a>
-            </li>
-            <li>
-              <a href="agendamento.html" style="color: rgba(227, 6, 19, 0.6)"
-                >Agendamentos</a
+              <a href="usuario.html" style="color: rgba(227, 6, 19, 0.6)"
+                >Usuarios</a
               >
             </li>
+            <li><a href="../tipo/tipoEvento.html">Tipos de Evento</a></li>
+            <li><a href="../agendamento/agendamento.html">Agendamentos</a></li>
           </ul>
         </li>
         <li id="cadastro">
@@ -103,13 +100,15 @@
           </ul>
         </li>
         <li id="agendamentos">
-          <a href="agendamentos_usuario.html">
+          <a href="../agendamento/agendamentos_usuario.html">
             <i class="bx bx-calendar-event"></i>
             <span class="link_name">Agendamentos</span>
           </a>
           <ul class="sub-menu blank">
             <li>
-              <a class="link_name" href="agendamentos_usuario.html"
+              <a
+                class="link_name"
+                href="../agendamento/agendamentos_usuario.html"
                 >Agendamentos</a
               >
             </li>
@@ -147,22 +146,16 @@
         <i class="bx bx-menu"></i>
       </div>
       <div class="search">
-        <h1>Pesquise por um agendamento</h1>
+        <h1>Pesquise por um usuário</h1>
         <div class="search-content">
           <input type="number" name="id" id="id" />
           <select id="selectBusca">
-            <option selected>Todos</option>
+            <option value="todos" selected>Todos</option>
             <option value="id">Id</option>
-            <option value="titulo">Titulo</option>
-            <option value="descricao">Descricao</option>
-            <option value="dataInicio">Data de Inicio</option>
-            <option value="dataFinalizada">Data Final</option>
-            <option value="horaInicio">Hora de Inicio</option>
-            <option value="horaFinalizada">Hora Finalizada</option>
-            <option value="status">Status</option>
-            <option value="periodo">Periodo</option>
-            <option value="tipo">Tipo</option>
-            <option value="usuario">Usuario</option>
+            <option value="nome">Nome</option>
+            <option value="email">Email</option>
+            <option value="nif">Nif</option>
+            <option value="nivel">Nivel</option>
           </select>
           <button type="button" id="search">Buscar</button>
         </div>
@@ -175,132 +168,53 @@
           </div>
         </div>
       </div>
-      <!-- <div class="scroll"> -->
-      <table id="tabela" class="tabela">
-        <thead class="thead">
-          <th>ID</th>
-          <th>Titulo</th>
-          <th>Data</th>
-          <th>Hora</th>
-          <th>Status</th>
-          <th>Usuario</th>
-          <th>Alterar</th>
-          <th>Deletar</th>
-          <th></th>
-        </thead>
-        <tbody class="tbody" id="tbody"></tbody>
-      </table>
-      <!-- </div> -->
+      <div class="scroll">
+        <table id="tabela" class="tabela" border="1px">
+          <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Nif</th>
+            <th>Nivel</th>
+            <th>Alterar</th>
+            <th>Deletar</th>
+          </tr>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
     </section>
     <div class="modalAlterar" id="modalAlterar">
       <div class="modal-content">
         <div class="header">
-          <h1>Alterar Agendamento</h1>
+          <h1>Alterar Usuario</h1>
           <button id="close">X</button>
         </div>
         <div class="formAlterar">
           <form id="form">
-            <div class="input-container">
-              <input
-                class="form_input"
-                type="text"
-                name="titulo"
-                id="titulo"
-                placeholder=" "
-                required
-              />
-              <label class="form_label" for="titulo">Titulo:</label>
-            </div>
-            <div class="input-container">
-              <textarea
-                class="form_input"
-                maxlength="100"
-                rows="2"
-                id="descricao"
-                name="descricao"
-                id="descricao"
-                placeholder=" "
-                required
-              ></textarea>
-              <label class="form_label" for="descricao">Descrição:</label>
-            </div>
-            <div class="input-container2">
-              <div class="data">
-                <p>Tipo:</p>
-              </div>
-              <select id="tipo" required>
-                <option class="disabled" value="" selected disabled>
-                  Selecione uma opção
-                </option>
-              </select>
-            </div>
-            <div class="input-container2">
-              <div class="data">
-                <p>Data de Inicio:</p>
-              </div>
-              <input type="date" name="dataInicio" id="dataInicio" required />
-            </div>
-            <div class="input-container2">
-              <div class="data">
-                <p>Data Final:</p>
-              </div>
-              <input
-                type="date"
-                name="dataFinalizada"
-                id="dataFinalizada"
-                required
-              />
-            </div>
-            <div class="checks">
-              <div class="check">
-                <p>Por hora:</p>
-                <input type="radio" name="check" value="0" />
-              </div>
-              <div class="check">
-                <p>Por periodo:</p>
-                <input type="radio" name="check" value="1" />
-              </div>
-              <div class="check">
-                <p>O dia todo</p>
-                <input type="radio" name="check" value="2" />
-              </div>
-            </div>
-            <div class="check-choice">
-              <div class="choice-hora" id="choice-hora">
-                <i class="bx bx-time-five"></i>
-                <select id="horaInicio"></select>
-                <img src="../../image/flecha.svg" />
-                <select id="horaFinalizada"></select>
-              </div>
-              <div class="choice-periodo" id="choice-periodo">
-                <i class="bx bx-time-five"></i>
-                <select id="periodo">
-                  <option value="MANHA">Manhã</option>
-                  <option value="TARDE">Tarde</option>
-                  <option value="NOITE">Noite</option>
-                  <option value="MANHA_TARDE">Manhã e Tarde</option>
-                  <option value="TARDE_NOITE">Tarde e Noite</option>
-                </select>
-              </div>
-            </div>
-            <button type="submit" class="btn" id="submit">Cadastrar</button>
+            <input type="hidden" name="id" id="id" required />
+            <p>Nome:</p>
+            <input type="text" name="nome" id="nome" required />
+            <p>Email:</p>
+            <input type="email" name="email" id="email" required />
+            <p>Nif:</p>
+            <input type="number" name="nif" id="nif" required />
+            <p>Nivel:</p>
+            <select id="nivel" required>
+              <option value="" selected disabled>Selecione uma opção</option>
+              <option value="USUARIO">Usuario</option>
+              <option value="ADMINISTRADOR">Administrador</option>
+            </select>
+            <p>Senha:</p>
+            <input type="password" name="senha" id="senha" />
+            <p>Confirmar Senha:</p>
+            <input type="password" name="confirmaSenha" id="confirmaSenha" />
+            <button>Alterar</button>
           </form>
         </div>
       </div>
     </div>
-    <div class="modalInfo" id="modalInfo">
-      <div class="modal-content">
-        <div class="header">
-          <h1>Agendamento</h1>
-          <button id="closeInfo">X</button>
-        </div>
-        <div class="body">
-          <h1>SALVE</h1>
-        </div>
-      </div>
-    </div>
-    <!-- Script Api --------------------------------------------------------------- -->
-    <script src="../../../js/get/agendamento/agendamento.js"></script>
+    <!-- Script --------------------------------------------------------------- -->
+    <script src="../../../js/get/usuario/usuario.js"></script>
     <!-- script da navbar -->
     <script src="../../../js/navbar/script.js"></script>
   </body>

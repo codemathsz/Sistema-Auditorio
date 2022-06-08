@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #f6f6f9;
+}
+
+.home-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    overflow: scroll;
+}
+
+.home-section h1 {
+    font-size: 40px;
+    text-align: center;
+    margin: 30px;
+    color: #E30613;
+    text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: fadeRight 1s ease-in-out forwards;
+}
+
+.conteiner {
+    width: 625px;
+    margin: 20px auto 0  auto;
+    padding: 40px 40px 0px 40px;
+    background-color: #fff;
+    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
+    border-radius: 15px;
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: fadeRight 1s 0.3s ease-in-out forwards;
+}
+
+#form {
+    width: 100%;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.form_input {
+    font-size: 16px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 5px;
+    border: none;
+    border-bottom: 3px solid #E30613;
+    outline: none;
+    background-color: transparent;
+}
+
+.form_label {
+    font-size: 22px;
+    padding: 0 5px;
+    position: absolute;
+    top: -0px;
+    left: 0px;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.form_input:focus~.form_label,
+.form_input:not(:placeholder-shown).form_input:not(:focus)~.form_label {
+    font-size: 17px;
+    top: -20px;
+    color: rgba(0, 0, 0, 1);
+}
+
+.btn {
+    width: 100%;
+    padding: 5px;
+    margin: 60px auto 30px auto;
+    font-size: 20px;
+    border-radius: 10px;
+    outline: none;
+    background-color: rgba(227, 6, 19, 0.5);
+    color: #fff;
+    border: none;
+    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.5);
+    transition-duration: 0.8s;
+    transition-timing-function: ease-in-out;
+    /* animation: toUp 1s ease-in-out forwards; */
+}
+
+.btn_active {
+    background-color: rgba(227, 6, 19, 1);
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+.btn_active:hover {
+    background-color: rgb(255, 11, 27);
+    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 1);
+    transform: scale(1.01);
+}
+
+@keyframes fadeRight {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}   

@@ -108,11 +108,11 @@ function getById(id) {
 
 function redirectPageLogin() {
   if (document.title.substring(0, 1) == 'L' || document.title.substring(0, 1) == 'C') {
-    return '../login.html'
+    return '../../login/login.html'
   } else if (document.title.substring(0, 2) == 'Si') {
-    return 'pages/login.html'
+    return 'pages/login/login.html'
   } else if (document.title.substring(0, 2) == 'Se') {
-    return '../../login.html'
+    return '../../login/login.html'
   }
   return 'Error'
 }
