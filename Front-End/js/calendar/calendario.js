@@ -1,8 +1,9 @@
 /* pegando o token do usuario */
 const token = localStorage.getItem('token')
 const floatingButton = getById('floating-button')
+let payload = ''
 if (token != null) {
-  const payload = parseJwt(token)
+  payload = parseJwt(token)
 } else {
   floatingButton.style.display = 'none'
 }
@@ -114,6 +115,7 @@ const periodo = getById('periodo')
 const tipo = getById('tipo')
 const submit = getById('submit')
 
+const checks = document.getElementsByName('check')
 let validaChecks = ''
 submit.disabled = true
 
@@ -721,8 +723,6 @@ function postAgendamento() {
   horaInicio.addEventListener("change", () => {
     createHoraFinalizada(horaFormat, minutoFormat)
   })
-
-  const checks = document.getElementsByName('check')
 
   for (let i = 0; i < checks.length; i++) {
     checks[i].addEventListener('click', () => {

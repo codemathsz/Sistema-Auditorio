@@ -126,29 +126,6 @@
     display: none;
 }
 
-.floating-button {
-    width: 75px;
-    height: 75px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    margin: 50px;
-    background-color: rgba(227, 6, 19, 0.8);
-    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.9);
-    transition-duration: 0.4s;
-}
-
-.floating-button:hover {
-    cursor: pointer;
-    background-color: rgba(227, 6, 19, 1);
-    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 1);
-    transform: scale(1.1);
-}
-
 /* MODAL ALTERAR */
 
 .modalAlterar {

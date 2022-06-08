@@ -1,228 +1,257 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+  background-color: #f6f6f9;
+}
+
+#content-calendarFull {
+  z-index: 1;
+}
+
+.calendario {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.topo-calendario {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(-60px);
+  animation: fadeRight 1s ease-in-out forwards;
+}
+
+.topo-calendario h1 {
+  font-size: 40px;
+  margin: 0 !important;
+  text-align: center;
+  color: #e30613;
+  text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
+}
+
+.topo-calendario i {
+  font-size: 30px;
+  text-align: center;
+  margin: 0 20px;
+  color: rgba(227, 6, 19, 0.6);
+  text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
+  transition-duration: 0.3s;
+}
+
+.topo-calendario i:hover {
+  cursor: pointer;
+  color: rgba(227, 6, 19, 1);
+  transform: scale(1.2);
+}
+
+.meses {
+  width: 95%;
+  margin: 25px auto;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.mes {
+  width: 30%;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
+  transition-duration: 0.4s;
+  opacity: 0;
+}
+
+.mes:hover {
+  transform: translateY(-10px);
+  box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.3);
+  cursor: pointer;
+}
+
+.mes-disable:hover {
+  cursor: inherit !important;
+  transform: translateY(0) !important;
+}
+
+.mes-disable-sem-animacao {
+  opacity: 0.5 !important;
+  animation: none !important;
+}
+
+.mes-sem-animacao {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+.mes p {
+  width: 100%;
+  font-size: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin: 0 5px;
+  padding: 5px;
+}
+
+.bolinhas {
+  width: 100%;
+  display: flex;
+  padding: 2%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.bolinha {
+  margin: 5px 3.4%;
+  padding: 3.73%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+}
+
+input[type="date"]::-webkit-inner-spin-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
   }
-  
-  body {
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    background-color: #F6F6F9
+}
+
+@keyframes fadeRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-  
-  #content-calendarFull {
-    z-index: 1;
+}
+
+.mes-disable:nth-child(1) {
+  animation: fadeDisable 0.4s 0.2s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(2) {
+  animation: fadeDisable 0.4s 0.4s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(3) {
+  animation: fadeDisable 0.4s 0.6s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(4) {
+  animation: fadeDisable 0.4s 0.8s ease-in-out forwards !important;
+}
+
+.mes-disable:nth-child(5) {
+  animation: fadeDisable 0.4s 1s ease-in-out forwards !important;
+}
+
+.mes:nth-child(1) {
+  animation: fadeIn 0.5s 0.2s ease-in-out forwards;
+}
+
+.mes:nth-child(2) {
+  animation: fadeIn 0.5s 0.4s ease-in-out forwards;
+}
+
+.mes:nth-child(3) {
+  animation: fadeIn 0.5s 0.6s ease-in-out forwards;
+}
+
+.mes:nth-child(4) {
+  animation: fadeIn 0.5s 0.8s ease-in-out forwards;
+}
+
+.mes:nth-child(5) {
+  animation: fadeIn 0.5s 1s ease-in-out forwards;
+}
+
+.mes:nth-child(6) {
+  animation: fadeIn 0.5s 1.2s ease-in-out forwards;
+}
+
+.mes:nth-child(7) {
+  animation: fadeIn 0.5s 1.4s ease-in-out forwards;
+}
+
+.mes:nth-child(8) {
+  animation: fadeIn 0.5s 1.6s ease-in-out forwards;
+}
+
+.mes:nth-child(9) {
+  animation: fadeIn 0.5s 1.8s ease-in-out forwards;
+}
+
+.mes:nth-child(10) {
+  animation: fadeIn 0.5s 2s ease-in-out forwards;
+}
+
+.mes:nth-child(11) {
+  animation: fadeIn 0.5s 2.2s ease-in-out forwards;
+}
+
+.mes:nth-child(12) {
+  animation: fadeIn 0.5s 2.4s ease-in-out forwards;
+}
+
+@keyframes fadeDisable {
+  to {
+    opacity: 0.5;
   }
-  
-  .calendario {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .topo-calendario {
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateX(-60px);
-    animation: fadeRight 1s ease-in-out forwards;
-  }
-  
-  .topo-calendario h1 {
-    font-size: 40px;
-    margin: 0 !important;
-    text-align: center;
-    color: #E30613;
-    text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
-  }
-  
-  .topo-calendario i {
-    font-size: 30px;
-    text-align: center;
-    margin: 0 20px;
-    color: rgba(227, 6, 19, 0.6);
-    text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
-    transition-duration: 0.3s;
-  }
-  
-  .topo-calendario i:hover {
-    cursor: pointer;
-    color: rgba(227, 6, 19, 1);
-    transform: scale(1.2);
-  }
-  
-  .meses {
-    width: 95%;
-    margin: 25px auto;
-    background-color: transparent;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
-  }
-  
-  .mes {
-    width: 30%;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
-    transition-duration: 0.4s;
-    opacity: 0;
-  }
-  
-  .mes:hover {
-    transform: translateY(-10px);
-    box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.3);
-    cursor: pointer;
-  }
-  
-  .mes-disable:hover {
-    cursor: inherit !important;
-    transform: translateY(0) !important;
-  }
-  
-  .mes-disable-sem-animacao {
-    opacity: 0.5 !important;
-    animation: none !important;
-  }
-  
-  .mes-sem-animacao {
-    opacity: 1 !important;
-    animation: none !important;
-  }
-  
-  .mes p {
-    width: 100%;
-    font-size: 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    margin: 0 5px;  
-    padding: 5px;
-  }
-  
-  .bolinhas {
-    width: 100%;
-    display: flex;
-    padding: 2%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-  
-  .bolinha {
-    margin: 5px 3.4%;
-    padding: 3.73%;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 30px;
-  }
-  
-  input[type="date"]::-webkit-inner-spin-button {
-    display: none;
-    -webkit-appearance: none;
-  }
-  
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-    }
-  }
-  
-  @keyframes fadeRight {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  .mes-disable:nth-child(1){
-    animation: fadeDisable 0.4s 0.2s ease-in-out forwards !important;
-  }
-  
-  .mes-disable:nth-child(2){
-    animation: fadeDisable 0.4s 0.4s ease-in-out forwards !important;
-  }
-  
-  .mes-disable:nth-child(3){
-    animation: fadeDisable 0.4s 0.6s ease-in-out forwards !important;
-  }
-  
-  .mes-disable:nth-child(4){
-    animation: fadeDisable 0.4s 0.8s ease-in-out forwards !important;
-  }
-  
-  .mes-disable:nth-child(5){
-    animation: fadeDisable 0.4s 1s ease-in-out forwards !important;
-  }
-  
-  .mes:nth-child(1) {
-    animation: fadeIn 0.5s 0.2s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(2) {
-    animation: fadeIn 0.5s 0.4s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(3) {
-    animation: fadeIn 0.5s 0.6s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(4) {
-    animation: fadeIn 0.5s 0.8s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(5) {
-    animation: fadeIn 0.5s 1s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(6) {
-    animation: fadeIn 0.5s 1.2s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(7) {
-    animation: fadeIn 0.5s 1.4s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(8) {
-    animation: fadeIn 0.5s 1.6s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(9) {
-    animation: fadeIn 0.5s 1.8s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(10) {
-    animation: fadeIn 0.5s 2s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(11) {
-    animation: fadeIn 0.5s 2.2s ease-in-out forwards;
-  }
-  
-  .mes:nth-child(12) {
-    animation: fadeIn 0.5s 2.4s ease-in-out forwards;
-  }
-  
-  @keyframes fadeDisable {
-    to {
-      opacity: 0.5;
-    }
-  }
-  
-  .modal-dialog {
-    width: 700px !important;
-    margin: 0 auto !important;
-  }
-  
-  .modal-content { 
-    margin: 20px auto 0 auto !important;
-  }
-  
-  .modal-body {
-    padding: 40px 40px 0px 40px !important;
-  }
+}
+
+.modal-dialog {
+  width: 700px !important;
+  margin: 0 auto !important;
+}
+
+.modal-content {
+  margin: 20px auto 0 auto !important;
+}
+
+.modal-body {
+  padding: 40px 40px 0px 40px !important;
+}
+
+
+.floating-button {
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  margin: 50px;
+  background-color: rgba(227, 6, 19, 0.8);
+  box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.9);
+  transition-duration: 0.4s;
+}
+
+.floating-button:hover {
+  cursor: pointer;
+  background-color: rgba(227, 6, 19, 1);
+  box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 1);
+  transform: scale(1.1);
+}
+
+.floating-button i {
+  color: #fff;
+  font-size: 40px;
+}
