@@ -3,7 +3,9 @@ package br.com.senaisp.sistemaauditorio.rest;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+
 import br.com.senaisp.sistemaauditorio.annotation.Administrador;
 import br.com.senaisp.sistemaauditorio.annotation.Publico;
 import br.com.senaisp.sistemaauditorio.annotation.Usuario;
@@ -27,7 +31,6 @@ import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Periodo;
 import br.com.senaisp.sistemaauditorio.model.Status;
 import br.com.senaisp.sistemaauditorio.model.Sucesso;
-import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.repository.AgendamentoRepository;
 import br.com.senaisp.sistemaauditorio.services.LogService;
 
@@ -48,14 +51,8 @@ public class AgendamentoRestController {
 									 * METODO QUE CRIA UM NOVO AGENDAMENTO
 									 *
 									 */
-	public HttpServletRequest request;
-	String token = request.getHeader("Authorization");
-// BUSCANDO O ALGORITMO NO USUARIO
-	Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET); // OBJ PARA VERIFICAR O TOKEN
-	JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build(); // DECODIFICA O
-																										// TOKEN
-	DecodedJWT jwt = verifier.verify(token); // RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
-	Map<String, Claim> claims = jwt.getClaims();
+	
+
 
 	@Usuario
 	@Administrador
@@ -213,7 +210,8 @@ public class AgendamentoRestController {
 	 */ @Publico
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Agendamento> lista(Agendamento agendamento) { // TRAZ DO BANCO E RETORNA
-		return repository.findAll();
+		 
+		return repository.findAllByOrderByDataInicioDesc();
 	}
 
 	/*
@@ -374,4 +372,6 @@ public class AgendamentoRestController {
 	public List<Agendamento> getAgendamentoPeriodo(Periodo periodo) {
 		return repository.findByPeriodo(periodo);
 	}
+	 
+	 
 }

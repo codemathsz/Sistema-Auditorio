@@ -39,6 +39,6 @@ public interface AgendamentoRepository extends PagingAndSortingRepository<Agenda
 	public List<Agendamento> findByDescricao(@Param("descricao") String descricao);
 	
 	
-
+	public List<Agendamento> findAllByOrderByDataInicioDesc();
 	 
 }

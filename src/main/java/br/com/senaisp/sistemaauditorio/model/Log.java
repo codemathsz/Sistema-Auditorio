@@ -25,9 +25,9 @@ public class Log {
 
 	private TipoLog tipoLog;
 
-	private Usuario usuarioNome;
+	private String usuarioNome;
 	
-	private Usuario idUsuario;
+	private String usuarioId;
 	
 	
 

@@ -48,8 +48,8 @@ public class LogService {
 		Usuario usuarioNome = (Usuario) claims.get("nome");
 		Usuario usuarioId = (Usuario) claims.get("id");
 		
-		log.setUsuarioNome(usuarioNome);
-		log.setIdUsuario(usuarioId);
+		log.setUsuarioNome(usuarioNome.toString());
+		log.setUsuarioId(usuarioId.toString());
 		log.setLogData(Calendar.getInstance());
 		log.setDescricao(descricao);
 		log.setTipoLog(tipoLog);
