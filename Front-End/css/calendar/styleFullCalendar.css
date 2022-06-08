@@ -26,6 +26,17 @@
   box-shadow: 0px 0px 25px 3px rgb(200 132 132 / 25%);
 }
 
+.fc-dayGridMonth-button .btn .btn-primary .active{
+  border: 0 solid transparent !important;
+  box-shadow: 0;
+}
+
+.btn-group>.btn-group:not(:last-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border: 0 solid transparent !important;
+}
+
 /* Estilos botões bootstrap */
 .active{
   border: 0 solid transparent !important;
@@ -39,22 +50,28 @@
   font-size: 0.8em;
   background-color: rgba(227, 6, 19, 0.5);
   border: 0 solid transparent !important;
+  box-shadow: none !important;
 }
 
 .btn:disabled{
   background-color: rgba(227, 6, 19, 1);
+  box-shadow: none !important;
 }
 
 .btn::selection{
+  background-color: rgba(227, 6, 19, 1);
   border: 0 solid transparent !important; 
+  box-shadow: none !important;
 }
 
 .btn:active{
   border: 0 solid transparent !important;
+  box-shadow: none !important;
 }
 
 .btn.active{
   border: 0 solid transparent !important;
+  box-shadow: none !important;
 }
 
 .btn.disabled{
@@ -67,11 +84,13 @@
 
 .btn.focus{
   border: 0 solid transparent !important;
+  box-shadow: none !important;
 }
 
 .btn:focus {
   background-color: rgba(227, 6, 19, 1);
   border: 0 solid transparent !important;
+  box-shadow: none !important;
 }
 
 /* Estilos do btn-primary */
@@ -97,6 +116,10 @@
 .btn-primary.active {
   background-color: rgba(227, 6, 19, 1) !important;
   border: 0 solid transparent !important;
+}
+
+.btn-primary.active:focus{
+  box-shadow: 0 !important;
 }
 
 .btn-primary.disabled{
@@ -133,7 +156,16 @@
   font-size: 1.2em;
 }
 
-/* CSS para estilização do evento no fullCalendar */
+.fc-day :hover{
+  background-color: #f6f6f6;
+  cursor: pointer;
+}
+
+/* Estilização para o evento que aparece no calendar */
+.fc-event{
+  font-size: 0.8em;
+
+}
 
 /* Responsividade para outras telas de computador */
 @media screen and (max-width: 1680px){
