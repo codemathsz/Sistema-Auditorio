@@ -1,10 +1,5 @@
 /* METHOD GET ---------------------------------------------------------*/
 /* pegando os elementos com id */
-/* input da busca */
-const id = getById("id");
-/* AAAAAAAAAAAAAAAAAAAAA */
-/* pegando o valor do input da busca */
-let valor = id.value;
 /* pegando a tabela */
 const table = getById("tabela");
 /* pegando o tbody */
@@ -12,84 +7,30 @@ const tbody = getById("tbody");
 /* pegando a modal de alteração */
 const modalAlterar = getById("modalAlterar");
 
+const mensagens = getById("mensagens");
+let type = "";
+let idMessage = 0;
+
 /* pegando o token do usuario */
 const token = localStorage.getItem("token");
 const payload = parseJwt(token);
+
+let url = "";
 
 if (token == null) {
   window.location.href = "../../login/login.html";
 } else {
   if (payload.nivel == 1) {
     /* pegando o botao que faz a procura */
-    const botaoProcurar = getById("search");
-    /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-    botaoProcurar.addEventListener("click", () => {
-      /* reinicializando a variavel do valor */
-      valor = id.value;
-      /* vendo se o valor é diferente de vazio */
-      if (valor != "") {
-        /* método que limpa o tbody */
-        clearTbody();
-        /* url de consumo da api que busca um tipo por id */
-        const url = `http://10.92.198.22:8080/api/tipo/${valor}`;
-        /* método que faz a conexão com a api de pegar pelo id */
-        getId(url);
-      } else {
-        /* se o input for vazio ele faz a busca de todos os tipos */
-        /* método que limpa o tbody */
-        clearTbody();
-        /* url que busca todos os tipos */
-        const url = `http://10.92.198.22:8080/api/tipo`;
-        /* método que faz a conexão da api que traz todos os tipos */
-        getAll(url);
-      }
-    });
-    /* if pra ver se o valor do input da busca é vazio */
-    /* que no caso sempre que carregarmos ou recarregarmos a pagina ele vai estar vazio, logo entrando no if */
-    if (valor == "") {
-      /* método que limpa o tbody */
-      clearTbody();
-      /* url que busca todos os tipos */
-      const url = `http://10.92.198.22:8080/api/tipo`;
-      /* método que faz a conexão com a api que traz todos os tipos */
-      getAll(url);
-    }
+    url = "http://localhost:8080/api/tipo";
+    get(url);
   } else {
     window.location.href = "../../../index.html";
   }
 }
-/* método que faz a conexão com a api que traz um tipo por id */
-function getId(url) {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", token);
-
-  /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
-  let fetchData = {
-    method: "GET",
-    headers: myHeaders,
-  };
-  /* fazendo a conexão com a url fornecida */
-  fetch(url, fetchData)
-    .then((resp) => {
-      resp
-        .json()
-        .then((data) => {
-          /* método que cria as tr */
-          console.log(data);
-          createTbody(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
 
 /* método que faz a conexão com a api que traz todos os tipos */
-function getAll(url) {
+function get(url) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", token);
@@ -108,9 +49,11 @@ function getAll(url) {
           console.log(data);
           /* fazendo um forEach no array de tipos */
           /* para cada tipo ele cria um objeto tipo */
+          let i = 1
           return data.map((tipo) => {
             /* método que cria o tbody */
-            createTbody(tipo);
+            createTbody(tipo, i);
+            i++
           });
         })
         .catch((error) => {
@@ -124,9 +67,12 @@ function getAll(url) {
 
 /* método que cria tudo dentro do tbody */
 /* cria as tr, e as tds e coloca os valores do objeto tipo dentro de seu respectivo campo*/
-function createTbody(tipo) {
+function createTbody(tipo, index) {
   /* criando a tr dentro do tbody */
   const tr = createNode("tr");
+  if (index % 2 == 1) {
+    tr.style.backgroundColor = "#f0f0f0";
+  }
 
   /* criando as tds e colocando seus respectivos valores */
   let tdId = createNode("td");
@@ -138,12 +84,16 @@ function createTbody(tipo) {
   let tdAlterar = createNode("td");
   /* cria o botao de alteração */
   const btnAlterar = createNode("button");
-  btnAlterar.innerHTML = "Alterar";
+  btnAlterar.className = "btnAlterar";
+  let iAlterar = createNode("i");
+  iAlterar.classList.add("bx");
+  iAlterar.classList.add("bxs-edit-alt");
+  iAlterar.classList.add("alterar");
 
   let show = false;
   btnAlterar.addEventListener("click", () => {
     if (show === false) {
-      modalAlterar.classList.add("show");
+      modalAlterar.classList.add("showModal");
       show = true;
 
       /* pegando os inputs pelo id */
@@ -152,26 +102,6 @@ function createTbody(tipo) {
       const nome = getById("nome");
 
       /* Preenchendo o formulario com id fornecido */
-      /* colocando o valor do respectivo tipo pelo input do id */
-      id.value = tipo.id;
-
-      /* pegando o valor que acabamos de colocar */
-      const valor = id.value;
-
-      /* url do tipo com o valor do input do id */
-      const urlTipo = `http://10.92.198.22:8080/api/tipo/${valor}`;
-
-      /* fazendo conexão com a api */
-      fetch(urlTipo)
-        /* transformando a resposta em json */
-        .then((resp) => resp.json())
-        .then((data) => {
-          /* pegando os valores do json e colocando nos inputs */
-          nome.value = data.nome;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
 
       /* METODO PUT ------------------------------------ */
       /* pegando as informações alteradas do formulario e fazendo a alteração pelo método put */
@@ -182,7 +112,7 @@ function createTbody(tipo) {
         event.preventDefault();
 
         /* url do tipo com o valor do input do id */
-        const urltipo = `http://10.92.198.22:8080/api/tipo/${valor}`;
+        const urlTipo = `http://localhost:8080/api/tipo/${valor}`;
 
         /* construindo o objeto tipo */
         let tipo = {
@@ -192,6 +122,7 @@ function createTbody(tipo) {
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("token", token)  
 
         /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
         let fetchData = {
@@ -201,14 +132,31 @@ function createTbody(tipo) {
         };
 
         /* fazendo a conexão com a api */
-        fetch(urltipo, fetchData)
+        fetch(urlTipo, fetchData)
           .then((resp) => {
-            resp.json();
             console.log(resp);
-            window.location.reload();
-          })
-          .then((resposta) => {
-            console.log(resposta);
+            resp
+              .json()
+              .then((resposta) => {
+                console.log(resposta);
+                if (resposta.error == "OK") {
+                  console.log("sucesso");
+                  type = "success";
+                  createMessage(`Sucesso ao alterar o tipo de evento!`, type);
+                  clearForm();
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 8000);
+                } else {
+                  console.log("erro");
+                  type = "error";
+                  createMessage(resposta.message, type);
+                }
+                deleteMessage();
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           })
           .catch((error) => {
             console.log(error);
@@ -219,7 +167,7 @@ function createTbody(tipo) {
     const btnFecharModal = getById("close");
     btnFecharModal.addEventListener("click", () => {
       if (show === true) {
-        modalAlterar.classList.remove("show");
+        modalAlterar.classList.remove("showModal");
         show = false;
       }
     });
@@ -228,12 +176,16 @@ function createTbody(tipo) {
   let tdDeletar = createNode("td");
   /* cria o botao de alteração */
   const btnDeletar = createNode("button");
-  btnDeletar.innerHTML = "Deletar";
+  btnDeletar.classList.add("btnDeletar");
+  let iDeletar = createNode("i");
+  iDeletar.classList.add("bx");
+  iDeletar.classList.add("bxs-trash-alt");
+  iDeletar.classList.add("deletar");
 
   btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlTipo = `http://10.92.198.22:8080/api/tipo/${valor}`;
+    const urlTipo = `http://localhost:8080/api/tipo/${valor}`;
     const resultado = confirm(`Deseja deletar o tipo do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto tipo */
@@ -243,6 +195,7 @@ function createTbody(tipo) {
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", token);
 
       /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
       let fetchData = {
@@ -250,11 +203,32 @@ function createTbody(tipo) {
         body: JSON.stringify(tipo),
         headers: myHeaders,
       };
+      /* fazendo a conexão com a api */
       fetch(urlTipo, fetchData)
-        .then((resp) => resp.json())
-        .then((data) => {
-          alert("O tipo foi excluido.");
-          window.location.reload();
+        .then((resp) => {
+          console.log(resp);
+          resp
+            .json()
+            .then((resposta) => {
+              console.log(resposta);
+              if (resposta.error == "OK") {
+                console.log("sucesso");
+                type = "success";
+                createMessage(`Sucesso ao deletar o tipo de evento!`, type);
+                clearForm();
+                setTimeout(() => {
+                  window.location.reload();
+                }, 8000);
+              } else {
+                console.log("erro");
+                type = "error";
+                createMessage(resposta.message, type);
+              }
+              deleteMessage();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -267,9 +241,12 @@ function createTbody(tipo) {
   append(tbody, tr);
   append(tr, tdId);
   append(tr, tdNome);
+  append(tr, tdAlterar)
   append(tdAlterar, btnAlterar);
-  append(tr, tdAlterar);
+  append(btnAlterar, iAlterar);
+  append(tr, tdDeletar);
   append(tdDeletar, btnDeletar);
+  append(btnDeletar, iDeletar);
   append(tr, tdDeletar);
 }
 
@@ -307,4 +284,56 @@ function parseJwt(token) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+function createMessage(msg, type) {
+  idMessage++;
+  let message = createNode("div");
+  message.classList.add("message");
+  message.id = "message" + idMessage;
+
+  let messageContent = createNode("div");
+  messageContent.classList.add("msg-content");
+
+  let i = createNode("i");
+  i.classList.add("bx");
+  i.classList.add("bx-tada");
+  if (type == "success") {
+    i.classList.add("bx-check");
+    i.style.color = "green";
+  } else {
+    i.classList.add("bx-x");
+    i.style.color = "rgb(255, 11, 27)";
+  }
+
+  let p = createNode("p");
+  p.innerHTML = msg;
+
+  append(message, messageContent);
+  append(messageContent, i);
+  append(messageContent, p);
+
+  let time = createNode("div");
+  time.classList.add("msgTempo");
+
+  let timeBar = createNode("div");
+  timeBar.classList.add("barraTempo");
+
+  append(message, time);
+  append(time, timeBar);
+  append(mensagens, message);
+}
+
+function deleteMessage() {
+  console.log(idMessage);
+  for (let i = 0; i <= idMessage; i++) {
+    let element = getById("message" + i);
+    if (element != null) {
+      setTimeout(() => {
+        mensagens.removeChild(element);
+      }, 9000);
+    } else {
+      continue;
+    }
+  }
 }
