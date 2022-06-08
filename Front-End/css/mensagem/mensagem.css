@@ -5,6 +5,7 @@
     max-width: 450px;
     margin: 20px;
     color: black;
+    z-index: 1500;
 }
 
 .message {
@@ -25,6 +26,10 @@
     justify-content: left;
     align-items: center;
     margin-bottom: 10px;
+}
+
+.msg-content p {
+    margin: 0 !important;
 }
 
 .msg-content i {
