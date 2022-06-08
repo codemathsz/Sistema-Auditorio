@@ -1,5 +1,7 @@
 package br.com.senaisp.sistemaauditorio.rest;
 
+
+
 import java.util.List;
 import java.util.Optional;
 
@@ -22,137 +24,197 @@ import br.com.senaisp.sistemaauditorio.annotation.Usuario;
 import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Sucesso;
 import br.com.senaisp.sistemaauditorio.model.TipoEvento;
-import br.com.senaisp.sistemaauditorio.model.TipoLog;
 import br.com.senaisp.sistemaauditorio.repository.TipoEventoRepository;
 import br.com.senaisp.sistemaauditorio.services.LogService;
+
+
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/tipo")
 public class TipoEventoRestController {
 
-	@Autowired
-	private TipoEventoRepository repository;
 
-	@Autowired
-	private LogService logService;
 
-	@Administrador
-	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> cadastrarTipoEvento(@RequestBody TipoEvento tipoEvento, HttpServletRequest request) {
+@Autowired
+private TipoEventoRepository repository;
 
-		try {
 
-			if (repository.nomeDuplicado(tipoEvento.getNome()).isEmpty()) {
 
-				// SALVANDO TIPO NO BD
-				repository.save(tipoEvento);
-				// CRIA LOG
-				logService.salvarLogTipo(tipoEvento, TipoLog.CADASTRO_EVENTO, request);
-				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
-			} else {
+@Autowired
+private LogService logService;
 
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Nome* do Tipo de Evento já foi cadastrado!",
-						null);
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 
-			}
 
-			// CRIADO LOG
-			/* log.salvarLogTipo(tipoEvento, TipoLog.CADASTRO_EVENTO, request); */
-			// RETORNO DO METODO
-		} catch (DataIntegrityViolationException e) {
+@Administrador
+@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<Object> cadastrarTipoEvento(@RequestBody TipoEvento tipoEvento, HttpServletRequest request) {
 
-			if (tipoEvento.getNome() == null) {
 
-				e.printStackTrace();
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Nome* não pode ser vazio!",
-						e.getClass().getName());
-				// RETORNO DO MÉTODO
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 
-			}
+try {
 
-			e.printStackTrace();
-			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro não indentificado ao cadastrar.",
-					e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION
-			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
-		}
 
-	}
 
-	@Administrador
-	@Usuario
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public Iterable<TipoEvento> getTipoEventos() {
+if (repository.nomeDuplicado(tipoEvento.getNome()).isEmpty()) {
 
-		return repository.findAll();
-	}
 
-	@Administrador
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<TipoEvento> getTipoEventoById(@PathVariable("id") Long id) {
 
-		Optional<TipoEvento> optional = repository.findById(id);
+// SALVANDO TIPO NO BD
+repository.save(tipoEvento);
 
-		if (optional.isPresent()) {
 
-			return ResponseEntity.ok(optional.get());
-		} else {
 
-			return ResponseEntity.notFound().build();
-		}
-	}
+Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+} else {
 
-	@Administrador
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> altualizarTipoEvento(@PathVariable("id") Long idTipoEvento,
-			@RequestBody TipoEvento tipoEvento, HttpServletRequest request) {
 
-		if (tipoEvento.getId() != idTipoEvento) {
-			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
-			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-		} else {
-			// SALVA AS ALTERAÇÕES SO BD
-			repository.save(tipoEvento);
-			// CRIA O LOG
-			logService.salvarLogTipo(tipoEvento, TipoLog.ALTERAR, request);
-			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-			return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
-		}
-	}
 
-	@Administrador
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> excluirTipoEvento(@PathVariable("id") Long idTipoEvento,
-			@RequestBody TipoEvento tipoEvento, HttpServletRequest request) {
+// ERRO PERSONALIZADO
+Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O *Nome* do Tipo de Evento já foi cadastrado!",
+null);
+// RETORNO DO MÉTODO
+return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 
-		if (idTipoEvento != tipoEvento.getId()) {
-			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
-			return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		// DELETA DO BANCO
-		repository.deleteById(idTipoEvento);
-		// CRIA O LOG
-		logService.salvarLogTipo(tipoEvento, TipoLog.DELETAR, request);
-		Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-		return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
-	}
 
-	/*
-	 * 
-	 * BUSCANDO POR TIPOS DE EVENTOS
-	 * 
-	 */
 
-	@Administrador
-	@RequestMapping(value = "/nome", method = RequestMethod.GET)
-	public List<TipoEvento> getTipoEventoNome(String nome) {
-		return repository.findByTipo(nome);
-	}
+}
+
+
+
+// CRIADO LOG
+/* log.salvarLogTipo(tipoEvento, TipoLog.CADASTRO_EVENTO, request); */
+// RETORNO DO METODO
+} catch (DataIntegrityViolationException e) {
+
+
+
+if (tipoEvento.getNome() == null) {
+
+
+
+e.printStackTrace();
+// ERRO PERSONALIZADO
+Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Nome* não pode ser vazio!",
+e.getClass().getName());
+// RETORNO DO MÉTODO
+return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+
+
+
+}
+
+
+
+e.printStackTrace();
+Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Erro não indentificado ao cadastrar.",
+e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION
+return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
+}
+
+
+
+}
+
+
+
+@Administrador
+@Usuario
+@RequestMapping(value = "", method = RequestMethod.GET)
+public Iterable<TipoEvento> getTipoEventos() {
+
+
+
+return repository.findAll();
+}
+
+
+
+@Administrador
+@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+public ResponseEntity<TipoEvento> getTipoEventoById(@PathVariable("id") Long id) {
+
+
+
+Optional<TipoEvento> optional = repository.findById(id);
+
+
+
+if (optional.isPresent()) {
+
+
+
+return ResponseEntity.ok(optional.get());
+} else {
+
+
+
+return ResponseEntity.notFound().build();
+}
+}
+
+
+
+@Administrador
+@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<Object> altualizarTipoEvento(@PathVariable("id") Long idTipoEvento,
+@RequestBody TipoEvento tipoEvento, HttpServletRequest request) {
+
+
+
+if (tipoEvento.getId() != idTipoEvento) {
+Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
+return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+} else {
+// SALVA AS ALTERAÇÕES SO BD
+repository.save(tipoEvento);
+
+
+
+Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+}
+}
+
+
+
+@Administrador
+@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+public ResponseEntity<Object> excluirTipoEvento(@PathVariable("id") Long idTipoEvento,
+@RequestBody TipoEvento tipoEvento, HttpServletRequest request) {
+
+
+
+if (idTipoEvento != tipoEvento.getId()) {
+Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
+return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+}
+// DELETA DO BANCO
+repository.deleteById(idTipoEvento);
+
+
+
+Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+}
+
+
+
+/*
+*
+* BUSCANDO POR TIPOS DE EVENTOS
+*
+*/
+
+
+
+@Administrador
+@RequestMapping(value = "/nome", method = RequestMethod.GET)
+public List<TipoEvento> getTipoEventoNome(String nome) {
+return repository.findByTipo(nome);
+}
+
+
 
 }
