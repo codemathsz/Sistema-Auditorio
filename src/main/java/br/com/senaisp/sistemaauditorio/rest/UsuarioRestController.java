@@ -61,7 +61,7 @@
 				// SALVA USUARIO NO BD
 				repository.save(usuario);
 				// SALVA LOG NO BD
-				logService.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO, request);
+				//logService.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO, request);
 				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
 				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
 				

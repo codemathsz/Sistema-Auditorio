@@ -411,7 +411,7 @@ body {
     text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
 }
 
-#form {
+/* #form {
     width: 90%;
     margin: 10px auto 0 auto;
 }
@@ -450,9 +450,9 @@ body {
 
 #tipo option:hover {
     color: #ff0000;
-}
+} */
 
-.form_input {
+/* .form_input {
     font-size: 16px;
     width: 100%;
     position: absolute;
@@ -520,7 +520,6 @@ body {
     height: 52px;
     font-size: 22px;
     padding-left: 5px;
-    /* margin-top: 0.3px; */
     border: none;
     border-bottom: 3px solid #E30613;
     color: rgba(0, 0, 0, 0.6);
@@ -656,7 +655,7 @@ body {
     transform: translateY(-50px);
     transition-duration: 0.8s;
     transition-timing-function: ease-in-out;
-    /* animation: toUp 1s ease-in-out forwards; */
+    
 }
 
 .btn_active {
@@ -679,7 +678,7 @@ body {
 .showChoice {
     animation: fadeIn 1s ease-in-out forwards;
     z-index: 1000;
-}
+} */
 
 
 @keyframes fadeOut {
