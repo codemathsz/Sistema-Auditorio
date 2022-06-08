@@ -2,12 +2,13 @@ package br.com.senaisp.sistemaauditorio.model;
 
 import java.util.Calendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
@@ -24,15 +25,15 @@ public class Log {
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
-	@OneToOne
+	@ManyToOne
 	private Usuario usuario;
 	
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Agendamento agendamento;
 
 	private TipoLog tipoLog;
 	
-	@OneToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private TipoEvento tipoEvento;
 	
 	public Log(Usuario usuario,TipoLog tipoLog) {

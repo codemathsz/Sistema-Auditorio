@@ -64,54 +64,54 @@ public class AppInterceptor implements HandlerInterceptor {
 					
 				} else {
 					
-					token = request.getHeader("Authorization");
-					
-					// BUSCANDO O ALGORITMO NO USUARIO
-					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
-
-					// OBJ PARA VERIFICAR O TOKEN
-					JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
-
-					// DECODIFICA O TOKEN
-					DecodedJWT jwt = verifier.verify(token);
-
-					// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
-					Map<String, Claim> claims = jwt.getClaims();
-
-					Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
-					
-					if (metodo.getMethodAnnotation(Administrador.class) != null) {// SE O METODO QUE ESTA  TENTANDO ACESSAR TEM A ANOTAÇÃO ADM 
-						
-						if (nivel == Nivel.ADMINISTRADOR) {// SE O NIVEL DO USUARIO QUE ESTA TENTANDO ACESSAR É ADM
-							
-							
-							response.setStatus(HttpStatus.OK.value());
-							return true;
-							
-						} else {// SE NÃO É ADM BLOQUEIA
-							
-							
-							
-							response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado" );// RETORNA ERRO PARA O FRONT 
-							
-							return false;// BLOQUEIA
-							
-						}
-						
-					} else if (metodo.getMethodAnnotation(Usuario.class) != null) {// SE O METODO QUE ESTA SENDO ACESSADO TEM A ANOTAÇÃO USUARIO
-						
-						if (nivel == Nivel.USUARIO) {// VERIFICA SE O NIVEL DE QUEM ESTA ACESSANDO É USUARIO
-							
-
-							response.setStatus(HttpStatus.OK.value());
-							return true;
-							
-						} else {// SE NÃO FOR BLOQUEIA
-							
-							response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado");// RETORNA ERRO PARA O FRONT
-							return false;// BLOQUEIA
-						}
-					}
+//					token = request.getHeader("Authorization");
+//					
+//					// BUSCANDO O ALGORITMO NO USUARIO
+//					Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
+//
+//					// OBJ PARA VERIFICAR O TOKEN
+//					JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
+//
+//					// DECODIFICA O TOKEN
+//					DecodedJWT jwt = verifier.verify(token);
+//
+//					// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
+//					Map<String, Claim> claims = jwt.getClaims();
+//
+//					Nivel nivel = Nivel.values()[Integer.parseInt(claims.get("nivel").toString())];
+//					
+//					if (metodo.getMethodAnnotation(Administrador.class) != null) {// SE O METODO QUE ESTA  TENTANDO ACESSAR TEM A ANOTAÇÃO ADM 
+//						
+//						if (nivel == Nivel.ADMINISTRADOR) {// SE O NIVEL DO USUARIO QUE ESTA TENTANDO ACESSAR É ADM
+//							
+//							
+//							response.setStatus(HttpStatus.OK.value());
+//							return true;
+//							
+//						} else {// SE NÃO É ADM BLOQUEIA
+//							
+//							
+//							
+//							response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado" );// RETORNA ERRO PARA O FRONT 
+//							
+//							return false;// BLOQUEIA
+//							
+//						}
+//						
+//					} else if (metodo.getMethodAnnotation(Usuario.class) != null) {// SE O METODO QUE ESTA SENDO ACESSADO TEM A ANOTAÇÃO USUARIO
+//						
+//						if (nivel == Nivel.USUARIO) {// VERIFICA SE O NIVEL DE QUEM ESTA ACESSANDO É USUARIO
+//							
+//
+//							response.setStatus(HttpStatus.OK.value());
+//							return true;
+//							
+//						} else {// SE NÃO FOR BLOQUEIA
+//							
+//							response.sendError(HttpStatus.UNAUTHORIZED.value(), "Acesso Negado");// RETORNA ERRO PARA O FRONT
+//							return false;// BLOQUEIA
+//						}
+//					}
 				}
 			}
 		}

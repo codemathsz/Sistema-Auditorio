@@ -263,6 +263,16 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Agendamento> lista(Agendamento agendamento) {
 
+
+		if(agendamento.getDataFinalizada() == Calendar.getInstance()) {
+			if(agendamento.getStatus() == Status.PENDENTE) {
+				agendamento.setStatus(Status.RECUSADO);
+			}else if(agendamento.getStatus() == Status.ACEITO) {
+				agendamento.setStatus(Status.CONCLUIDO);
+			}
+			
+		}
+		
 		// TRAZ DO BANCO E RETORNA
 		return repository.findAll();
 	}
@@ -303,13 +313,11 @@ public class AgendamentoRestController {
 
 		// SE O ID DO agendamento É IGUAL AO id PASSADO
 		if (agendamento.getId() == id) {
-
 			// DELETA O agendamento DO BANCO
 			repository.deleteById(id);
 			// LOG, SALVA A AÇÃO NO BANCO, INFORMANDO UM AGENDAMENTO DELETADO E O NOME DE
 			// QUE O DELETOU
 			logService.salvarLogAgendamento( agendamento, TipoLog.DELETAR, request);
-
 			// RETORNO DO METODO
 			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
 			return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
