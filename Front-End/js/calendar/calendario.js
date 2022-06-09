@@ -141,6 +141,12 @@ let control = 1;
 
 // para renderizar o calendário e colocar opções do fullCalendar
 function calendar(meses, ano) {
+
+  /* Limitando o fullCalendar para que ele possa voltar até o dia que a aplicação foi iniciada */
+  
+  var buttonPrev = ('fc-prev-button');
+  var titleDate = getById('fc-toolbar-title');
+
   /*   inst.setEvents(events); */
   const date = `${ano}-${meses}-01`;
   // tabela candar
@@ -277,6 +283,10 @@ function calendar(meses, ano) {
 /* método que pega os elementos pelo id */
 function getById(id) {
   return document.getElementById(id);
+}
+
+function getByClass(className) {
+  return document.getElementsByClassName(className);
 }
 
 /* método que cria um elemento */

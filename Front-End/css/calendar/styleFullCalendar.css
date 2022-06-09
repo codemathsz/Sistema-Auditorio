@@ -1,3 +1,17 @@
+::-webkit-scrollbar-track {
+  background-color: #f4f4f4;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+
+  background: #f4f4f4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dad7d7;
+}
+
 /* Estilo para modal que fecha ao clicar fora do calendário */
 #modal-fecha {
   position: fixed;
@@ -26,23 +40,26 @@
   box-shadow: 0px 0px 25px 3px rgb(200 132 132 / 25%);
 }
 
-.fc-dayGridMonth-button .btn .btn-primary .active{
+.fc-dayGridMonth-button .btn .btn-primary .active {
   border: 0 solid transparent !important;
   box-shadow: 0;
 }
 
-.btn-group>.btn-group:not(:last-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle) {
+.btn-group > .btn-group:not(:last-child) > .btn,
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border: 0 solid transparent !important;
 }
 
 /* Estilos botões bootstrap */
-.active{
+.active {
+  background-color: rgba(227, 6, 19, 1) !important;
   border: 0 solid transparent !important;
 }
 
-.active:active{
+.active:active {
+  background-color: rgba(227, 6, 19, 1) !important;
   border: 0 solid transparent !important;
 }
 
@@ -53,36 +70,40 @@
   box-shadow: none !important;
 }
 
-.btn:disabled{
+.btn:disabled {
   background-color: rgba(227, 6, 19, 1);
   box-shadow: none !important;
 }
 
-.btn::selection{
+.btn::selection {
   background-color: rgba(227, 6, 19, 1);
-  border: 0 solid transparent !important; 
-  box-shadow: none !important;
-}
-
-.btn:active{
   border: 0 solid transparent !important;
   box-shadow: none !important;
 }
 
-.btn.active{
+.btn:active {
+  background-color: rgba(227, 6, 19, 1) !important;
   border: 0 solid transparent !important;
   box-shadow: none !important;
 }
 
-.btn.disabled{
-  background-color: rgba(227, 6, 19, 1)
+.btn.active {
+  background-color: rgba(227, 6, 19, 1) !important;
+  border: 0 solid transparent !important;
+  box-shadow: none !important;
 }
 
-.btn:disabled{
+.btn.disabled {
   background-color: rgba(227, 6, 19, 1);
+  opacity: 1 !important;
 }
 
-.btn.focus{
+.btn:disabled {
+  background-color: rgba(227, 6, 19, 1);
+  opacity: 1 !important;
+}
+
+.btn.focus {
   border: 0 solid transparent !important;
   box-shadow: none !important;
 }
@@ -98,10 +119,9 @@
 .btn-primary {
   color: #f6f6f6 !important;
   border-color: rgba(227, 6, 19, 0.5) !important;
-  background-color: rgba(227, 6, 19, ) !important;
 }
 
-.btn-primary::selection{
+.btn-primary::selection {
   border: 0 solid transparent !important;
 }
 
@@ -109,7 +129,8 @@
   background-color: rgba(227, 6, 19, 1) !important;
 }
 
-.btn-primary:active{
+.btn-primary:active {
+  background-color: rgba(227, 6, 19, 1) !important;
   border: 0 solid transparent !important;
 }
 
@@ -118,16 +139,18 @@
   border: 0 solid transparent !important;
 }
 
-.btn-primary.active:focus{
+.btn-primary.active:focus {
   box-shadow: 0 !important;
 }
 
-.btn-primary.disabled{
+.btn-primary.disabled {
   border-color: rgba(227, 6, 19, 1) !important;
+  opacity: 1 !important;
 }
 
 .btn-primary:disabled {
   border-color: rgba(227, 6, 19, 1) !important;
+  opacity: 1 !important;
 }
 
 .btn-primary:focus {
@@ -138,37 +161,107 @@
   border: 0 solid transparent !important;
 }
 
+/* Botão de dia atual */
+.fc-today-button :disabled{
+  background-color: rgba(227, 6, 19, 1) !important  ;
+}
+
 /* Classe do botão de mês */
-.fc-dayGridMonth-button{
+.fc-dayGridMonth-button {
   border: 0 solid transparent !important;
 }
 
 .fc .fc-col-header-cell-cushion {
   width: 100%;
   display: inline-block;
-  margin:0;
+  margin: 0;
   color: #000;
   background-color: #f6f6f6;
   font-size: 0.8em;
 }
 
-.fc .fc-toolbar-title{
-  font-size: 1.2em;
+.fc-toolbar-title {
+  font-size: 1.5em;
 }
 
-.fc-day :hover{
+.fc-day :hover {
   background-color: #f6f6f6;
   cursor: pointer;
 }
 
-/* Estilização para o evento que aparece no calendar */
-.fc-event{
-  font-size: 0.8em;
+.fc-daygrid-day.fc-day-today {
+  background-color: rgba(227, 6, 19, 0.1) !important;
+}
 
+/* Estilização para o evento que aparece no calendar */
+.fc-daygrid-day-events {
+  font-size: 1em;
+  transition-duration: 3s;
+}
+
+.fc-daygrid-day-events :hover {
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+  transition-duration: 0.5s;
+  background-color: transparent;
+}
+
+.fc-event-title:hover {
+  background-color: transparent !important;
+}
+
+.fc-event-time:hover {
+  background-color: transparent !important;
+}
+
+.fc-daygrid-day-bottom:hover {
+  background-color: transparent !important;
+}
+
+.fc-daygrid-event-dot {
+  color: #fff;
+  border-color: rgba(227, 6, 19, 1);
+}
+
+/* Estilização do pop-up que aparecer ao ver mais eventos */
+
+.popover-header {
+  background-color: rgba(227, 6, 19, 1) !important;
+  color: #fff !important;
+}
+
+.popover-header :hover {
+  background-color: rgba(227, 6, 19, 1) !important;
+  color: #fff !important;
+}
+
+.fc-popover-header {
+  background-color: rgba(227, 6, 19, 1) !important;
+  color: #fff !important;
+}
+
+.fc-popover-header :hover {
+  background-color: rgba(227, 6, 19, 1) !important;
+  color: #fff !important;
+}
+
+.fc-popover-close :hover {
+  transform: scale(5);
+}
+
+.popover-body {
+  font-size: 1.2em;
+  max-height: 20vh;
+  overflow-y: scroll;
+  
+}
+
+.fc-popover-body .popover-body :hover {
+  border-radius: 5px;
 }
 
 /* Responsividade para outras telas de computador */
-@media screen and (max-width: 1680px){
+@media screen and (max-width: 1680px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
     top: 10%;
@@ -176,7 +269,7 @@
   }
 }
 
-@media screen and (max-width: 1600px){
+@media screen and (max-width: 1600px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
     top: 7%;
@@ -184,7 +277,7 @@
   }
 }
 
-@media screen and (max-width: 1440px){
+@media screen and (max-width: 1440px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
     top: 12%;
@@ -192,7 +285,7 @@
   }
 }
 
-@media screen and (max-width: 1400px){
+@media screen and (max-width: 1400px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
     top: 20%;
@@ -200,7 +293,7 @@
   }
 }
 
-@media screen and (max-width: 1366px){
+@media screen and (max-width: 1366px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
     width: 50%;
@@ -217,10 +310,10 @@
   }
 }
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 1024px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
     top: 22%;
-    left:38.5%;
+    left: 38.5%;
   }
 }
