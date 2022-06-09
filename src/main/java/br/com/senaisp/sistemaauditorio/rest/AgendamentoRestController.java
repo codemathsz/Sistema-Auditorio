@@ -61,6 +61,72 @@ public class AgendamentoRestController {
 	public ResponseEntity<Object> criar(@RequestBody Agendamento agendamento, HttpServletRequest request) {
 		try {
 
+			
+			if(agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) == 0){
+				
+				System.out.println("if hora inicio");
+
+				if (agendamento.getPeriodo() == Periodo.MANHA) { 
+					
+					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 12);
+					
+				} else if (agendamento.getPeriodo() == Periodo.TARDE) {
+					
+					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 18);
+					
+				} else if (agendamento.getPeriodo() == Periodo.NOITE) {
+					
+					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 18);
+					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
+					agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
+					
+				} else if (agendamento.getPeriodo() == Periodo.MANHA_TARDE) {
+					
+					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 18);
+					
+				} else if (agendamento.getPeriodo() == Periodo.TARDE_NOITE) {
+					
+					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 12);
+					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
+					agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
+					
+				} else {
+					
+					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
+					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
+					agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
+					
+				}
+				
+			}else if (agendamento.getPeriodo() == null) {
+				
+				System.out.println("entrou if periodo vazio");
+				
+				if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
+					agendamento.setPeriodo(Periodo.MANHA);
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
+					agendamento.setPeriodo(Periodo.TARDE);
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 18
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+					agendamento.setPeriodo(Periodo.NOITE);
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
+					agendamento.setPeriodo(Periodo.MANHA_TARDE);
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+					agendamento.setPeriodo(Periodo.TARDE_NOITE);
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+					agendamento.setPeriodo(Periodo.MANHA_TARDE_NOITE);
+				}
+
+			}
+
 			// IF CRIADO PARA QUE A VALIDAÇÃO NÃO
 			// DEIXE CADASTRAR NO MESMO DIA OU
 			// HORARIO
@@ -110,59 +176,8 @@ public class AgendamentoRestController {
 						agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
 
 					}
-				} else if (agendamento.getPeriodo() == null) {
-					
-					System.out.println("entrou if periodo vazio");
-					
-					if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
-							&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
-						agendamento.setPeriodo(Periodo.MANHA);
-					} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12
-							&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
-						agendamento.setPeriodo(Periodo.TARDE);
-					} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 18
-							&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
-						agendamento.setPeriodo(Periodo.NOITE);
-					} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
-							&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
-						agendamento.setPeriodo(Periodo.MANHA_TARDE);
-					} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 12
-							&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
-						agendamento.setPeriodo(Periodo.TARDE_NOITE);
-					} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
-							&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
-						agendamento.setPeriodo(Periodo.MANHA_TARDE_NOITE);
-					}
-
-				} else if(agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) == 0){
-					
-					System.out.println("if hora inicio");
-
-					if (agendamento.getPeriodo() == Periodo.MANHA) { 
-						
-						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
-						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 12);
-					} else if (agendamento.getPeriodo() == Periodo.TARDE) {
-						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
-						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 18);
-					} else if (agendamento.getPeriodo() == Periodo.NOITE) {
-						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 18);
-						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
-						agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
-					} else if (agendamento.getPeriodo() == Periodo.MANHA_TARDE) {
-						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
-						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 18);
-					} else if (agendamento.getPeriodo() == Periodo.TARDE_NOITE) {
-						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 12);
-						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
-						agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
-					} else {
-						agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
-						agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
-						agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
-					}
-				}
-
+				} 
+				
 				System.out.println("depois de passar por todos os ifs");
 				
 				repository.save(agendamento); // RETORNO DO METODO
