@@ -25,7 +25,7 @@ if (token == null) {
 } else {
   if (payload.nivel == 1) {
     /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-    url = 'http://10.92.198.22:8080/api/usuario}'
+    url = 'http://10.92.198.22:8080/api/usuario'
     get(url)
   } else {
     window.location.href = "../../../index.html";
@@ -69,9 +69,13 @@ function get(url) {
 
 /* método que cria tudo dentro do tbody */
 /* cria as tr, e as tds e coloca os valores do objeto usuario dentro de seu respectivo campo*/
-function createTbody(usuario) {
+function createTbody(usuario, index) {
   /* criando a tr dentro do tbody */
   const tr = createNode("tr");
+
+  if (index % 2 == 1) {
+    tr.style.backgroundColor = "#f0f0f0";
+  }
 
   /* criando as tds e colocando seus respectivos valores */
   let tdId = createNode("td");
@@ -86,8 +90,14 @@ function createTbody(usuario) {
   let tdNif = createNode("td");
   tdNif.innerHTML = `${usuario.nif}`;
 
-  let tdNivel = createNode("td");
-  tdNivel.innerHTML = `${usuario.nivel}`;
+  let tdNivel = createNode("td")
+  let nivel = '';
+  if (usuario.nivel == "ADMINISTRADOR") {
+    nivel = 'Administrador';
+  } else {
+    nivel = 'Professor'
+  }
+  tdNivel.innerHTML = nivel;
 
   let tdAlterar = createNode("td");
   /* cria o botao de alteração */
@@ -195,12 +205,12 @@ function createTbody(usuario) {
     });
   });
 
-  let tdDeletar = createNode("td");
+  let tdDesativar = createNode("td");
   /* cria o botao de alteração */
-  const btnDeletar = createNode("button");
-  btnDeletar.innerHTML = "Deletar";
+  const btnDesativar = createNode("button");
+  btnDesativar.innerHTML = "Desativar";
 
-  btnDeletar.addEventListener("click", () => {
+  btnDesativar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
     const urlusuario = `http://10.92.198.22:8080/api/usuario/${valor}`;
