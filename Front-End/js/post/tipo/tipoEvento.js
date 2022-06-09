@@ -21,7 +21,7 @@ if (token == null) {
     /* METODO POST ------------------------------------ */
     form.addEventListener("submit", function () {
       event.preventDefault();
-      const url = `http://10.92.198.22:8080/api/tipo`;
+      const url = `http://localhost:8080/api/tipo`;
 
       let tipo = {
         nome: nome.value,
@@ -154,7 +154,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 9000);
+      }, 4000);
     } else {
       continue;
     }

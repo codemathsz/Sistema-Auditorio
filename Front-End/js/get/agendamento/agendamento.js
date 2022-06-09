@@ -4,8 +4,9 @@
 const table = getById("tabela");
 /* pegando o tbody */
 const tbody = getById("tbody");
+
 /* pegando a modal de alteração */
-const modalAlterar = getById("modalAlterar"); 
+const modalAlterar = getById("modalAlterar");
 
 /* pegando modal de informação */
 const modalInfo = getById("modalInfo");
@@ -32,8 +33,41 @@ if (token == null) {
     /* const botaoProcurar = getById("search"); */
     /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
     /* botaoProcurar.addEventListener("click", () => {}); */
-    url = "http://10.92.198.22:8080/api/agendamento";
+    url = "http://localhost:8080/api/agendamento";
+    /* verificando a posicao de cada elemento do thead */
     getAgendamento(url);
+    
+    /* const id = document.getElementsByClassName("id");
+    const titulo = document.getElementsByClassName("titulo");
+    const data = document.getElementsByClassName("data");
+    const hora = document.getElementsByClassName("hora");
+    const status = document.getElementsByClassName("statusAgendamento");
+    const usuario = document.getElementsByClassName("usuario");
+    const verMais = document.getElementsByClassName("verMais");
+    
+    const thead = [id, titulo, data, hora, status, usuario, verMais];
+    console.log(thead);
+    let elemento = "";
+    let p = "";
+    let width = "";
+    let wTh = "";
+    for (let i = 0; i < thead.length; i++) {
+      for (let j = 0; j < 2; j++) {
+        elemento = thead[i][j]
+        console.log(elemento)
+        width = elemento.getBoundingClientRect().width;
+        if (j == 0) {
+          console.log("Tamannho p: " + width);
+          wTh = width;
+        } else {
+          console.log("Tamannho td: " + width);
+          p = elemento;
+        }
+      }
+      if (!p.classList.contains("id")) {
+        p.style.width = wTh + "px";
+      }
+    } */
   } else {
     window.location.href = "../../../index.html";
   }
@@ -85,15 +119,18 @@ function createTbody(agendamento, index) {
   }
   /* criando as tds e colocando seus respectivos valores */
   let tdId = createNode("td");
+  tdId.classList.add("id");
   tdId.innerHTML = `${agendamento.id}`;
 
   let tdTitulo = createNode("td");
+  tdTitulo.classList.add("titulo");
   tdTitulo.innerHTML = `${agendamento.title.substring(0, 20)}...`;
 
   /* let tdDescricao = createNode('td')
     tdDescricao.innerHTML = `${agendamento.descricao.substring(0, 15)}...` */
 
   let tdData = createNode("td");
+  tdData.classList.add("data");
   /* formatando a data para padrão brasileiro */
   const dataInicioFormat = agendamento.dataInicioFormat.replace(
     /(\d*)-(\d*)-(\d*).*/,
@@ -112,9 +149,11 @@ function createTbody(agendamento, index) {
   /* formatando a data para padrão brasileiro */
 
   let tdHora = createNode("td");
+  tdHora.classList.add("hora");
   tdHora.innerHTML = `${agendamento.horaInicio} - ${agendamento.horaFinalizada}`;
 
   let tdStatus = createNode("td");
+  tdStatus.classList.add("statusAgendamento");
   let divStatus = createNode("div");
   divStatus.classList.add("status");
   let divSpanStatus = createNode("div");
@@ -142,15 +181,16 @@ function createTbody(agendamento, index) {
     tdTipo.innerHTML = `${agendamento.tipo.nome}` */
 
   let tdUsuario = createNode("td");
+  tdUsuario.classList.add("usuario");
   tdUsuario.innerHTML = `${agendamento.usuario.nome}`;
 
-  let verMais = createNode("td");
-  verMais.classList.add("verMais");
+  let tdVerMais = createNode("td");
+  tdVerMais.classList.add("verMais");
   let iVerMais = createNode("i");
   iVerMais.classList.add("bx");
   iVerMais.classList.add("bx-dots-vertical-rounded");
 
-  let show = ''
+  let show = "";
 
   iVerMais.addEventListener("click", () => {
     if (show == false) {
@@ -204,8 +244,8 @@ function createTbody(agendamento, index) {
   /* append(tr, tdTipo) */
   append(tr, tdUsuario);
 
-  append(tr, verMais);
-  append(verMais, iVerMais);
+  append(tr, tdVerMais);
+  append(tdVerMais, iVerMais);
 }
 
 /* função que limpa o tbody */

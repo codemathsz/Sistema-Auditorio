@@ -35,6 +35,7 @@ public class Usuario {
 	private String senha;
 	@NotNull(message = "{usuario.nivel.null}")
 	private Nivel nivel;
+	private boolean ativo;
 	
 	
 	// MÉTODO SET QUE APLICA O HASH NA SENHA

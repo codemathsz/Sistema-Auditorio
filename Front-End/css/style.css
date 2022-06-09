@@ -227,20 +227,6 @@ input[type="date"]::-webkit-inner-spin-button {
   }
 }
 
-.modal-dialog {
-  width: 700px !important;
-  margin: 0 auto !important;
-}
-
-.modal-content {
-  margin: 20px auto 0 auto !important;
-}
-
-.modal-body {
-  padding: 30px 30px 10px 30px !important;
-}
-
-
 .floating-button {
   width: 75px;
   height: 75px;
@@ -267,6 +253,52 @@ input[type="date"]::-webkit-inner-spin-button {
 .floating-button i {
   color: #fff;
   font-size: 40px;
+}
+
+.modal-dialog {
+  width: 650px !important;
+  margin: 0 auto !important;
+}
+
+.modal-content {
+  margin: 20px auto 0 auto !important;
+  border-radius: 20px !important;
+  box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.25);
+}
+
+
+.modal-title {
+  width: 75%;
+  text-align: end;
+  color: #E30613;
+  text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
+}
+
+#close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e30613;
+  text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
+  transition-duration: 0.3s;
+}
+
+#close:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 40px 40px 10px 40px !important;
 }
 
 .input-container:nth-child(1) {
@@ -340,7 +372,7 @@ input[type="date"]::-webkit-inner-spin-button {
   margin-top: 30px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: bottom;
 }
 
 .data {
@@ -349,6 +381,10 @@ input[type="date"]::-webkit-inner-spin-button {
   padding-left: 5px;
   border-bottom: 3px solid #e30613;
   color: rgba(0, 0, 0, 0.6);
+}
+
+.data p {
+  margin: 0 !important;
 }
 
 .input-container2:nth-child(3) {
@@ -409,6 +445,7 @@ input[type="date"]::-webkit-inner-spin-button {
 .check p {
   font-size: 18px;
   font-weight: 300;
+  margin: 0 !important;
 }
 
 .check input[type="radio"] {
@@ -421,6 +458,10 @@ input[type="date"]::-webkit-inner-spin-button {
   box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.25);
   transition-duration: 0.4s;
   position: relative;
+}
+
+.check input:hover[type="radio"] {
+  cursor: pointer;
 }
 
 .check input:checked[type="radio"] {
@@ -447,7 +488,7 @@ input[type="date"]::-webkit-inner-spin-button {
 
 .check-choice {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
   position: relative;
 }
 
@@ -523,6 +564,16 @@ input[type="date"]::-webkit-inner-spin-button {
   box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 1);
   transform: scale(1.01);
 } 
+
+.hiddenChoice {
+  animation: fadeOut 1s ease-in-out forwards;
+  z-index: -1;
+}
+
+.showChoice {
+  animation: fadeIn 1s ease-in-out forwards;
+  z-index: 1000;
+}
 
 @keyframes fadeOut {
   to {

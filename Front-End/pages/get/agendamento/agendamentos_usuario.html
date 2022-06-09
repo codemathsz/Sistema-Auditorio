@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../../css/navbar/navbar.css" />
+    <link rel="stylesheet" href="../../../css/get/agendamento_usuario.css" />
+    <link rel="stylesheet" href="../../../css/mensagem/mensagem.css" />
     <!-- Boxiocns CDN Link -->
     <link
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
@@ -128,28 +130,166 @@
       <div class="home-content hide">
         <i class="bx bx-menu"></i>
       </div>
+      <h1>Seus Agendamentos</h1>
+      <!-- <div class="search">
+        <h1>Pesquise por um agendamento</h1>
+        <div class="search-content">
+          <div class="input-container">
+            <input
+              class="form_input"
+              type="text"
+              name="search"
+              id="search"
+              placeholder=" "
+              required
+            />
+            <label class="form_label" for="titulo">Pesquise por algo:</label>
+          </div>
+          <select id="selectBusca">
+            <option selected>Todos</option>
+            <option value="id">Id</option>
+            <option value="titulo">Titulo</option>
+            <option value="descricao">Descricao</option>
+            <option value="dataInicio">Data de Inicio</option>
+            <option value="dataFinalizada">Data Final</option>
+            <option value="horaInicio">Hora de Inicio</option>
+            <option value="horaFinalizada">Hora Finalizada</option>
+            <option value="status">Status</option>
+            <option value="periodo">Periodo</option>
+            <option value="tipo">Tipo</option>
+            <option value="usuario">Usuario</option>
+          </select>
+          <button type="button" id="search">
+            <i class="bx bx-search"></i>
+          </button>
+        </div>
+        <div class="msg">
+          <div class="erro" id="erro">
+            <p id="erro-msg"></p>
+          </div>
+          <div class="sucesso" id="sucesso">
+            <p id="sucesso-msg"></p>
+          </div>
+        </div>
+      </div> -->
+      <div class="thead">
+        <p>ID</p>
+        <p>Titulo</p>
+        <p>Data</p>
+        <p>Hora</p>
+        <p>Status</p>
+        <p>Alterar</p>
+        <p>Excluir</p>
+        <p></p>
+      </div>  
       <div class="scroll">
-        <table id="tabela" class="tabela" border="1px">
-          <tr>
+        <table id="tabela" class="tabela">
+          <tr class="thead2">
             <th>ID</th>
             <th>Titulo</th>
-            <th>Descricao</th>
-            <th>Data Inicio</th>
-            <th>Data Finalizada</th>
-            <th>Hora Inicio</th>
-            <th>Hora Finalizada</th>
+            <th>Data</th>
+            <th>Hora</th>
             <th>Status</th>
-            <th>Periodo</th>
-            <th>Tipo</th>
-            <th>Usuario</th>
-            <th>Deletar</th>
+            <th>Alterar</th>
+            <th>Excluir</th>
+            <th></th>
           </tr>
-          <tbody id="tbody"></tbody>
+          <tbody class="tbody" id="tbody"></tbody>
         </table>
       </div>
     </section>
+    <div class="modalInfo" id="modalInfo">
+      <div class="modal-container">
+        <div class="modal-content">
+          <h1 id="tituloAgendamento"></h1>
+          <button id="closeInfo"><i class="bx bx-x"></i></button>
+          <div class="body">
+            <p id="descricaoAgendamento"></p>
+            <div class="flex-container">
+              <div class="flex-content">
+                <p id="dataAgendamento"></p>
+                <p id="horaAgendamento"></p>
+              </div>
+              <div class="flex-content">
+                <p id="statusAgendamento"></p>
+                <p id="periodoAgendamento"></p>
+              </div>
+              <div class="flex-content">
+                <p id="tipoAgendamento"></p>
+                <p id="usuarioAgendamento"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modalAlterar" id="modalAlterar">
+      <div class="modal-container">
+        <div class="modal-content">
+          <h1 id="tituloAgendamento"></h1>
+          <button id="close"><i class="bx bx-x"></i></button>
+          <div class="body">
+            <form id="form">
+              <div class="input-container">
+                <input
+                  maxlength="100"
+                  class="form_input"
+                  type="text"
+                  name="titulo"
+                  id="titulo"
+                  placeholder=" "
+                  required
+                />
+                <label class="form_label" for="titulo">Titulo:</label>
+              </div>
+              <div class="input-container">
+                <textarea
+                  class="form_input"
+                  maxlength="200"
+                  rows="2"
+                  id="descricao"
+                  name="descricao"
+                  id="descricao"
+                  placeholder=" "
+                  required
+                ></textarea>
+                <label class="form_label" for="descricao">Descrição:</label>
+              </div>
+              <div class="input-container2">
+                <div class="data">
+                  <p>Tipo:</p>
+                </div>
+                <select id="tipo" required>
+                  <option class="disabled" value="" selected disabled>
+                    Selecione uma opção
+                  </option>
+                </select>
+              </div>
+              <div class="input-container2">
+                <div class="data">
+                  <p>Data de Inicio:</p>
+                </div>
+                <input type="date" name="dataInicio" id="dataInicio" required />
+              </div>
+              <div class="input-container2">
+                <div class="data">
+                  <p>Data Final:</p>
+                </div>
+                <input
+                  type="date"
+                  name="dataFinalizada"
+                  id="dataFinalizada"
+                  required
+                />      
+          </div>
+          <button type="submit" class="btnSubmit btn_active" id="submit">Alterar</button>
+        </div>
+      </div>
+    </div>
+    </section>
+    <div class="mensagens" id="mensagens"></div>
     <!-- Script Api --------------------------------------------------------------- -->
-    <script src="../../../js/get/"></script>
+    <script text="script" src="../../../js/get/agendamento/agendamento_usuario.js"></script>
     <!-- script da navbar -->
     <script src="../../../js/navbar/script.js"></script>
   </body>

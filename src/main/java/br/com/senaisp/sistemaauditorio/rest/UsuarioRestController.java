@@ -79,7 +79,7 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 		@RequestMapping(value = "", method = RequestMethod.GET)
 		public Iterable<Usuario> getUsuarios(){
 			
-			return repository.findAll();
+			return repository.findByAtivo(true);
 		
 		}
 		
@@ -92,7 +92,7 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 			
 			if(optional.isPresent()) {
 				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+				return new ResponseEntity<Object>(optional, HttpStatus.OK);
 			}else {
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -103,7 +103,6 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 		@Administrador
 		@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<Object> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario,HttpServletRequest request ){
-			
 			// VERIFICA SE O ID DO USUARIO É IGUAL AO INFORMADO( SE EXISTE)
 			if (usuario.getId() != idUsuario) {
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);

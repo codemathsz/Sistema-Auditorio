@@ -47,7 +47,7 @@ if (token == null) {
     form.addEventListener("submit", function () {
       event.preventDefault();
       if (senha.value === confirmaSenha.value) {
-        const url = `http://10.92.198.22:8080/api/usuario`;
+        const url = `http://localhost:8080/api/usuario`;
 
         let usuario = {
           nome: nome.value,
@@ -101,9 +101,7 @@ if (token == null) {
       } else {
         type = "error";
         createMessage("Senhas não compativeis", type);
-        setTimeout(() => {
-          deleteMessage();
-        }, 9000);
+        deleteMessage()
       }
     });
   } else {
@@ -218,7 +216,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 9000);
+      }, 4000);
     } else {
       continue;
     }

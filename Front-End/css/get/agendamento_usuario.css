@@ -29,9 +29,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow: scroll;
+  overflow-y: scroll;
   margin: 0;
-  height: auto;
 }
 
 .search {
@@ -138,11 +137,12 @@ body {
 
 /* tabela */
 .scroll {
-  width: 900px;
+  width: 1100px;
   max-height: 800px;
   overflow-y: scroll;
   overflow-x: hidden;
   border-radius: 20px;
+  margin-top: 40px;
   box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
 }
 
@@ -152,33 +152,49 @@ body {
   border: none;
   outline: none;
   background-color: #fff;
-  border-radius: 20px   ;
 }
 
 .thead {
-  width: 900px;
+  width: 1100px;
   display: flex;
   flex-direction: row;
-  padding: 15px 65px;
+  padding: 15px 35px;
   border-radius: 20px 20px 0 0;
   background-color: #fff;
   color: rgba(0, 0, 0, 0.8);
   font-weight: 600;
   position: relative;
-  top: 48px;
+  top: 43px;
   border-bottom: 3px solid rgba(0, 0, 0, 0.4);
+  display: none;
 }
 
 .thead p:nth-child(2) {
-  margin-left: 20%;
+  margin-left: 15.6%;
 }
 
 .thead p:nth-child(3) {
-  margin-left: 25%;
+  margin-left: 18.2%;
 }
 
 .thead p:nth-child(4) {
-  margin-left: 26%;
+  margin-left: 12.4%;
+}
+
+.thead p:nth-child(5) {
+  margin-left: 11.8%;
+}
+
+.thead p:nth-child(6) {
+  margin-left: 9.7%;
+}
+
+.thead p:nth-child(7) {
+  margin-left: 6%;
+}
+
+.thead p:nth-child(8) {
+  margin-left: 5.8%;
 }
 
 .thead2 th {
@@ -186,6 +202,7 @@ body {
   text-align: center;
   padding: 15px 20px;
   color: rgba(0, 0, 0, 0.8);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
 }
 
 .tbody {
@@ -193,7 +210,7 @@ body {
 }
 
 .tbody tr:nth-child(1) td {
-  padding: 15px 5px 10px 5px;
+  padding: 10px 5px 10px 5px;
 }
 
 .tbody td {
@@ -254,6 +271,19 @@ body {
   transform: scale(1.1);
 }
 
+.verMais i {
+  font-size: 25px;
+  color: rgba(0, 0, 0, 0.6);
+  transition-duration: 0.3s;
+}
+
+.verMais i:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Modal de Informação */
+
 .modalInfo {
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 1000;
@@ -277,7 +307,7 @@ body {
   position: relative;
   border-radius: 20px;
   width: 600px;
-  padding: 50px 40px 30px 40px;
+  padding: 60px 40px 30px 40px;
   background-color: #fff;
   box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
 }
@@ -333,27 +363,8 @@ body {
   justify-content: space-between;
   text-align: center;
 }
-/* 
-  #tipoAgendamento,
-  #dataAgendamento,
-  #horaAgendamento,
-  #periodoAgendamento,
-  #statusAgendamento,
-  #usuarioAgendamento {
-      
-  } */
 
 /* Modal de Alteração */
-.modalAlterar {
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
-  position: absolute;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: none;
-}
 
 .modal-content-alterar {
   width: 650px !important;
@@ -388,10 +399,64 @@ body {
   cursor: pointer;
 }
 
-.input-container {
+.showModal {
+  display: block !important;
+}
+
+.hiddenModal {
+  display: none;
+}
+
+/* MODAL ALTERAR */
+
+.modalAlterar {
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: none;
+}
+
+#form {
+  width: 100%;
+}
+
+.input-container:nth-child(1) {
   display: flex;
   flex-direction: column;
   position: relative;
+}
+
+.input-container:nth-child(2) {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input-container:nth-child(2) textarea {
+  resize: none;
+}
+
+.input-container:nth-child(3) {
+  margin-top: 70px;
+}
+
+.input-container:nth-child(3) select {
+  width: 100%;
+  border: none;
+  border-bottom: 3px solid #e30613;
+  outline: none;
+  font-size: 22px;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+#tipo option:hover {
+  color: #ff0000;
 }
 
 .form_input {
@@ -425,19 +490,70 @@ body {
   color: rgba(0, 0, 0, 1);
 }
 
+.input-container2 {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.data {
+  width: 65%;
+  font-size: 22px;
+  padding-left: 5px;
+  border-bottom: 3px solid #e30613;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.input-container2:nth-child(3) {
+  margin-top: 90px;
+}
+
+.input-container2 select {
+  width: 50%;
+  height: 36px;
+  font-size: 18px;
+  margin-top: 1px;
+  border: none;
+  border-bottom: 3px solid #e30613;
+  color: rgba(0, 0, 0, 0.6);
+  outline: none;
+  background-color: transparent;
+  text-align: center;
+}
+
+.input-container2 input[type="date"] {
+  width: 35%;
+  height: 36px;
+  font-size: 22px;
+  padding-left: 5px;
+  margin-top: 0.6px;
+  border: none;
+  border-bottom: 3px solid #e30613;
+  color: rgba(0, 0, 0, 0.6);
+  outline: none;
+  background-color: transparent;
+}
+
+.input-container2 input[type="date"]:nth-child(3) {
+  margin-top: 1px;
+}
+
 .btnSubmit {
   width: 100%;
   padding: 5px;
-  margin-top: 60px;
   font-size: 20px;
   border-radius: 10px;
   outline: none;
   background-color: rgba(227, 6, 19, 0.5);
   color: #fff;
   border: none;
+  margin-top: 30px;
   box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.5);
   transition-duration: 0.8s;
   transition-timing-function: ease-in-out;
+  /* animation: toUp 1s ease-in-out forwards; */
 }
 
 .btn_active {
@@ -452,16 +568,56 @@ body {
   transform: scale(1.01);
 }
 
-.showModal {
-  display: block !important;
-}
+@media screen and (max-width: 1440px) {
+  .scroll {
+    width: 900px;
+  }
 
-.hiddenModal {
-  display: none;
-}
-
-@media screen and (max-width: 1230px) {
   .thead {
-    display: none;
+    width: 900px;
+    padding: 15px 25px;
+  }
+
+  .tabela {
+    width: 900px;
+  }
+
+  .thead p:nth-child(2) {
+    margin-left: 15.2%;
+  }
+
+  .thead p:nth-child(3) {
+    margin-left: 17.2%;
+  }
+
+  .thead p:nth-child(4) {
+    margin-left: 11.7%;
+  }
+
+  .thead p:nth-child(5) {
+    margin-left: 10.6%;
+  }
+
+  .thead p:nth-child(6) {
+    margin-left: 8.2%;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }

@@ -1,9 +1,6 @@
 /* METHOD GET ---------------------------------------------------------*/
 /* pegando os elementos com id */
 /* input da busca */
-const id = getById("id");
-/* pegando o valor do input da busca */
-let valor = id.value;
 /* pegando a tabela */
 const table = getById("tabela");
 /* pegando o tbody */
@@ -11,22 +8,25 @@ const tbody = getById("tbody");
 /* pegando a modal de alteração */
 const modalAlterar = getById("modalAlterar");
 
-/* pegando o botao que faz a procura */
-/* const botaoProcurar = getById("search"); */
+/* div mda menssagem */
+
+const mensagens = getById("mensagens");
+let type = "";
+let idMessage = 0;
 
 /* pegando o token do usuario */
 const token = localStorage.getItem("token");
 const payload = parseJwt(token);
 
-let url = ''
+let url = "";
 
 if (token == null) {
   window.location.href = "../../login/login.html";
 } else {
   if (payload.nivel == 1) {
     /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-    url = 'http://10.92.198.22:8080/api/usuario'
-    get(url)
+    url = "http://localhost:8080/api/usuario";
+    get(url);
   } else {
     window.location.href = "../../../index.html";
   }
@@ -51,11 +51,11 @@ function get(url) {
           console.log(data);
           /* fazendo um forEach no array de usuarios */
           /* para cada usuario ele cria um objeto usuario */
-          let i = 0
+          let i = 0;
           return data.map((usuario) => {
             /* método que cria o tbody */
             createTbody(usuario, i);
-            i++
+            i++;
           });
         })
         .catch((error) => {
@@ -90,56 +90,68 @@ function createTbody(usuario, index) {
   let tdNif = createNode("td");
   tdNif.innerHTML = `${usuario.nif}`;
 
-  let tdNivel = createNode("td")
-  let nivel = '';
+  let tdNivel = createNode("td");
+  let nivelUsuario = "";
   if (usuario.nivel == "ADMINISTRADOR") {
-    nivel = 'Administrador';
+    nivelUsuario = "Administrador";
   } else {
-    nivel = 'Professor'
+    nivelUsuario = "Professor";
   }
-  tdNivel.innerHTML = nivel;
+  tdNivel.innerHTML = nivelUsuario;
 
   let tdAlterar = createNode("td");
   /* cria o botao de alteração */
   const btnAlterar = createNode("button");
-  btnAlterar.innerHTML = "Alterar";
+  btnAlterar.className = "btnAlterar";
+  let iAlterar = createNode("i");
+  iAlterar.classList.add("bx");
+  iAlterar.classList.add("bxs-edit-alt");
+  iAlterar.classList.add("alterar");
 
   let show = false;
   btnAlterar.addEventListener("click", () => {
     if (show === false) {
-      modalAlterar.classList.add("show");
+      modalAlterar.classList.add("showModal");
       show = true;
 
       /* pegando os inputs pelo id */
       const form = getById("form");
-      const id = getById("id");
       const nome = getById("nome");
       const email = getById("email");
       const nif = getById("nif");
       const nivel = getById("nivel");
       const senha = getById("senha");
       const confirmaSenha = getById("confirmaSenha");
-
-      /* Preenchendo o formulario com id fornecido */
-      /* colocando o valor do respectivo usuario pelo input do id */
-      id.value = usuario.id;
-
-      /* pegando o valor que acabamos de colocar */
-      const valor = id.value;
+      let id = usuario.id;
 
       /* url do usuario com o valor do input do id */
-      const urlusuario = `http://10.92.198.22:8080/api/usuario/${valor}`;
+      const urlusuario = `http://localhost:8080/api/usuario/${id}`;
+
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", token);
+      /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+      let fetchData = {
+        method: "GET",
+        headers: myHeaders,
+      };
 
       /* fazendo conexão com a api */
-      fetch(urlusuario)
+      fetch(urlusuario, fetchData)
         /* transformando a resposta em json */
-        .then((resp) => resp.json())
-        .then((data) => {
-          /* pegando os valores do json e colocando nos inputs */
-          nome.value = data.nome;
-          email.value = data.email;
-          nif.value = data.nif;
-          nivel.value = data.nivel;
+        .then((resp) => {
+          resp
+            .json()
+            .then((data) => {
+              /* pegando os valores do json e colocando nos inputs */
+              nome.value = data.nome;
+              email.value = data.email;
+              nif.value = data.nif;
+              nivel.value = data.nivel;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -147,82 +159,115 @@ function createTbody(usuario, index) {
 
       /* METODO PUT ------------------------------------ */
       /* pegando as informações alteradas do formulario e fazendo a alteração pelo método put */
-
-      /* adicionando um evento submit no form */
       form.addEventListener("submit", function () {
         /* evitando que ele submeta */
         event.preventDefault();
-
-        if (senha.value == confirmaSenha.value) {
-          /* url do usuario com o valor do input do id */
-          const urlUsuario = `http://10.92.198.22:8080/api/usuario/${valor}`;
-
-          /* construindo o objeto usuario */
-          let usuario = {
-            id: valor,
-            nome: nome.value,
-            email: email.value,
-            nif: nif.value,
-            nivel: nivel.value,
-            senha: senha.value,
-          };
-
-          const myHeaders = new Headers();
-          myHeaders.append("Content-Type", "application/json");
-
-          /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
-          let fetchData = {
-            method: "PUT",
-            body: JSON.stringify(usuario),
-            headers: myHeaders,
-          };
-
-          /* fazendo a conexão com a api */
-          fetch(urlusuario, fetchData)
-            .then((resp) => {
-              resp.json();
-              console.log(resp);
-              window.location.reload();
-            })
-            .then((resposta) => {
-              console.log(resposta);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+        let senhaUsuario;
+        if (senha != "" && confirmaSenha != "") {
+          if (senha.value == confirmaSenha.value) {
+            senhaUsuario = senha;
+          } else {
+            createMessage("Senhas incompativeis...", "error");
+          }
         } else {
-          alert("Senhas não compativeis");
+          senhaUsuario = "";
         }
+
+        /* url do usuario com o valor do input do id */
+        const urlUsuario = `http://localhost:8080/api/usuario/${id}`;
+
+        /* construindo o objeto usuario */
+        let usuario = {
+          id: id,
+          nome: nome.value,
+          email: email.value,
+          nif: nif.value,
+          nivel: nivel.value,
+          senha: senhaUsuario,
+        };
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("token", token);
+
+        /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+        let fetchData = {
+          method: "PUT",
+          body: JSON.stringify(usuario),
+          headers: myHeaders,
+        };
+
+        /* fazendo a conexão com a api */
+        fetch(urlusuario, fetchData)
+          .then((resp) => {
+            resp
+              .json()
+              .then((resposta) => {
+                if (resposta.error == "OK") {
+                  console.log("sucesso");
+                  createMessage(
+                    `Sucesso ao alterar o usuario ${tdId.innerHTML}!`,
+                    "success"
+                  );
+                  modalAlterar.classList.remove("showModal");
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 3750);
+                } else {
+                  console.log("erro");
+                  createMessage(
+                    `Falha ao deletar o usuario ${tdId.innerHTML}. ` + resposta.message.substring(0, 100) + '...',
+                    "error"
+                  );
+                }
+                deleteMessage();
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       });
+      /* adicionando um evento submit no form */
     }
 
     const btnFecharModal = getById("close");
     btnFecharModal.addEventListener("click", () => {
       if (show === true) {
-        modalAlterar.classList.remove("show");
+        modalAlterar.classList.remove("showModal");
         show = false;
+        deleteMessage()
+        idMessage = 0
+        clearForm()
       }
     });
   });
 
-  let tdDesativar = createNode("td");
+  let tdDeletar = createNode("td");
   /* cria o botao de alteração */
-  const btnDesativar = createNode("button");
-  btnDesativar.innerHTML = "Desativar";
+  const btnDeletar = createNode("button");
+  btnDeletar.classList.add("btnDeletar");
+  let iDeletar = createNode("i");
+  iDeletar.classList.add("bx");
+  iDeletar.classList.add("bxs-trash-alt");
+  iDeletar.classList.add("deletar");
 
-  btnDesativar.addEventListener("click", () => {
+  btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlusuario = `http://10.92.198.22:8080/api/usuario/${valor}`;
+    const urlusuario = `http://localhost:8080/api/usuario/${valor}`;
     const resultado = confirm(`Deseja deletar o usuario do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto usuario */
       let usuario = {
-        id: valor,
+        id: tdId.innerHTML,
       };
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("token", token);
 
       /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
       let fetchData = {
@@ -231,10 +276,33 @@ function createTbody(usuario, index) {
         headers: myHeaders,
       };
       fetch(urlusuario, fetchData)
-        .then((resp) => resp.json())
-        .then((data) => {
-          alert("O usuario foi excluido.");
-          window.location.reload();
+        .then((resp) => {
+          resp
+            .json()
+            .then((resposta) => {
+              console.log(resposta);
+              if (resposta.error == "OK") {
+                console.log("sucesso");
+                createMessage(
+                  `Sucesso ao deletar o usuario ${valor}!`,
+                  "success"
+                );
+                modalAlterar.classList.remove("showModal");
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3750);
+              } else {
+                console.log("erro");
+                createMessage(
+                  `Falha ao deletar o usuario ${valor}. ` + resposta.message,
+                  "error"
+                );
+              }
+              deleteMessage();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -250,10 +318,12 @@ function createTbody(usuario, index) {
   append(tr, tdEmail);
   append(tr, tdNif);
   append(tr, tdNivel);
-  append(tdAlterar, btnAlterar);
   append(tr, tdAlterar);
-  append(tdDeletar, btnDeletar);
+  append(tdAlterar, btnAlterar);
+  append(btnAlterar, iAlterar);
   append(tr, tdDeletar);
+  append(tdDeletar, btnDeletar);
+  append(btnDeletar, iDeletar);
 }
 
 /* função que limpa o tbody */
@@ -290,4 +360,63 @@ function parseJwt(token) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+function createMessage(msg, type) {
+  idMessage++;
+  let message = createNode("div");
+  message.classList.add("message");
+  message.id = "message" + idMessage;
+
+  let messageContent = createNode("div");
+  messageContent.classList.add("msg-content");
+
+  let i = createNode("i");
+  i.classList.add("bx");
+  i.classList.add("bx-tada");
+  if (type == "success") {
+    i.classList.add("bx-check");
+    i.style.color = "green";
+  } else {
+    i.classList.add("bx-x");
+    i.style.color = "rgb(255, 11, 27)";
+  }
+
+  let p = createNode("p");
+  p.innerHTML = msg;
+
+  append(message, messageContent);
+  append(messageContent, i);
+  append(messageContent, p);
+
+  let time = createNode("div");
+  time.classList.add("msgTempo");
+
+  let timeBar = createNode("div");
+  timeBar.classList.add("barraTempo");
+
+  append(message, time);
+  append(time, timeBar);
+  append(mensagens, message);
+}
+
+function deleteMessage() {
+  console.log(idMessage);
+  for (let i = 0; i <= idMessage; i++) {
+    let element = getById("message" + i);
+    if (element != null) {
+      setTimeout(() => {
+        mensagens.removeChild(element);
+      }, 4000);
+    } else {
+      continue;
+    }
+  }
+}
+
+function clearForm() {
+  nome.value = "";
+  nif.value = "";
+  email.value = "";
+  nivel.value = "";
 }
