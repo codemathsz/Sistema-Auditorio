@@ -18,6 +18,14 @@ public interface AgendamentoRepository extends PagingAndSortingRepository<Agenda
 	@Query("SELECT a FROM Agendamento a WHERE a.dataInicio >= :dataInicio  AND a.dataFinalizada <= :dataFinal")
 	public List<Agendamento> validacaoDataEHora(@Param("dataInicio") Calendar dataInicio , @Param("dataFinal") Calendar dataFinal); 
 	
+	@Query("SELECT a FROM Agendamento a WHERE a.dataInicio <= :dataInicio  AND a.dataFinalizada <= :dataFinal")
+	public List<Agendamento> validacaoDataMenor(@Param("dataInicio") Calendar dataInicio , @Param("dataFinal") Calendar dataFinal);
+	
+	@Query("SELECT a FROM Agendamento a WHERE a.dataInicio >= :dataInicio  AND a.dataFinalizada >= :dataFinal")
+	public List<Agendamento> validacaoDataMaior(@Param("dataInicio") Calendar dataInicio , @Param("dataFinal") Calendar dataFinal);
+	
+	@Query("SELECT a FROM Agendamento a WHERE a.dataInicio <= :dataInicio  AND a.dataFinalizada >= :dataFinal")
+	public List<Agendamento> validacaoDataFora(@Param("dataInicio") Calendar dataInicio , @Param("dataFinal") Calendar dataFinal);
 	
 	public List<Agendamento> findByUsuarioId( Long id);
 	

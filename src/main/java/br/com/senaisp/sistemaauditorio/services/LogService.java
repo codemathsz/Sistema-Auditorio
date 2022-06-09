@@ -45,8 +45,8 @@ public class LogService {
 		
 		
 		Log log = new Log();
-		Usuario usuarioNome = (Usuario) claims.get("nome");
-		Usuario usuarioId = (Usuario) claims.get("id");
+		String usuarioNome =  claims.get("nome").toString();
+		String usuarioId = claims.get("id").toString();
 		
 		log.setUsuarioNome(usuarioNome.toString());
 		log.setUsuarioId(usuarioId.toString());
