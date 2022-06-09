@@ -12,85 +12,27 @@ const tbody = getById("tbody");
 const modalAlterar = getById("modalAlterar");
 
 /* pegando o botao que faz a procura */
-const botaoProcurar = getById("search");
+/* const botaoProcurar = getById("search"); */
 
 /* pegando o token do usuario */
 const token = localStorage.getItem("token");
 const payload = parseJwt(token);
+
+let url = ''
 
 if (token == null) {
   window.location.href = "../../login/login.html";
 } else {
   if (payload.nivel == 1) {
     /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-    botaoProcurar.addEventListener("click", () => {
-      /* reinicializando a variavel do valor */
-      valor = id.value;
-      /* vendo se o valor é diferente de vazio */
-      if (valor != "") {
-        /* método que limpa o tbody */
-        clearTbody();
-        /* url de consumo da api que busca um usuario por id */
-        const url = `http://localhost:8080/api/usuario/${valor}`;
-        /* método que faz a conexão com a api de pegar pelo id */
-        getId(url);
-      } else {
-        /* se o input for vazio ele faz a busca de todos os usuarios */
-        /* método que limpa o tbody */
-        clearTbody();
-        /* url que busca todos os usuarios */
-        const url = `http://localhost:8080/api/usuario`;
-        /* método que faz a conexão da api que traz todos os usuarios */
-        getAll(url);
-      }
-    });
-    /* if pra ver se o valor do input da busca é vazio */
-    /* que no caso sempre que carregarmos ou recarregarmos a pagina ele vai estar vazio, logo entrando no if */
-    if (valor == "") {
-      /* método que limpa o tbody */
-      clearTbody();
-      /* url que busca todos os usuarios */
-      const url = `http://localhost:8080/api/usuario`;
-      /* método que faz a conexão com a api que traz todos os usuarios */
-      getAll(url);
-    }
+    url = 'http://10.92.198.22:8080/api/usuario}'
+    get(url)
   } else {
     window.location.href = "../../../index.html";
   }
 }
-
-/* método que faz a conexão com a api que traz um usuario por id */
-function getId(url) {
-  const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  myHeaders.append("Authorization", token);
-
-  /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
-  let fetchData = {
-    method: "GET",
-    headers: myHeaders,
-  };
-  /* fazendo a conexão com a url fornecida */
-  fetch(url, fetchData)
-    .then((resp) => {
-      resp
-        .json()
-        .then((data) => {
-          /* método que cria as tr */
-          console.log(data);
-          createTbody(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
 /* método que faz a conexão com a api que traz todos os usuarios */
-function getAll(url) {
+function get(url) {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", token);
@@ -109,9 +51,11 @@ function getAll(url) {
           console.log(data);
           /* fazendo um forEach no array de usuarios */
           /* para cada usuario ele cria um objeto usuario */
+          let i = 0
           return data.map((usuario) => {
             /* método que cria o tbody */
-            createTbody(usuario);
+            createTbody(usuario, i);
+            i++
           });
         })
         .catch((error) => {
@@ -174,7 +118,7 @@ function createTbody(usuario) {
       const valor = id.value;
 
       /* url do usuario com o valor do input do id */
-      const urlusuario = `http://localhost:8080/api/usuario/${valor}`;
+      const urlusuario = `http://10.92.198.22:8080/api/usuario/${valor}`;
 
       /* fazendo conexão com a api */
       fetch(urlusuario)
@@ -201,7 +145,7 @@ function createTbody(usuario) {
 
         if (senha.value == confirmaSenha.value) {
           /* url do usuario com o valor do input do id */
-          const urlUsuario = `http://localhost:8080/api/usuario/${valor}`;
+          const urlUsuario = `http://10.92.198.22:8080/api/usuario/${valor}`;
 
           /* construindo o objeto usuario */
           let usuario = {
@@ -259,7 +203,7 @@ function createTbody(usuario) {
   btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlusuario = `http://localhost:8080/api/usuario/${valor}`;
+    const urlusuario = `http://10.92.198.22:8080/api/usuario/${valor}`;
     const resultado = confirm(`Deseja deletar o usuario do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto usuario */

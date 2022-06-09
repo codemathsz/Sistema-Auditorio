@@ -22,7 +22,7 @@ if (token == null) {
 } else {
   if (payload.nivel == 1) {
     /* pegando o botao que faz a procura */
-    url = "http://localhost:8080/api/tipo";
+    url = "http://10.92.198.22:8080/api/tipo";
     get(url);
   } else {
     window.location.href = "../../../index.html";
@@ -49,11 +49,11 @@ function get(url) {
           console.log(data);
           /* fazendo um forEach no array de tipos */
           /* para cada tipo ele cria um objeto tipo */
-          let i = 1
+          let i = 0;
           return data.map((tipo) => {
             /* método que cria o tbody */
             createTbody(tipo, i);
-            i++
+            i++;
           });
         })
         .catch((error) => {
@@ -98,10 +98,18 @@ function createTbody(tipo, index) {
 
       /* pegando os inputs pelo id */
       const form = getById("form");
-      const id = getById("id");
       const nome = getById("nome");
+      const id = tipo.id;
+
+      nome.addEventListener("blur", () => {
+        
+      });
 
       /* Preenchendo o formulario com id fornecido */
+      id.value = tipo.id;
+      nome.value = tipo.nome;
+      submit.disable = false
+      submit.classList.add("btn_active");
 
       /* METODO PUT ------------------------------------ */
       /* pegando as informações alteradas do formulario e fazendo a alteração pelo método put */
@@ -112,17 +120,17 @@ function createTbody(tipo, index) {
         event.preventDefault();
 
         /* url do tipo com o valor do input do id */
-        const urlTipo = `http://localhost:8080/api/tipo/${valor}`;
+        const urlTipo = `http://10.92.198.22:8080/api/tipo/${id}`;
 
         /* construindo o objeto tipo */
         let tipo = {
-          id: valor,
+          id: id,
           nome: nome.value,
         };
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("token", token)  
+        myHeaders.append("token", token);
 
         /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
         let fetchData = {
@@ -144,9 +152,10 @@ function createTbody(tipo, index) {
                   type = "success";
                   createMessage(`Sucesso ao alterar o tipo de evento!`, type);
                   clearForm();
+                  modalAlterar.classList.remove("showModal")
                   setTimeout(() => {
                     window.location.reload();
-                  }, 8000);
+                  }, 3750);
                 } else {
                   console.log("erro");
                   type = "error";
@@ -185,8 +194,8 @@ function createTbody(tipo, index) {
   btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlTipo = `http://localhost:8080/api/tipo/${valor}`;
-    const resultado = confirm(`Deseja deletar o tipo do id: ${valor}?`);
+    const urlTipo = `http://10.92.198.22:8080/api/tipo/${tipo.id}`;
+    const resultado = confirm(`Deseja deletar o tipo do id: ${tipo.id}?`);
     if (resultado == true) {
       /* construindo o objeto tipo */
       let tipo = {
@@ -241,7 +250,7 @@ function createTbody(tipo, index) {
   append(tbody, tr);
   append(tr, tdId);
   append(tr, tdNome);
-  append(tr, tdAlterar)
+  append(tr, tdAlterar);
   append(tdAlterar, btnAlterar);
   append(btnAlterar, iAlterar);
   append(tr, tdDeletar);
@@ -336,4 +345,8 @@ function deleteMessage() {
       continue;
     }
   }
+}
+
+function clearForm() {
+  nome.value = "";
 }

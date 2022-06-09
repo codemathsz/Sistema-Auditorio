@@ -10,6 +10,7 @@
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../../../css/get/usuario.css">
     <link rel="stylesheet" href="../../../css/mensagem/mensagem.css">
     <link rel="icon" href="../../../image/logo_bar.jpg" />
     <title>Lista de Usuarios</title>
@@ -145,7 +146,7 @@
       <div class="home-content hide">
         <i class="bx bx-menu"></i>
       </div>
-      <div class="search">
+      <!-- <div class="search">
         <h1>Pesquise por um usuário</h1>
         <div class="search-content">
           <input type="number" name="id" id="id" />
@@ -167,9 +168,31 @@
             <p id="sucesso-msg"></p>
           </div>
         </div>
+      </div> -->
+      <h1>Lista de Usuarios</h1>
+      <div class="thead">
+        <p>ID</p>
+        <p>Nome</p>
+        <p>Alterar</p>
+        <p>Deletar</p>
       </div>
       <div class="scroll">
-        <table id="tabela" class="tabela" border="1px">
+        <table id="tabela" class="tabela">
+          <tr class="thead2">
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Nif</th>
+            <th>Nível</th>
+            <th>Alterar</th>
+            <th>Desativar</th>
+              
+          </tr>
+          <tbody class="tbody" id="tbody"></tbody>
+        </table>
+      </div>
+      <!-- <div class="scroll">
+        <table id="tabela" class="tabela">
           <tr>
             <th>ID</th>
             <th>Nome</th>
@@ -181,7 +204,7 @@
           </tr>
           <tbody id="tbody"></tbody>
         </table>
-      </div>
+      </div> -->
     </section>
     <div class="modalAlterar" id="modalAlterar">
       <div class="modal-content">

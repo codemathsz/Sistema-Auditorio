@@ -29,7 +29,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow: scroll;
+  overflow-y: scroll;
   margin: 0;
 }
 
@@ -140,6 +140,7 @@ body {
   width: 1100px;
   max-height: 800px;
   overflow-y: scroll;
+  overflow-x: hidden;
   border-radius: 20px;
   box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
 }
@@ -156,34 +157,34 @@ body {
   width: 1100px;
   display: flex;
   flex-direction: row;
-  padding: 15px 30px;
+  padding: 15px 35px;
   border-radius: 20px 20px 0 0;
   background-color: #fff;
   color: rgba(0, 0, 0, 0.8);
   font-weight: 600;
   position: relative;
-  /* top: 48px; */
+  top: 43px;
   border-bottom: 3px solid rgba(0, 0, 0, 0.4);
 }
 
 .thead p:nth-child(2) {
-  margin-left: 13.5%;
+  margin-left: 15.6%;
 }
 
 .thead p:nth-child(3) {
-  margin-left: 22.4%;
+  margin-left: 18.2%;
 }
 
 .thead p:nth-child(4) {
-  margin-left: 16.6%;
+  margin-left: 12.4%;
 }
 
 .thead p:nth-child(5) {
-  margin-left: 9.5%;
+  margin-left: 11.8%;
 }
 
 .thead p:nth-child(6) {
-  margin-left: 7.2%;
+  margin-left: 9.7%;
 }
 
 .thead p:nth-child(7) {
@@ -206,7 +207,7 @@ body {
 }
 
 .tbody tr:nth-child(1) td {
-  padding: 15px 5px 10px 5px;
+  padding: 0 5px 10px 5px;
 }
 
 .tbody td {
@@ -423,56 +424,35 @@ body {
 
   .thead {
     width: 900px;
-    padding: 15px 20px;
+    padding: 15px 25px;
   }
 
   .tabela {
     width: 900px; 
   }
-}
-
-@media screen and (max-width: 1367px) {
-  .scroll {
-    width: 100%;
-    height: 500px;
+  
+  .thead p:nth-child(2) {
+    margin-left: 15.2%;
   }
 
-  .tabela {
-    width: 986px;
+  .thead p:nth-child(3) {
+    margin-left: 17.2%;
   }
-
-  /* .thead {
-    display: none;
-  } */
-
-  /* .thead p:nth-child(2) {
-      margin-left: 12%;
-    }
-
-    .thead p:nth-child(3) {
-      margin-left: 16.1%;
-    }
-
-    .thead p:nth-child(4) {
-      margin-left: 9.6%;
-    }
-
-    .thead p:nth-child(5) {
-      margin-left: 6%;
-    }
-
-    .thead p:nth-child(6) {
-      margin-left: 4.8%;
-    }
-
-    .thead p:nth-child(7) {
-      margin-left: 4.1%;
-    }
-
-    .thead p:nth-child(8) {
-      margin-left: 3.9%;
-    } */
+  
+  .thead p:nth-child(4) {
+    margin-left: 11.7%;
+  }
+  
+  .thead p:nth-child(5) {
+    margin-left: 10.6%;
+  }
+  
+  .thead p:nth-child(6) {
+    margin-left: 8.2%;
+  }
 }
+
+
 
 @keyframes fadeOut {
   to {
