@@ -8,6 +8,8 @@ const logs = getById('logs')
 const agendamentos = getById('agendamentos')
 const dashboard = getById('dashboard')
 const perfil = getById('perfil')
+const pendente = getById('pendentes')
+console.log(pendente)
 const logado = getById('logado')
 const naoLogado = getById('naoLogado')
 const nomeUsuario = getById('nomeUsuario')
@@ -19,10 +21,11 @@ if (tokenLogin == null) {
   if (document.title.substring(0, 2) == 'Si') {
     lista.classList.add('hidden')
     cadastro.classList.add('hidden')
-    logs.classList.add('hidden')
-    dashboard.classList.add('hidden')
+    /* logs.classList.add('hidden')
+    dashboard.classList.add('hidden') */
     agendamentos.classList.add('hidden')
     logado.classList.add('hidden')
+    pendente.classList.add('hidden')
   } else {
     window.location.href = redirectPageLogin()
   }
@@ -37,8 +40,9 @@ if (tokenLogin == null) {
     nivelUsuario.innerHTML = 'Professor'
     lista.classList.add('hidden')
     cadastro.classList.add('hidden')
-    logs.classList.add('hidden')
-    dashboard.classList.add('hidden')
+    /* logs.classList.add('hidden')
+    dashboard.classList.add('hidden') */
+    pendente.classList.add('hidden')
   } else {
     nivelUsuario.innerHTML = 'Administrador'
   }

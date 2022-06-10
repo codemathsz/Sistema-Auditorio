@@ -305,7 +305,7 @@
 @media screen and (max-width: 1280px) {
   /* Estilo da modal do calendário inteiro */
   #calendar {
-    top: 12%;
+    top: 8%;
     left: 36%;
   }
 }

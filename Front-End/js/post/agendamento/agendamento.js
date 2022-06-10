@@ -5,6 +5,13 @@ const titulo = getById('titulo')
 const descricao = getById('descricao')
 const dataInicio = getById('dataInicio')
 const dataFinalizada = getById('dataFinalizada')
+const hoje = Date.now()
+let limitador = new Date(hoje)
+console.log(limitador.toLocaleDateString())
+limitador = limitador.toLocaleDateString().replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1")
+console.log(limitador)
+dataInicio.min = limitador
+dataFinalizada.min = limitador
 const escolhaHoras = getById('choice-hora')
 const escolhaPeriodo = getById('choice-periodo')
 const horaInicio = getById('horaInicio')
@@ -97,7 +104,7 @@ if (token == null) {
         /* METOD GET ------------------ */
         /* Preenchendo o select do tipo */
         /* Url da lista do tipo */
-        const urlTipo = 'http://localhost:8080/api/tipo'
+        const urlTipo = 'http://10.92.198.22:8080/api/tipo'
         /* variavel que pega o select do html */
         const select = tipo
         /* fazendo conexão com a api */
@@ -133,7 +140,7 @@ if (token == null) {
             /* evento para nao submeter o formulario */
             event.preventDefault();
             /* url que faz a conexão com a api do back-end */
-            const urlAgendamento = `http://localhost:8080/api/agendamento`;
+            const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
 
             /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
             let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5)
@@ -192,10 +199,10 @@ if (token == null) {
                                 console.log('sucesso')
                                 type = 'success'
                                 createMessage('Sucesso ao cadastrar o agendamento!', type)
-                                /* clearForm()
+                                clearForm()
                                 setTimeout(() => {
                                     window.location.reload()
-                                }, 8000); */
+                                }, 4000);
                             } else {
                                 console.log('erro')
                                 type = 'error'

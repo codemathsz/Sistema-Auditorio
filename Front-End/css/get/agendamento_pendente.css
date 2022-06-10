@@ -241,8 +241,8 @@ body {
   font-size: 14px;
 }
 
-.btnAlterar,
-.btnDeletar {
+.btnAceitar,
+.btnRecusar {
   width: 35px;
   height: 35px;
   margin: 0 auto;
@@ -257,16 +257,16 @@ body {
   box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
 }
 
-.btnAlterar {
-  background-color: #fbc02d;
+.btnAceitar {
+  background-color: #4caf50;
 }
 
-.btnDeletar {
+.btnRecusar {
   background-color: #e30613;
 }
 
-.btnAlterar:hover,
-.btnDeletar:hover {
+.btnAceitar:hover,
+.btnRecusar:hover {
   cursor: pointer;
   transform: scale(1.1);
 }
@@ -366,12 +366,206 @@ body {
 
 /* Modal de Alteração */
 
+.modal-content-alterar {
+  width: 650px !important;
+}
+
+.modal-content-alterar h1 {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+#close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e30613;
+  text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
+  transition-duration: 0.3s;
+}
+
+#close:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
 .showModal {
   display: block !important;
 }
 
 .hiddenModal {
   display: none;
+}
+
+/* MODAL ALTERAR */
+
+.modalAlterar {
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: none;
+}
+
+#form {
+  width: 100%;
+}
+
+.input-container:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input-container:nth-child(2) {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.input-container:nth-child(2) textarea {
+  resize: none;
+}
+
+.input-container:nth-child(3) {
+  margin-top: 70px;
+}
+
+.input-container:nth-child(3) select {
+  width: 100%;
+  border: none;
+  border-bottom: 3px solid #e30613;
+  outline: none;
+  font-size: 22px;
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+#tipo option:hover {
+  color: #ff0000;
+}
+
+.form_input {
+  font-size: 16px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+  border: none;
+  border-bottom: 3px solid #e30613;
+  outline: none;
+  background-color: transparent;
+}
+
+.form_label {
+  font-size: 22px;
+  padding: 0 5px;
+  position: absolute;
+  top: -0px;
+  left: 0px;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.form_input:focus ~ .form_label,
+.form_input:not(:placeholder-shown).form_input:not(:focus) ~ .form_label {
+  font-size: 17px;
+  top: -20px;
+  color: rgba(0, 0, 0, 1);
+}
+
+.input-container2 {
+  width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.data {
+  width: 65%;
+  font-size: 22px;
+  padding-left: 5px;
+  border-bottom: 3px solid #e30613;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.input-container2:nth-child(3) {
+  margin-top: 90px;
+}
+
+.input-container2 select {
+  width: 50%;
+  height: 36px;
+  font-size: 18px;
+  margin-top: 1px;
+  border: none;
+  border-bottom: 3px solid #e30613;
+  color: rgba(0, 0, 0, 0.6);
+  outline: none;
+  background-color: transparent;
+  text-align: center;
+}
+
+.input-container2 input[type="date"] {
+  width: 35%;
+  height: 36px;
+  font-size: 22px;
+  padding-left: 5px;
+  margin-top: 0.6px;
+  border: none;
+  border-bottom: 3px solid #e30613;
+  color: rgba(0, 0, 0, 0.6);
+  outline: none;
+  background-color: transparent;
+}
+
+.input-container2 input[type="date"]:nth-child(3) {
+  margin-top: 1px;
+}
+
+.btnSubmit {
+  width: 100%;
+  padding: 5px;
+  font-size: 20px;
+  border-radius: 10px;
+  outline: none;
+  background-color: rgba(227, 6, 19, 0.5);
+  color: #fff;
+  border: none;
+  margin-top: 30px;
+  box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.5);
+  transition-duration: 0.8s;
+  transition-timing-function: ease-in-out;
+  /* animation: toUp 1s ease-in-out forwards; */
+}
+
+.btn_active {
+  background-color: rgba(227, 6, 19, 1);
+  cursor: pointer;
+  transition-duration: 0.3s;
+}
+
+.btn_active:hover {
+  background-color: rgb(255, 11, 27);
+  box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 1);
+  transform: scale(1.01);
 }
 
 @media screen and (max-width: 1440px) {

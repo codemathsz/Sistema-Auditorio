@@ -5,15 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../../../css/navbar/navbar.css" />
+    <link rel="stylesheet" href="../../../css/get/agendamento_pendente.css" />
+    <link rel="stylesheet" href="../../../css/mensagem/mensagem.css" />
     <!-- Boxiocns CDN Link -->
     <link
       href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../../css/mensagem/mensagem.css" />
-    <link rel="stylesheet" href="../../../css/get/tipo.css"/>
     <link rel="icon" href="../../../image/logo_bar.jpg" />
-    <title>Lista de Tipos de Eventos</title>
+    <title>Seus agendamentos</title>
   </head>
 
   <body>
@@ -35,50 +35,32 @@
           </ul>
         </li>
         <li id="agendamentos">
-          <a href="../agendamento/agendamentos_usuario.html">
+          <a href="agendamentos_usuario.html">
             <i class="bx bx-calendar-event"></i>
             <span class="link_name">Agendamentos</span>
           </a>
           <ul class="sub-menu blank">
             <li>
-              <a
-                class="link_name"
-                href="../agendamento/agendamentos_usuario.html"
+              <a class="link_name" href="agendamentos_usuario.html"
                 >Agendamentos</a
               >
             </li>
           </ul>
         </li>
-        <li
-          id="lista"
-          style="
-            animation: showSelected 0.5s ease-in-out forwards;
-            background-color: rgba(227, 6, 19, 0.1);
-            border-left: 8px solid rgba(227, 6, 19, 0.6);
-          "
-        >
+        <li id="lista">
           <div class="iocn-link">
             <a href="#">
-              <i
-                class="bx bx-collection"
-                style="color: rgba(227, 6, 19, 0.6)"
-              ></i>
-              <span class="link_name" style="color: rgba(227, 6, 19, 0.6)"
-                >Listar</span
-              >
+              <i class="bx bx-collection"></i>
+              <span class="link_name">Listar</span>
             </a>
             <i class="bx bxs-chevron-down arrow"></i>
           </div>
           <ul class="sub-menu">
-            <li><a href="../usuario/usuario.html">Usuarios</a></li>
+            <li><a href="../../get/usuario/usuario.html">Usuarios</a></li>
             <li>
-              <a
-                href="../tipo/tipoEvento.html"
-                style="color: rgba(227, 6, 19, 0.6)"
-                >Tipos de Evento</a
-              >
+              <a href="../../get/tipo/tipoEvento.html">Tipos de Evento</a>
             </li>
-            <li><a href="../agendamento/agendamento.html">Agendamentos</a></li>
+            <li><a href="agendamento.html">Agendamentos</a></li>
           </ul>
         </li>
         <li id="cadastro">
@@ -99,16 +81,20 @@
             </li>
           </ul>
         </li>
-        <li id="pendentes">
-          <a href="../agendamento/agendamento_pendente.html">
-            <i class='bx bx-loader'></i>
-            <span class="link_name">Pendentes</span>
+        <li id="pendentes" style="
+        animation: showSelected 0.5s ease-in-out forwards;
+        background-color: rgba(227, 6, 19, 0.1);
+        border-left: 8px solid rgba(227, 6, 19, 0.6);
+      ">
+          <a href="agendamento_pendente.html">
+            <i class='bx bx-loader' style="color: rgba(227, 6, 19, 0.6)"></i>
+            <span class="link_name" style="color: rgba(227, 6, 19, 0.6)">Pendentes</span>
           </a>
           <ul class="sub-menu blank">
             <li>
               <a
                 class="link_name"
-                href="../agendamento/agendamento_pendente.html"
+                href="agendamento_pendente.html"
                 >Pendentes</a
               >
             </li>
@@ -163,14 +149,38 @@
       <div class="home-content hide">
         <i class="bx bx-menu"></i>
       </div>
+      <h1>Agendamentos Pendentes</h1>
       <!-- <div class="search">
-        <h1>Pesquise por um tipo de evento</h1>
+        <h1>Pesquise por um agendamento</h1>
         <div class="search-content">
-          <input type="number" name="id" id="id" />
+          <div class="input-container">
+            <input
+              class="form_input"
+              type="text"
+              name="search"
+              id="search"
+              placeholder=" "
+              required
+            />
+            <label class="form_label" for="titulo">Pesquise por algo:</label>
+          </div>
           <select id="selectBusca">
-            <option value="nome" selected>Nome</option>
+            <option selected>Todos</option>
+            <option value="id">Id</option>
+            <option value="titulo">Titulo</option>
+            <option value="descricao">Descricao</option>
+            <option value="dataInicio">Data de Inicio</option>
+            <option value="dataFinalizada">Data Final</option>
+            <option value="horaInicio">Hora de Inicio</option>
+            <option value="horaFinalizada">Hora Finalizada</option>
+            <option value="status">Status</option>
+            <option value="periodo">Periodo</option>
+            <option value="tipo">Tipo</option>
+            <option value="usuario">Usuario</option>
           </select>
-          <button type="button" id="search">Buscar</button>
+          <button type="button" id="search">
+            <i class="bx bx-search"></i>
+          </button>
         </div>
         <div class="msg">
           <div class="erro" id="erro">
@@ -181,52 +191,61 @@
           </div>
         </div>
       </div> -->
-      <h1>Lista de Tipos de Evento</h1>
       <div class="thead">
         <p>ID</p>
-        <p>Nome</p>
-        <p>Alterar</p>
-        <p>Deletar</p>
-      </div>
+        <p>Titulo</p>
+        <p>Data</p>
+        <p>Hora</p>
+        <p>Status</p>
+        <p>Aceitar</p>
+        <p>Recusar</p>
+        <p></p>
+      </div>  
       <div class="scroll">
         <table id="tabela" class="tabela">
           <tr class="thead2">
             <th>ID</th>
-            <th>Nome</th>
-            <th>Alterar</th>
-            <th>Deletar</th>
+            <th>Titulo</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Status</th>
+            <th>Aceitar</th>
+            <th>Recusar</th>
+            <th></th>
           </tr>
           <tbody class="tbody" id="tbody"></tbody>
         </table>
       </div>
     </section>
-    <div class="modalAlterar" id="modalAlterar">
+    <div class="modalInfo" id="modalInfo">
       <div class="modal-container">
-        <div class="modal-content modal-content-alterar">
-          <button id="close"><i class="bx bx-x"></i></button>
-          <h1>Alterar Tipo de Evento</h1>
-          <div class="formAlterar">
-            <form id="form">
-              <div class="input-container">
-                <input
-                  class="form_input"
-                  type="text"
-                  name="nome"
-                  id="nome"
-                  placeholder=" "
-                  required
-                />
-                <label class="form_label" for="nome">Nome</label>
+        <div class="modal-content">
+          <h1 id="tituloAgendamento"></h1>
+          <button id="closeInfo"><i class="bx bx-x"></i></button>
+          <div class="body">
+            <p id="descricaoAgendamento"></p>
+            <div class="flex-container">
+              <div class="flex-content">
+                <p id="dataAgendamento"></p>
+                <p id="horaAgendamento"></p>
               </div>
-              <button type="submit" class="btnSubmit" id="submit">Alterar</button>
-            </form>
+              <div class="flex-content">
+                <p id="statusAgendamento"></p>
+                <p id="periodoAgendamento"></p>
+              </div>
+              <div class="flex-content">
+                <p id="tipoAgendamento"></p>
+                <p id="usuarioAgendamento"></p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    </section>
     <div class="mensagens" id="mensagens"></div>
-    <!-- Script --------------------------------------------------------------- -->
-    <script src="../../../js/get/tipo/tipoEvento.js"></script>
+    <!-- Script Api --------------------------------------------------------------- -->
+    <script text="script" src="../../../js/get/agendamento/agendamento_pendente.js"></script>
     <!-- script da navbar -->
     <script src="../../../js/navbar/script.js"></script>
   </body>

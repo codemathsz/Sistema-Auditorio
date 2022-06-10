@@ -25,7 +25,7 @@ if (token == null) {
 } else {
   if (payload.nivel == 1) {
     /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-    url = "http://localhost:8080/api/usuario";
+    url = "http://10.92.198.22:8080/api/usuario";
     get(url);
   } else {
     window.location.href = "../../../index.html";
@@ -125,7 +125,7 @@ function createTbody(usuario, index) {
       let id = usuario.id;
 
       /* url do usuario com o valor do input do id */
-      const urlusuario = `http://localhost:8080/api/usuario/${id}`;
+      const urlusuario = `http://10.92.198.22:8080/api/usuario/${id}`;
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
@@ -174,7 +174,7 @@ function createTbody(usuario, index) {
         }
 
         /* url do usuario com o valor do input do id */
-        const urlUsuario = `http://localhost:8080/api/usuario/${id}`;
+        const urlUsuario = `http://10.92.198.22:8080/api/usuario/${id}`;
 
         /* construindo o objeto usuario */
         let usuario = {
@@ -216,7 +216,9 @@ function createTbody(usuario, index) {
                 } else {
                   console.log("erro");
                   createMessage(
-                    `Falha ao deletar o usuario ${tdId.innerHTML}. ` + resposta.message.substring(0, 100) + '...',
+                    `Falha ao deletar o usuario ${tdId.innerHTML}. ` +
+                      resposta.message.substring(0, 100) +
+                      "...",
                     "error"
                   );
                 }
@@ -238,12 +240,19 @@ function createTbody(usuario, index) {
       if (show === true) {
         modalAlterar.classList.remove("showModal");
         show = false;
-        deleteMessage()
-        idMessage = 0
-        clearForm()
+        deleteMessage();
+        idMessage = 0;
+        clearForm();
       }
     });
   });
+
+  /* VARIAVEIS */
+  let id = usuario.id
+  let nome = usuario.nome
+  let descricao = usuario.descricao
+  let email = usuario.email
+  let nivel = usuario.nivel
 
   let tdDeletar = createNode("td");
   /* cria o botao de alteração */
@@ -257,25 +266,25 @@ function createTbody(usuario, index) {
   btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlusuario = `http://localhost:8080/api/usuario/${valor}`;
+    const urlUsuario = `http://10.92.198.22:8080/api/usuario/desativar/${valor}`;
     const resultado = confirm(`Deseja deletar o usuario do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto usuario */
       let usuario = {
-        id: tdId.innerHTML,
+        id: id
       };
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("token", token);
+      myHeaders.append("Authorization", token);
 
       /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
       let fetchData = {
-        method: "DELETE",
+        method: "PUT",
         body: JSON.stringify(usuario),
         headers: myHeaders,
       };
-      fetch(urlusuario, fetchData)
+      fetch(urlUsuario, fetchData)
         .then((resp) => {
           resp
             .json()

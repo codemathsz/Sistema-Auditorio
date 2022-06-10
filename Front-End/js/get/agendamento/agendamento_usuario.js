@@ -27,7 +27,7 @@ let idMessage = 0;
 if (token == null) {
   window.location.href = "../../index.html";
 } else {
-  const url = `http://localhost:8080/api/agendamento/usuario/${payload.id}`;
+  const url = `http://10.92.198.22:8080/api/agendamento/usuario/${payload.id}`;
   getAgendamento(url);
 }
 
@@ -170,7 +170,7 @@ function createTbody(agendamento, index) {
     /* METOD GET ------------------ */
     /* Preenchendo o select do tipo */
     /* Url da lista do tipo */
-    const urlTipo = "http://localhost:8080/api/tipo";
+    const urlTipo = "http://10.92.198.22:8080/api/tipo";
     /* variavel que pega o select do html */
     const select = tipo;
     /* fazendo conexão com a api */
@@ -209,7 +209,7 @@ function createTbody(agendamento, index) {
       /* evento para nao submeter o formulario */
       event.preventDefault();
       /* url que faz a conexão com a api do back-end */
-      const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`;
+      const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`;
 
       /* construindo o objeto agendamento */
       let agendamento = {
@@ -291,7 +291,7 @@ function createTbody(agendamento, index) {
   iDeletar.classList.add("deletar");
 
   btnDeletar.addEventListener("click", () => {
-    const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`;
+    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`;
     const resultado = confirm(`Deseja deletar o agendamento do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto agendamento */
