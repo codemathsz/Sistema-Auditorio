@@ -66,7 +66,7 @@ import br.com.senaisp.sistemaauditorio.util.HashUtil;
 			} catch (DataIntegrityViolationException e) {// REGISTRO DUPLICADO
 				
 				e.printStackTrace();
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "Registro Duplicado", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
+				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "*Nif ou Email ja cadastrado*", e.getClass().getName());// CRIANDO O ERRO COM O STATUS CODIGO, MENSSAGEM DE ERRO E EXCEPTION 
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);// RETURN ERRO
 			}
 			
@@ -101,18 +101,20 @@ import br.com.senaisp.sistemaauditorio.util.HashUtil;
 		@Administrador
 		@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<Object> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario,HttpServletRequest request ){
+			System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaa");
 			// VERIFICA SE O ID DO USUARIO É IGUAL AO INFORMADO( SE EXISTE)
 			if (usuario.getId() != idUsuario) {
 				
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			
+			System.out.println(usuario.getSenha());
 			if (usuario.getSenha().equals(HashUtil.hash(""))) {
 				Usuario user = repository.findById(idUsuario).get();
 				usuario.setSenhaSemHash(user.getSenha());
 			}
 			
+			usuario.setAtivo(true);
 			repository.save(usuario);// SALVA AS ALTERAÇÕES NO BD
 //			logService.salvarLogUsuario(usuario, TipoLog.ALTERAR, request);	
 			
@@ -159,6 +161,7 @@ import br.com.senaisp.sistemaauditorio.util.HashUtil;
 				payload.put("nivel", usuario.getNivel().ordinal());
 				payload.put("email", usuario.getEmail());
 				payload.put("nif", usuario.getNif());
+				payload.put("ativo", usuario.isAtivo());
 				
 				//criando varievel para data de expiração
 				Calendar expiration = Calendar.getInstance();

@@ -8,7 +8,7 @@ if (token != null) {
   floatingButton.style.display = "none";
 }
 
-console.log(payload)
+console.log(payload);
 
 // pegando o ano conforme o atual
 var dateGetYear = new Date();
@@ -129,9 +129,9 @@ const submit = getById("submit");
 
 floatingButton.addEventListener("click", () => {
   $("#modalEventRegister").modal("show");
-  dataInicio.value = ""
+  dataInicio.value = "";
   dataInicio.min = dataAposAtual;
-  dataInicio.disabled = false
+  dataInicio.disabled = false;
   dataFinalizada.value = "";
   dataFinalizada.min = dataAposAtual;
 
@@ -779,10 +779,19 @@ function postAgendamento() {
   /* Preenchendo o select do tipo */
   /* Url da lista do tipo */
   const urlTipo = "http://localhost:8080/api/tipo";
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", token);
+
+  /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+  let fetchData = {
+    method: "GET",
+    headers: myHeaders,
+  };
   /* fazendo conexão com a api */
   const selectTipo = tipo;
   if (control == 1) {
-    fetch(urlTipo)
+    fetch(urlTipo, fetchData)
       .then((resp) => {
         resp
           .json()
@@ -880,7 +889,7 @@ function postAgendamento() {
               clearForm();
               setTimeout(() => {
                 window.location.reload();
-              }, 8000);
+              }, 3500);
             } else {
               console.log("erro");
               type = "error";
