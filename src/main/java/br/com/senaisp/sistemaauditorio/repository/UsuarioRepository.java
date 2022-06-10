@@ -15,6 +15,8 @@ import br.com.senaisp.sistemaauditorio.model.Usuario;
 public interface UsuarioRepository extends PagingAndSortingRepository<Usuario, Long>{
 
 	public Usuario findByNifAndSenha(String nif, String senha);
+	
+	
 	public List<Usuario> findByAtivo(boolean ativo);
 	
 	// BUSCA PELO NOME, LIKE

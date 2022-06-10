@@ -31,7 +31,6 @@ import br.com.senaisp.sistemaauditorio.model.Sucesso;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
 import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
-import br.com.senaisp.sistemaauditorio.services.LogService;
 	
 	@CrossOrigin
 	@RestController
@@ -47,9 +46,7 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 		@Autowired
 		private UsuarioRepository repository;
 		
-		@Autowired
-		private LogService logService;
-		
+	
 		
 		@Administrador
 		@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -57,9 +54,10 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 			
 			try {
 				
+				usuario.setAtivo(true);
 				// SALVA USUARIO NO BD
 				repository.save(usuario);
-				// SALVA LOG NO BD
+				// SALVA LOG NO BD	
 				//logService.salvarLogUsuario(usuario, TipoLog.CADASTRO_USUARIO, request);
 				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
 				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
@@ -92,7 +90,7 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 			
 			if(optional.isPresent()) {
 				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-				return new ResponseEntity<Object>(optional, HttpStatus.OK);
+				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
 			}else {
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -105,6 +103,7 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 		public ResponseEntity<Object> atualizarUsuario(@PathVariable("id") Long idUsuario, @RequestBody Usuario usuario,HttpServletRequest request ){
 			// VERIFICA SE O ID DO USUARIO É IGUAL AO INFORMADO( SE EXISTE)
 			if (usuario.getId() != idUsuario) {
+				
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
@@ -118,18 +117,23 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 		}
 		
 		@Administrador
-		@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-		public ResponseEntity<Object> excluirUsuario(@PathVariable("id") Long idUsuario, Usuario usuario, HttpServletRequest request){
+		@RequestMapping(value = "/desativar/{id}", method = RequestMethod.PUT)
+		public ResponseEntity<Object> desativar(@PathVariable("id") Long idUsuario, Usuario usuario, HttpServletRequest request){
 			
-			if(usuario.getId() != idUsuario) {
-				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
-				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			repository.deleteById(idUsuario); // EXCLUE O USUÁRIO DO BANCO DE DADOS
-			// CRIA LOG
-//			logService.salvarLogUsuario(usuario, TipoLog.DELETAR, request);
-			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-			return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+			
+				usuario = repository.findById(idUsuario).get();
+				usuario.setAtivo(false);
+				
+				repository.save(usuario);
+				
+				// EXCLUE O USUÁRIO DO BANCO DE DADOS
+				// CRIA LOG
+//				logService.salvarLogUsuario(usuario, TipoLog.DELETAR, request);
+				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+		
+			
+			
 		}
 		
 		
@@ -139,7 +143,9 @@ import br.com.senaisp.sistemaauditorio.services.LogService;
 			
 			usuario = repository.findByNifAndSenha(usuario.getNif(), usuario.getSenha());
 			
-			if (usuario != null) {
+			if (usuario != null && usuario.isAtivo() == true) {
+				
+				
 				System.out.println(usuario.getNome());
 				//Fazendo uma variavel para criar dados no payload (payload = informações que você vai mandar)
 				Map<String, Object> payload = new HashMap<String, Object>();
