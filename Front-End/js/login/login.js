@@ -49,7 +49,7 @@ if (token == null) {
                         window.location.href = '../../index.html'
                     })
                     .catch((error) => {
-                        console.error(error)
+                        console.log(error)
                         erro.style.animation = 'fadeIn 0.5s ease-in-out forwards';
                     })
             })

@@ -178,7 +178,7 @@ function createTbody(agendamento, index) {
               createMessage("Sucesso ao aceitar o agendamento!", type);
               setTimeout(() => {
                 window.location.reload();
-              }, 4000);
+              }, 3500);
             } else {
               console.log("erro");
               type = "error";
@@ -240,7 +240,7 @@ function createTbody(agendamento, index) {
 
                 setTimeout(() => {
                   window.location.reload();
-                }, 4000);
+                }, 3500);
               } else {
                 console.log("erro");
                 createMessage(

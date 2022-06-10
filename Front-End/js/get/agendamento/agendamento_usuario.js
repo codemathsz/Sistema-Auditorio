@@ -6,6 +6,7 @@ const table = getById("tabela");
 const tbody = getById("tbody");
 /* pegando a modal de alteração */
 const modalAlterar = getById("modalAlterar");
+const modalInfo = getById("modalInfo");
 /* pegando os inputs pelo id */
 const form = getById("form");
 const titulo = getById("titulo");
@@ -199,6 +200,7 @@ function createTbody(agendamento, index) {
     const urlTipo = "http://localhost:8080/api/tipo";
     /* variavel que pega o select do html */
     const select = tipo;
+    select.innerText = ""
     /* fazendo conexão com a api */
     fetch(urlTipo, fetchData)
       .then((resp) => {

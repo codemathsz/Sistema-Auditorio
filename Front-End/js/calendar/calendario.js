@@ -301,7 +301,7 @@ function calendar(meses, ano) {
 
     // colocar a API para consumir
 
-    events: "http://10.92.198.15:8080/api/agendamento",
+    events: "http://localhost:8080/api/agendamento",
 
     // limitando a quantidade de ventos
     eventLimit: true,

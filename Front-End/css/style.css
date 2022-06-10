@@ -301,6 +301,14 @@ input[type="date"]::-webkit-inner-spin-button {
   padding: 40px 40px 10px 40px !important;
 }
 
+.modal-body h1 {
+  font-size: 25px;
+  text-align: justify;
+  color: #e30613;
+  text-shadow: 0px 4px 4px rgba(200, 132, 132, 0.25);
+  animation: fadeRight 1s ease-in-out forwards;
+}
+
 .input-container:nth-child(1) {
   display: flex;
   flex-direction: column;
