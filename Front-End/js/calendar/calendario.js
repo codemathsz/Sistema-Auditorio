@@ -8,6 +8,8 @@ if (token != null) {
   floatingButton.style.display = "none";
 }
 
+console.log(payload)
+
 // pegando o ano conforme o atual
 var dateGetYear = new Date();
 var ano = dateGetYear.getFullYear();

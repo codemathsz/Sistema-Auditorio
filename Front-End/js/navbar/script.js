@@ -34,6 +34,10 @@ if (tokenLogin == null) {
   naoLogado.classList.add('hidden')
 
   const payload = parseJwt(tokenLogin)
+  if (!payload.ativo) {
+    localStorage.removeItem('token')
+    window.location.href = redirectPageLogin()
+  }
 
   nomeUsuario.innerHTML = payload.nome
   if (payload.nivel == 0) {

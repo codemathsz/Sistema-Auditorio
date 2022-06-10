@@ -77,7 +77,7 @@ if (token == null) {
                   console.log("sucesso");
                   type = "success";
                   createMessage(
-                    `Sucesso ao cadastrar o usuario ${nome.value}!`,
+                    `Sucesso ao cadastrar o usuario: ${nome.value}!`,
                     type
                   );
                   clearForm();
