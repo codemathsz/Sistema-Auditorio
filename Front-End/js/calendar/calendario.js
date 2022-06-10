@@ -72,7 +72,7 @@ for (let i = 0; i < bolinhas.length; i++) {
 function aplicaDisabled() {
   for (let i = 0; i < 12; i++) {
     if (tituloAno.innerHTML < 2022) {
-      meses[i].classList  .add("mes-disable");
+      meses[i].classList.add("mes-disable");
       if (controladorAnimacao != 0) {
         meses[i].classList.add("mes-disable-sem-animacao");
       }
@@ -143,14 +143,25 @@ let control = 1;
 function calendar(meses, ano) {
   /* Limitando o fullCalendar para que ele possa voltar até o dia que a aplicação foi iniciada */
 
-  var buttonPrev = "fc-prev-button";
-  var titleDate = getById("fc-toolbar-title");
-
   /*   inst.setEvents(events); */
   const date = `${ano}-${meses}-01`;
   // tabela candar
   var calendarEl = document.getElementById("calendar");
   var calendar = new FullCalendar.Calendar(calendarEl, {
+    /*  viewRender: function (view) {
+      var startDate = '2022-06-01';
+      
+      var currentDate = $('#calendar').fullCalendar('getDate');
+      console.log(currentDate);
+      if (view.start == startDate) {
+        header.disableButton("prev");
+      }
+    }, */
+
+    validRange: {
+      start: '2022-06-01'
+    },
+
     // button custom
     close: "fa-times",
     prev: "fa-chevron-left",
@@ -257,7 +268,7 @@ function calendar(meses, ano) {
 
     // colocar a API para consumir
 
-    events: "http://localhost:8080/api/agendamento",
+    events: "http://10.92.198.15:8080/api/agendamento",
 
     // limitando a quantidade de ventos
     eventLimit: true,
@@ -734,7 +745,7 @@ function postAgendamento() {
 
   /* Preenchendo o select do tipo */
   /* Url da lista do tipo */
-  const urlTipo = "http://localhost:8080/api/tipo";
+  const urlTipo = "http://10.92.198.22:8080/api/tipo";
   /* fazendo conexão com a api */
   const selectTipo = tipo;
   if (control == 1) {
@@ -771,7 +782,7 @@ function postAgendamento() {
     /* evento para nao submeter o formulario */
     event.preventDefault();
     /* url que faz a conexão com a api do back-end */
-    const urlAgendamento = `http://localhost:8080/api/agendamento`;
+    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
 
     /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
     let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5);
