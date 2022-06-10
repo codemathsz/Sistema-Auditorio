@@ -148,9 +148,8 @@ body {
 
 .input-container2 select {
   width: 50%;
-  height: 36px;
+  height: 36.6px;
   font-size: 18px;
-  margin-top: 1px;
   border: none;
   border-bottom: 3px solid #e30613;
   color: rgba(0, 0, 0, 0.6);
@@ -161,19 +160,14 @@ body {
 
 .input-container2 input[type="date"] {
   width: 35%;
-  height: 36px;
+  height: 36.6px;
   font-size: 22px;
   padding-left: 5px;
-  margin-top: 0.6px;
   border: none;
   border-bottom: 3px solid #e30613;
   color: rgba(0, 0, 0, 0.6);
   outline: none;
   background-color: transparent;
-}
-
-.input-container2 input[type="date"]:nth-child(3) {
-  margin-top: 1px;
 }
 
 .checks {

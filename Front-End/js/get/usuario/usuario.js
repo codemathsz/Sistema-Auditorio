@@ -25,7 +25,7 @@ if (token == null) {
 } else {
   if (payload.nivel == 1) {
     /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
-    url = "http://10.92.198.22:8080/api/usuario";
+    url = "http://localhost:8080/api/usuario";
     get(url);
   } else {
     window.location.href = "../../../index.html";
@@ -123,13 +123,14 @@ function createTbody(usuario, index) {
       const senha = getById("senha");
       const confirmaSenha = getById("confirmaSenha");
       let id = usuario.id;
+      console.log(id)
 
       /* url do usuario com o valor do input do id */
-      const urlusuario = `http://10.92.198.22:8080/api/usuario/${id}`;
+      const urlUsuario = `http://localhost:8080/api/usuario/${id}`;
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("token", token);
+      myHeaders.append("Authorization", token);
       /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
       let fetchData = {
         method: "GET",
@@ -137,17 +138,18 @@ function createTbody(usuario, index) {
       };
 
       /* fazendo conexão com a api */
-      fetch(urlusuario, fetchData)
+      fetch(urlUsuario, fetchData)
         /* transformando a resposta em json */
         .then((resp) => {
           resp
             .json()
-            .then((data) => {
+            .then((resposta) => {
+              console.log(resposta)
               /* pegando os valores do json e colocando nos inputs */
-              nome.value = data.nome;
-              email.value = data.email;
-              nif.value = data.nif;
-              nivel.value = data.nivel;
+              nome.value = resposta.nome;
+              email.value = resposta.email;
+              nif.value = resposta.nif;
+              nivel.value = resposta.nivel;
             })
             .catch((error) => {
               console.log(error);
@@ -174,7 +176,7 @@ function createTbody(usuario, index) {
         }
 
         /* url do usuario com o valor do input do id */
-        const urlUsuario = `http://10.92.198.22:8080/api/usuario/${id}`;
+        const urlUsuario = `http://localhost:8080/api/usuario/${id}`;
 
         /* construindo o objeto usuario */
         let usuario = {
@@ -188,7 +190,7 @@ function createTbody(usuario, index) {
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("token", token);
+        myHeaders.append("Authorization", token);
 
         /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
         let fetchData = {
@@ -198,7 +200,7 @@ function createTbody(usuario, index) {
         };
 
         /* fazendo a conexão com a api */
-        fetch(urlusuario, fetchData)
+        fetch(urlUsuario, fetchData)
           .then((resp) => {
             resp
               .json()
@@ -216,7 +218,7 @@ function createTbody(usuario, index) {
                 } else {
                   console.log("erro");
                   createMessage(
-                    `Falha ao deletar o usuario ${tdId.innerHTML}. ` +
+                    `Falha ao alterar o usuario ${tdId.innerHTML}. ` +
                       resposta.message.substring(0, 100) +
                       "...",
                     "error"
@@ -247,13 +249,6 @@ function createTbody(usuario, index) {
     });
   });
 
-  /* VARIAVEIS */
-  let id = usuario.id
-  let nome = usuario.nome
-  let descricao = usuario.descricao
-  let email = usuario.email
-  let nivel = usuario.nivel
-
   let tdDeletar = createNode("td");
   /* cria o botao de alteração */
   const btnDeletar = createNode("button");
@@ -266,7 +261,7 @@ function createTbody(usuario, index) {
   btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlUsuario = `http://10.92.198.22:8080/api/usuario/desativar/${valor}`;
+    const urlUsuario = `http://localhost:8080/api/usuario/desativar/${valor}`;
     const resultado = confirm(`Deseja deletar o usuario do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto usuario */

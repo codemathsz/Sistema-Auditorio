@@ -31,6 +31,7 @@ import br.com.senaisp.sistemaauditorio.model.Sucesso;
 import br.com.senaisp.sistemaauditorio.model.TokenJWT;
 import br.com.senaisp.sistemaauditorio.model.Usuario;
 import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
+import br.com.senaisp.sistemaauditorio.util.HashUtil;
 	
 	@CrossOrigin
 	@RestController
@@ -85,12 +86,11 @@ import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
 		
 		@Administrador
 		@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-		public ResponseEntity<Object> getUsuarioById(@PathVariable("id") Long idUsuario){
-			Optional<Usuario> optional = repository.findById(idUsuario);
-			
-			if(optional.isPresent()) {
-				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+		public ResponseEntity<Object> getUsuarioById(@PathVariable("id") Long idUsuario, Usuario usuario){
+			 usuario = repository.findById(idUsuario).get();
+			if(usuario != null) {
+				
+				return ResponseEntity.ok(usuario);
 			}else {
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,6 +106,11 @@ import br.com.senaisp.sistemaauditorio.repository.UsuarioRepository;
 				
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
 				return new ResponseEntity<Object>(erro, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			if (usuario.getSenha().equals(HashUtil.hash(""))) {
+				Usuario user = repository.findById(idUsuario).get();
+				usuario.setSenhaSemHash(user.getSenha());
 			}
 			
 			repository.save(usuario);// SALVA AS ALTERAÇÕES NO BD

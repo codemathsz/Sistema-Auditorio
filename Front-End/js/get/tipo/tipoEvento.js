@@ -22,7 +22,7 @@ if (token == null) {
 } else {
   if (payload.nivel == 1) {
     /* pegando o botao que faz a procura */
-    url = "http://10.92.198.22:8080/api/tipo";
+    url = "http://localhost:8080/api/tipo";
     get(url);
   } else {
     window.location.href = "../../../index.html";
@@ -120,7 +120,7 @@ function createTbody(tipo, index) {
         event.preventDefault();
 
         /* url do tipo com o valor do input do id */
-        const urlTipo = `http://10.92.198.22:8080/api/tipo/${id}`;
+        const urlTipo = `http://localhost:8080/api/tipo/${id}`;
 
         /* construindo o objeto tipo */
         let tipo = {
@@ -130,7 +130,7 @@ function createTbody(tipo, index) {
 
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        myHeaders.append("token", token);
+        myHeaders.append("Authorization", token);
 
         /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
         let fetchData = {
@@ -155,7 +155,7 @@ function createTbody(tipo, index) {
                   modalAlterar.classList.remove("showModal")
                   setTimeout(() => {
                     window.location.reload();
-                  }, 3750);
+                  }, 3500);
                 } else {
                   console.log("erro");
                   type = "error";
@@ -194,7 +194,7 @@ function createTbody(tipo, index) {
   btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlTipo = `http://10.92.198.22:8080/api/tipo/${tipo.id}`;
+    const urlTipo = `http://localhost:8080/api/tipo/${tipo.id}`;
     const resultado = confirm(`Deseja deletar o tipo do id: ${tipo.id}?`);
     if (resultado == true) {
       /* construindo o objeto tipo */
@@ -204,7 +204,7 @@ function createTbody(tipo, index) {
 
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-      myHeaders.append("token", token);
+      myHeaders.append("Authorization", token);
 
       /* contruindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
       let fetchData = {

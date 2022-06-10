@@ -12,6 +12,19 @@ const titulo = getById("titulo");
 const descricao = getById("descricao");
 const dataInicio = getById("dataInicio");
 const dataFinalizada = getById("dataFinalizada");
+var dataAtual = new Date(Date.now());
+var hoje = dataAtual
+  .toLocaleDateString()
+  .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
+dataAtual.setDate(dataAtual.getDate() + 3);
+var dataAposAtual = dataAtual
+  .toLocaleDateString()
+  .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
+var dataAposAtualFormat = dataAposAtual.replace(
+  /(\d*)-(\d*)-(\d*).*/,
+  "$3/$2/$1"
+);
+dataInicio.min = dataAposAtual;
 const tipo = getById("tipo");
 const submit = getById("submit");
 
@@ -27,7 +40,7 @@ let idMessage = 0;
 if (token == null) {
   window.location.href = "../../index.html";
 } else {
-  const url = `http://10.92.198.22:8080/api/agendamento/usuario/${payload.id}`;
+  const url = `http://localhost:8080/api/agendamento/usuario/${payload.id}`;
   getAgendamento(url);
 }
 
@@ -145,6 +158,13 @@ function createTbody(agendamento, index) {
   const valor = agendamento.id;
   console.log(valor);
 
+  /* status do agendamento */
+  const status = agendamento.status;
+  const horaInicio = agendamento.horaInicio;
+  console.log(horaInicio);
+  const horaFinalizada = agendamento.horaFinalizada;
+  console.log(horaFinalizada);
+
   let show = false;
   btnAlterar.addEventListener("click", () => {
     if (show === false) {
@@ -155,8 +175,14 @@ function createTbody(agendamento, index) {
     /* Preencher os inputs do formulario de cadastro, mas vamos alterar! */
     titulo.value = tdTitulo.innerHTML;
     descricao.value = agendamento.descricao;
+    dataInicio.addEventListener("change", () => {
+      console.log(dataInicio.value + "#########################");
+      dataFinalizada.min = dataInicio.value;
+      dataFinalizada.value = dataInicio.value;
+    });
     dataInicio.value = agendamento.dataInicioFormat;
     dataFinalizada.value = agendamento.dataFinalizadaFormat;
+    dataFinalizada.min = dataInicio.value;
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -170,7 +196,7 @@ function createTbody(agendamento, index) {
     /* METOD GET ------------------ */
     /* Preenchendo o select do tipo */
     /* Url da lista do tipo */
-    const urlTipo = "http://10.92.198.22:8080/api/tipo";
+    const urlTipo = "http://localhost:8080/api/tipo";
     /* variavel que pega o select do html */
     const select = tipo;
     /* fazendo conexão com a api */
@@ -209,15 +235,21 @@ function createTbody(agendamento, index) {
       /* evento para nao submeter o formulario */
       event.preventDefault();
       /* url que faz a conexão com a api do back-end */
-      const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`;
+      const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`;
+
+      const dataInicioCompleta = dataInicio.value + "T" + horaInicio + ":00";
+      const dataFinalizadaCompleta =
+        dataFinalizada.value + "T" + horaFinalizada + ":00";
 
       /* construindo o objeto agendamento */
       let agendamento = {
+        id: valor,
         title: titulo.value,
         descricao: descricao.value,
-        start: dataInicio.value,
-        end: dataFinalizada.value,
+        start: dataInicioCompleta,
+        end: dataFinalizadaCompleta,
         periodo: periodo,
+        status: status,
         tipo: {
           id: tipo.value,
         },
@@ -246,13 +278,16 @@ function createTbody(agendamento, index) {
             .then((resposta) => {
               console.log(resposta);
               if (resposta.error == "OK") {
+                if (show === true) {
+                  modalAlterar.classList.remove("showModal");
+                  show = false;
+                }
                 console.log("sucesso");
                 type = "success";
                 createMessage("Sucesso ao alterar o agendamento!", type);
-                clearForm();
                 setTimeout(() => {
                   window.location.reload();
-                }, 4000);
+                }, 3750);
               } else {
                 console.log("erro");
                 type = "error";
@@ -291,7 +326,7 @@ function createTbody(agendamento, index) {
   iDeletar.classList.add("deletar");
 
   btnDeletar.addEventListener("click", () => {
-    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`;
+    const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`;
     const resultado = confirm(`Deseja deletar o agendamento do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto agendamento */
@@ -313,19 +348,22 @@ function createTbody(agendamento, index) {
         .then((resp) => {
           resp
             .json()
-            .then((data) => {
+            .then((resposta) => {
               if (resposta.error == "OK") {
                 console.log("sucesso");
-                createMessage(`Sucesso ao excluir o agendamento: ${valor}!`, 'success');
-                clearForm();
+                createMessage(
+                  `Sucesso ao excluir o agendamento: ${valor}!`,
+                  "success"
+                );
                 setTimeout(() => {
                   window.location.reload();
-                }, 4000);
+                }, 3500);
               } else {
                 console.log("erro");
                 createMessage(
-                  `Falha ao excluir o agendamento: ${valor}, ` + resposta.message,
-                  'error'
+                  `Falha ao excluir o agendamento: ${valor}, ` +
+                    resposta.message,
+                  "error"
                 );
               }
               deleteMessage();

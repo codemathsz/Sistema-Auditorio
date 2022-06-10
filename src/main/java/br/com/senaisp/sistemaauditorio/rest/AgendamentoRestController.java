@@ -308,6 +308,8 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> alterar(@PathVariable("id") Long id, @RequestBody Agendamento agendamento,
 			HttpServletRequest request) {// SE O ID PASSADO EXISTIR
+		 System.out.println(id);
+		 System.out.println(agendamento);
 		if (id == agendamento.getId()) {// SALVA A ALTERAÇÃO QUE FOI FEITA NO BANCO
 			repository.save(agendamento);// RETORNO DO METODO
 			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");

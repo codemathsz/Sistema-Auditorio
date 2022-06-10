@@ -20,7 +20,7 @@ if (token == null) {
         /* evento para nao submeter o formulario */
         event.preventDefault();
         /* url que faz a conexão com a api do back-end */
-        const url = `http://10.92.198.22:8080/api/usuario/login`;
+        const url = `http://localhost:8080/api/usuario/login`;
 
         /* construindo o objeto agendamento */
         let login = {

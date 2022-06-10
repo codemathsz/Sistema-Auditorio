@@ -39,9 +39,13 @@ public class Usuario {
 	
 	
 	// MÉTODO SET QUE APLICA O HASH NA SENHA
-	public void setSenha(String senha) {
+	public void setSenha(String hash) {
 		
-		this.senha = (HashUtil.hash(senha));
+		this.senha = (HashUtil.hash(hash));
+	}
+	
+	public void setSenhaSemHash(String senha) {
+		this.senha = senha;
 	}
 	
 

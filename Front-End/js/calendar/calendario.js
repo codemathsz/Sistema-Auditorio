@@ -8,11 +8,6 @@ if (token != null) {
   floatingButton.style.display = "none";
 }
 
-floatingButton.addEventListener("click", () => {
-  $("#modalEventRegister").modal("show");
-  postAgendamento();
-});
-
 // pegando o ano conforme o atual
 var dateGetYear = new Date();
 var ano = dateGetYear.getFullYear();
@@ -107,6 +102,21 @@ const titulo = getById("titulo");
 const descricao = getById("descricao");
 const dataInicio = getById("dataInicio");
 const dataFinalizada = getById("dataFinalizada");
+/* pega a data de hj */
+// pegando a data atual para desativar o click da data
+var dataAtual = new Date(Date.now());
+var hoje = dataAtual
+  .toLocaleDateString()
+  .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
+dataAtual.setDate(dataAtual.getDate() + 3);
+var dataAposAtual = dataAtual
+  .toLocaleDateString()
+  .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
+var dataAposAtualFormat = dataAposAtual.replace(
+  /(\d*)-(\d*)-(\d*).*/,
+  "$3/$2/$1"
+);
+
 const escolhaHoras = getById("choice-hora");
 const escolhaPeriodo = getById("choice-periodo");
 const horaInicio = getById("horaInicio");
@@ -114,6 +124,22 @@ const horaFinalizada = getById("horaFinalizada");
 const periodo = getById("periodo");
 const tipo = getById("tipo");
 const submit = getById("submit");
+
+floatingButton.addEventListener("click", () => {
+  $("#modalEventRegister").modal("show");
+  dataInicio.value = ""
+  dataInicio.min = dataAposAtual;
+  dataInicio.disabled = false
+  dataFinalizada.value = "";
+  dataFinalizada.min = dataAposAtual;
+
+  dataInicio.addEventListener("change", () => {
+    console.log(dataInicio.value + "#########################");
+    dataFinalizada.min = dataInicio.value;
+    dataFinalizada.value = dataInicio.value;
+  });
+  postAgendamento();
+});
 
 const checks = document.getElementsByName("check");
 let validaChecks = "";
@@ -159,7 +185,7 @@ function calendar(meses, ano) {
     }, */
 
     validRange: {
-      start: '2022-06-01'
+      start: "2022-06-01",
     },
 
     // button custom
@@ -199,16 +225,15 @@ function calendar(meses, ano) {
     // Função para cadastrar o evento ao clicar no dia
     dateClick: function (info) {
       if (token != null) {
-        // pegando a data atual para desativar o click da data
-        var data = new Date();
-        var dia = String(data.getDate()).padStart(2, "0");
-        var mes = String(data.getMonth() + 1).padStart(2, "0");
-        var ano = data.getFullYear();
-        dataAtual = ano + "-" + mes + "-" + dia;
-
         // validação que o usuário não pode interagir com data passadas
-        if (info.dateStr < dataAtual) {
-          alert("Datas passadas não podem ser interagidas");
+        if (info.dateStr < hoje) {
+          alert("Datas passadas não podem ser agendadas.");
+        } else if (info.dateStr < dataAposAtual) {
+          alert(
+            "Faça o agendamento com antecedência, do dia " +
+              dataAposAtualFormat +
+              " em diante!"
+          );
         } else {
           // exibindo a modal de cadastro de evento
           $("#modalEventRegister").modal("show");
@@ -227,10 +252,16 @@ function calendar(meses, ano) {
           } else {
             dateMax = dateAno + "-12-31";
           }
-
+          dataInicio.min = info.dateStr;
+          dataInicio.disabled = true;
+          dataInicio.addEventListener("change", () => {
+            console.log(dataInicio.value + "#########################");
+            dataFinalizada.min = dataInicio.value;
+            dataFinalizada.value = dataInicio.value;
+          });
           // colocando propriedades no input da dataFinalizada
-          dataFinalizada.value = info.dateStr;
-          dataFinalizada.min = info.dateStr;
+          dataFinalizada.value = dataInicio.value;
+          dataFinalizada.min = dataInicio.value;
           dataFinalizada.max = dateMax;
 
           postAgendamento();
@@ -745,7 +776,7 @@ function postAgendamento() {
 
   /* Preenchendo o select do tipo */
   /* Url da lista do tipo */
-  const urlTipo = "http://10.92.198.22:8080/api/tipo";
+  const urlTipo = "http://localhost:8080/api/tipo";
   /* fazendo conexão com a api */
   const selectTipo = tipo;
   if (control == 1) {
@@ -782,7 +813,7 @@ function postAgendamento() {
     /* evento para nao submeter o formulario */
     event.preventDefault();
     /* url que faz a conexão com a api do back-end */
-    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
+    const urlAgendamento = `http://localhost:8080/api/agendamento`;
 
     /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
     let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5);

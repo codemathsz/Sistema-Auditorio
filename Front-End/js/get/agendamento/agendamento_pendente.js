@@ -27,7 +27,7 @@ let idMessage = 0;
 if (token == null) {
   window.location.href = "../../index.html";
 } else {
-  const url = `http://10.92.198.22:8080/api/agendamento/pendentes`;
+  const url = `http://localhost:8080/api/agendamento/pendentes`;
   getAgendamento(url);
 }
 
@@ -146,7 +146,7 @@ function createTbody(agendamento, index) {
   btnAceitar.addEventListener("click", () => {
     /* METODO PUT ------------------------------------ */
     /* url que faz a conexão com a api do back-end */
-    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/alterarStatusAceito/${valor}`;
+    const urlAgendamento = `http://localhost:8080/api/agendamento/alterarStatusAceito/${valor}`;
 
     /* construindo o objeto agendamento */
     let agendamento = {
@@ -208,7 +208,7 @@ function createTbody(agendamento, index) {
   iRecusar.classList.add("recusar");
 
   btnRecusar.addEventListener("click", () => {
-    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/alterarStatusRecusado/${valor}`;
+    const urlAgendamento = `http://localhost:8080/api/agendamento/alterarStatusRecusado/${valor}`;
     const resultado = confirm(`Deseja recusar o agendamento do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto agendamento */

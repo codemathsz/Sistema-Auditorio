@@ -28,10 +28,13 @@
           <div class="input-container">
             <input
               class="form_input"
-              type="number"
+              type="text"
               name="nif"
               id="nif"
               placeholder=" "
+              minlength="5"
+              maxlength="7"
+              onkeypress="if (!isNaN(String.fromCharCode(window.event.keyCode))) return true; else return false;"
               required
             />
             <label class="form_label" for="nif">Nif</label>
