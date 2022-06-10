@@ -87,7 +87,7 @@ if (token == null) {
                 } else {
                   console.log("erro");
                   type = "error";
-                  createMessage(resposta.message, type);
+                  createMessage("Falha ao cadastrar: "+resposta.message, type);
                 }
                 deleteMessage();
               })

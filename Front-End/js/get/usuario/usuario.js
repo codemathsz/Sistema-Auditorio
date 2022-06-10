@@ -109,6 +109,7 @@ function createTbody(usuario, index) {
   iAlterar.classList.add("alterar");
 
   let show = false;
+  let id = usuario.id;
   btnAlterar.addEventListener("click", () => {
     if (show === false) {
       modalAlterar.classList.add("showModal");
@@ -165,9 +166,9 @@ function createTbody(usuario, index) {
         /* evitando que ele submeta */
         event.preventDefault();
         let senhaUsuario;
-        if (senha != "" && confirmaSenha != "") {
+        if (senha.value != "" && confirmaSenha.value != "") {
           if (senha.value == confirmaSenha.value) {
-            senhaUsuario = senha;
+            senhaUsuario = senha.value;
           } else {
             createMessage("Senhas incompativeis...", "error");
           }
@@ -262,7 +263,7 @@ function createTbody(usuario, index) {
     const valor = tdId.innerHTML;
 
     const urlUsuario = `http://localhost:8080/api/usuario/desativar/${valor}`;
-    const resultado = confirm(`Deseja deletar o usuario do id: ${valor}?`);
+    const resultado = confirm(`Deseja deletar o usuario do id: ${valor}? Essa ação é definitiva!`);
     if (resultado == true) {
       /* construindo o objeto usuario */
       let usuario = {
