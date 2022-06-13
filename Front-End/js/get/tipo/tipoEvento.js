@@ -22,7 +22,7 @@ if (token == null) {
 } else {
   if (payload.nivel == 1) {
     /* pegando o botao que faz a procura */
-    url = "http://localhost:8080/api/tipo";
+    url = "http://10.92.198.22:8080/api/tipo";
     get(url);
   } else {
     window.location.href = "../../../index.html";
@@ -120,7 +120,7 @@ function createTbody(tipo, index) {
         event.preventDefault();
 
         /* url do tipo com o valor do input do id */
-        const urlTipo = `http://localhost:8080/api/tipo/${id}`;
+        const urlTipo = `http://10.92.198.22:8080/api/tipo/${id}`;
 
         /* construindo o objeto tipo */
         let tipo = {
@@ -155,7 +155,7 @@ function createTbody(tipo, index) {
                   modalAlterar.classList.remove("showModal")
                   setTimeout(() => {
                     window.location.reload();
-                  }, 3500);
+                  }, 3000);
                 } else {
                   console.log("erro");
                   type = "error";
@@ -194,7 +194,7 @@ function createTbody(tipo, index) {
   btnDeletar.addEventListener("click", () => {
     const valor = tdId.innerHTML;
 
-    const urlTipo = `http://localhost:8080/api/tipo/${tipo.id}`;
+    const urlTipo = `http://10.92.198.22:8080/api/tipo/${tipo.id}`;
     const resultado = confirm(`Deseja deletar o tipo do id: ${tipo.id}?`);
     if (resultado == true) {
       /* construindo o objeto tipo */
@@ -227,7 +227,7 @@ function createTbody(tipo, index) {
                 clearForm();
                 setTimeout(() => {
                   window.location.reload();
-                }, 8000);
+                }, 3000);
               } else {
                 console.log("erro");
                 type = "error";
@@ -340,7 +340,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 4000);
+      }, 3000);
     } else {
       continue;
     }

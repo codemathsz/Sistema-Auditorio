@@ -17,7 +17,7 @@
     box-shadow: 0px 0px 25px 3px rgba(200, 132, 132, 0.18);
     transform: translateY(30px);
     opacity: 0;
-    animation: fadeMessage 3.5s ease-in-out forwards;
+    animation: fadeMessage 2.5s ease-in-out forwards;
 }
 
 .msg-content {
@@ -59,7 +59,7 @@
     /* DEFINIR COR PARA A BARRA DE TEMPO */
     background-color: rgba(0, 0, 0, 0.1);
     transform: translateX(0);
-    animation: time 3s ease-in-out forwards;
+    animation: time 2s ease-in-out forwards;
 }
 
 @keyframes fadeMessage {

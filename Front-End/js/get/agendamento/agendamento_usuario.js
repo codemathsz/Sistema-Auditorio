@@ -7,6 +7,15 @@ const tbody = getById("tbody");
 /* pegando a modal de alteração */
 const modalAlterar = getById("modalAlterar");
 const modalInfo = getById("modalInfo");
+const tituloAgendamento = getById("tituloAgendamento");
+console.log(tituloAgendamento);
+const descricaoAgendamento = getById("descricaoAgendamento");
+const tipoAgendamento = getById("tipoAgendamento");
+const dataAgendamento = getById("dataAgendamento");
+const horaAgendamento = getById("horaAgendamento");
+const periodoAgendamento = getById("periodoAgendamento");
+const statusAgendamento = getById("statusAgendamento");
+const usuarioAgendamento = getById("usuarioAgendamento");
 /* pegando os inputs pelo id */
 const form = getById("form");
 const titulo = getById("titulo");
@@ -41,7 +50,7 @@ let idMessage = 0;
 if (token == null) {
   window.location.href = "../../index.html";
 } else {
-  const url = `http://localhost:8080/api/agendamento/usuario/${payload.id}`;
+  const url = `http://10.92.198.22:8080/api/agendamento/usuario/${payload.id}`;
   getAgendamento(url);
 }
 
@@ -154,6 +163,7 @@ function createTbody(agendamento, index) {
 
   /* VARIAVEL PARA O PERIODO */
   let periodo = agendamento.periodo;
+  console.log(periodo)
 
   /* ID DO AGENDAMENTO */
   const valor = agendamento.id;
@@ -174,7 +184,7 @@ function createTbody(agendamento, index) {
     }
 
     /* Preencher os inputs do formulario de cadastro, mas vamos alterar! */
-    titulo.value = tdTitulo.innerHTML;
+    titulo.value = agendamento.title;
     descricao.value = agendamento.descricao;
     dataInicio.addEventListener("change", () => {
       console.log(dataInicio.value + "#########################");
@@ -197,7 +207,7 @@ function createTbody(agendamento, index) {
     /* METOD GET ------------------ */
     /* Preenchendo o select do tipo */
     /* Url da lista do tipo */
-    const urlTipo = "http://localhost:8080/api/tipo";
+    const urlTipo = "http://10.92.198.22:8080/api/tipo";
     /* variavel que pega o select do html */
     const select = tipo;
     select.innerText = ""
@@ -237,7 +247,7 @@ function createTbody(agendamento, index) {
       /* evento para nao submeter o formulario */
       event.preventDefault();
       /* url que faz a conexão com a api do back-end */
-      const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`;
+      const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`;
 
       const dataInicioCompleta = dataInicio.value + "T" + horaInicio + ":00";
       const dataFinalizadaCompleta =
@@ -289,7 +299,7 @@ function createTbody(agendamento, index) {
                 createMessage("Sucesso ao alterar o agendamento!", type);
                 setTimeout(() => {
                   window.location.reload();
-                }, 3750);
+                }, 3000);
               } else {
                 console.log("erro");
                 type = "error";
@@ -328,7 +338,7 @@ function createTbody(agendamento, index) {
   iDeletar.classList.add("deletar");
 
   btnDeletar.addEventListener("click", () => {
-    const urlAgendamento = `http://localhost:8080/api/agendamento/${valor}`;
+    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento/${valor}`;
     const resultado = confirm(`Deseja deletar o agendamento do id: ${valor}?`);
     if (resultado == true) {
       /* construindo o objeto agendamento */
@@ -359,7 +369,7 @@ function createTbody(agendamento, index) {
                 );
                 setTimeout(() => {
                   window.location.reload();
-                }, 3500);
+                }, 3000);
               } else {
                 console.log("erro");
                 createMessage(
@@ -404,13 +414,15 @@ function createTbody(agendamento, index) {
         periodo = "Manhã, Tarde e Noite";
       }
       tituloAgendamento.innerHTML = agendamento.title;
+      console.log(agendamento.title)
       descricaoAgendamento.innerHTML = agendamento.descricao;
+      console.log(agendamento.descricao)
       tipoAgendamento.innerHTML = "Tipo: " + agendamento.tipo.nome;
       statusAgendamento.innerHTML = "Status: " + spanStatus.innerHTML;
       dataAgendamento.innerHTML = "Data: " + tdData.innerHTML;
       horaAgendamento.innerHTML = "Horario: " + tdHora.innerHTML;
       periodoAgendamento.innerHTML = "Periodo: " + periodo;
-      usuarioAgendamento.innerHTML = "Usuario: " + tdUsuario.innerHTML;
+      usuarioAgendamento.innerHTML = "Usuario: " + agendamento.usuario.nome;
     }
     const btnFecharModalInfo = getById("closeInfo");
     btnFecharModalInfo.addEventListener("click", () => {
@@ -501,7 +513,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 4000);
+      }, 3000);
     } else {
       continue;
     }

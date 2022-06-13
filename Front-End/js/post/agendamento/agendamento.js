@@ -114,7 +114,7 @@ if (token == null) {
     /* METOD GET ------------------ */
     /* Preenchendo o select do tipo */
     /* Url da lista do tipo */
-    const urlTipo = "http://localhost:8080/api/tipo";
+    const urlTipo = "http://10.92.198.22:8080/api/tipo";
     /* variavel que pega o select do html */
     const select = tipo;
     /* fazendo conexão com a api */
@@ -151,7 +151,7 @@ if (token == null) {
       /* evento para nao submeter o formulario */
       event.preventDefault();
       /* url que faz a conexão com a api do back-end */
-      const urlAgendamento = `http://localhost:8080/api/agendamento`;
+      const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
 
       /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
       let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5);
@@ -216,7 +216,7 @@ if (token == null) {
                 clearForm();
                 setTimeout(() => {
                   window.location.reload();
-                }, 4000);
+                }, 3000);
               } else {
                 console.log("erro");
                 type = "error";
@@ -282,7 +282,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 4000);
+      }, 3000);
     } else {
       continue;
     }

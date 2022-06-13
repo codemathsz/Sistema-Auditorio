@@ -235,13 +235,13 @@ body {
     transform: translateX(5px);
 }
 
-.sidebar .nav-links li:nth-child(5):hover,
-.sidebar .nav-links li:nth-child(6):hover {
+.sidebar .nav-links li:nth-child(6):hover,
+.sidebar .nav-links li:nth-child(7):hover {
     transform: none;
 }
 
-.sidebar .nav-links li:nth-child(5):hover i,
-.sidebar .nav-links li:nth-child(6):hover i {
+.sidebar .nav-links li:nth-child(6):hover i,
+.sidebar .nav-links li:nth-child(7):hover i {
     color: rgba(0, 0, 0, 0.5)
 }
 

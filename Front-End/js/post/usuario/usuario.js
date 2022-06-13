@@ -47,7 +47,7 @@ if (token == null) {
     form.addEventListener("submit", function () {
       event.preventDefault();
       if (senha.value === confirmaSenha.value) {
-        const url = `http://localhost:8080/api/usuario`;
+        const url = `http://10.92.198.22:8080/api/usuario`;
 
         let usuario = {
           nome: nome.value,
@@ -83,7 +83,7 @@ if (token == null) {
                   clearForm();
                   setTimeout(() => {
                     window.location.reload();
-                  }, 8000);
+                  }, 3000);
                 } else {
                   console.log("erro");
                   type = "error";
@@ -216,7 +216,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 4000);
+      }, 3000);
     } else {
       continue;
     }

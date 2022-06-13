@@ -11,6 +11,7 @@ const modalAlterar = getById("modalAlterar");
 /* pegando modal de informação */
 const modalInfo = getById("modalInfo");
 const tituloAgendamento = getById("tituloAgendamento");
+console.log(tituloAgendamento);
 const descricaoAgendamento = getById("descricaoAgendamento");
 const tipoAgendamento = getById("tipoAgendamento");
 const dataAgendamento = getById("dataAgendamento");
@@ -33,7 +34,7 @@ if (token == null) {
     /* const botaoProcurar = getById("search"); */
     /* adiciona um escutador de evento ao meu botão, que no caso é o evento de click */
     /* botaoProcurar.addEventListener("click", () => {}); */
-    url = "http://localhost:8080/api/agendamento";
+    url = "http://10.92.198.22:8080/api/agendamento";
     /* verificando a posicao de cada elemento do thead */
     getAgendamento(url);
     
@@ -304,7 +305,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 9000);
+      }, 3000);
     } else {
       continue;
     }

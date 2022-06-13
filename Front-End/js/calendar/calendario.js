@@ -301,7 +301,7 @@ function calendar(meses, ano) {
 
     // colocar a API para consumir
 
-    events: "http://localhost:8080/api/agendamento",
+    events: "http://10.92.198.22:8080/api/agendamento",
 
     // limitando a quantidade de ventos
     eventLimit: true,
@@ -426,7 +426,7 @@ function deleteMessage() {
     if (element != null) {
       setTimeout(() => {
         mensagens.removeChild(element);
-      }, 9000);
+      }, 3000);
     } else {
       continue;
     }
@@ -778,7 +778,7 @@ function postAgendamento() {
 
   /* Preenchendo o select do tipo */
   /* Url da lista do tipo */
-  const urlTipo = "http://localhost:8080/api/tipo";
+  const urlTipo = "http://10.92.198.22:8080/api/tipo";
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("Authorization", token);
@@ -824,7 +824,7 @@ function postAgendamento() {
     /* evento para nao submeter o formulario */
     event.preventDefault();
     /* url que faz a conexão com a api do back-end */
-    const urlAgendamento = `http://localhost:8080/api/agendamento`;
+    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
 
     /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
     let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5);
