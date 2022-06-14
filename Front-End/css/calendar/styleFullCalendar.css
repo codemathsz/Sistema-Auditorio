@@ -342,6 +342,10 @@
   animation: fadeRight 1s ease-in-out forwards;
 }
 
+.subTitle{
+  font-weight: 800;
+}
+
 /* Responsividade para outras telas de computador */
 @media screen and (max-width: 1680px) {
   /* Estilo da modal do calendário inteiro */

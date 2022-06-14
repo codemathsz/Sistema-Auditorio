@@ -189,7 +189,6 @@ function calendar(meses, ano) {
     validRange: {
       start: "2022-06-01",
     },
-
     // button custom
     close: "fa-times",
     prev: "fa-chevron-left",
@@ -203,8 +202,8 @@ function calendar(meses, ano) {
     // data inicial
     defaultDate: "yyyy-MM-dd",
     // falando ao calendário a data que será inicializado
+    timeZone: 'UTC',
     initialDate: date,
-    //initialDate: date,
     headerToolbar: {
       // lado esquerdo do month
       left: "prev,next today",
@@ -246,9 +245,18 @@ function calendar(meses, ano) {
           const dataMaxima = new Date(info.dateStr);
           const dateAno = dataMaxima.getFullYear() + "";
           const dateMes = dataMaxima.getMonth() + 1 + "";
+          const dateDay = dataMaxima.getDate();
+          const dateFormat = dateAno
           let dateMax = "";
 
+          // consertando bug se for dia um de January
+
+          console.log(dataMaxima);
+          console.log(dateAno);
+          console.log(dateMes);
+          console.log(dateDay);
           // porque a primeira posição do Array é 0, e na condição fazemos conforme o número do mês
+
           if (dateMes <= 6) {
             dateMax = dateAno + "-06-30";
           } else {
@@ -293,6 +301,10 @@ function calendar(meses, ano) {
       );
       $("#modalEventFull #user").text(info.event.extendedProps.usuario.nome);
       $("#modalEventFull #desc").text(info.event.extendedProps.descricao);
+      $("#modalEventFull #status").text(
+        info.event.extendedProps.status.substring(0, 1) +
+          info.event.extendedProps.status.substring(1, 10).toLowerCase()
+      );
       $("#modalEventFull").modal("show");
 
       console.log(info.event.extendedProps);
@@ -300,7 +312,7 @@ function calendar(meses, ano) {
     },
 
     // colocar a API para consumir
-
+    nextDayThreshold: "00:00:00",
     events: "http://10.92.198.22:8080/api/agendamento",
 
     // limitando a quantidade de ventos
@@ -820,89 +832,91 @@ function postAgendamento() {
     control++;
   }
   /* METODO POST ------------------------------------ */
-  form.addEventListener("submit", function () {
-    /* evento para nao submeter o formulario */
-    event.preventDefault();
-    /* url que faz a conexão com a api do back-end */
-    const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
 
-    /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
-    let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5);
-    let horaInicioFormatada = horaInicio.value;
-
-    console.log(horaInicio.value);
-    if (validaChecks == 0) {
-      periodo.value = "";
-    } else if (validaChecks == 1) {
-      horaInicioFormatada = "00:00";
-      horaFinalizadaFormatada = "00:00";
-    } else {
-      periodo.value = "";
-      horaInicioFormatada = "00:00";
-      horaFinalizadaFormatada = "00:00";
-    }
-
-    /* construindo a váriavel da dataInicio e dataFinalizada completa, precisa-se ter a data e a hora juntas */
-    const dataInicioCompleta =
-      dataInicio.value + "T" + horaInicioFormatada + ":00";
-    const dataFinalizadaCompleta =
-      dataFinalizada.value + "T" + horaFinalizadaFormatada + ":00";
-
-    /* construindo o objeto agendamento */
-    let agendamento = {
-      title: titulo.value,
-      descricao: descricao.value,
-      start: dataInicioCompleta,
-      end: dataFinalizadaCompleta,
-      periodo: periodo.value == "" ? null : periodo.value,
-      tipo: {
-        id: tipo.value,
-      },
-      usuario: {
-        id: payload.id,
-      },
-    };
-
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", token);
-
-    /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
-    let fetchData = {
-      method: "POST",
-      body: JSON.stringify(agendamento),
-      headers: myHeaders,
-    };
-
-    /* fazendo a conexão com a api */
-    fetch(urlAgendamento, fetchData)
-      .then((resp) => {
-        console.log(resp);
-        resp
-          .json()
-          .then((resposta) => {
-            console.log(resposta);
-            if (resposta.error == "OK") {
-              console.log("sucesso");
-              type = "success";
-              createMessage("Sucesso ao cadastrar o agendamento!", type);
-              clearForm();
-              setTimeout(() => {
-                window.location.reload();
-              }, 3500);
-            } else {
-              console.log("erro");
-              type = "error";
-              createMessage(resposta.message, type);
-            }
-            deleteMessage();
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
 }
+
+form.addEventListener("submit", function () {
+  /* evento para nao submeter o formulario */
+  event.preventDefault();
+  /* url que faz a conexão com a api do back-end */
+  const urlAgendamento = `http://10.92.198.22:8080/api/agendamento`;
+
+  /* variavel para formatar a horaFinalizada para apenas pegar a hora e nao a hora de diferença */
+  let horaFinalizadaFormatada = horaFinalizada.value.substring(0, 5);
+  let horaInicioFormatada = horaInicio.value;
+
+  console.log(horaInicio.value);
+  if (validaChecks == 0) {
+    periodo.value = "";
+  } else if (validaChecks == 1) {
+    horaInicioFormatada = "00:00";
+    horaFinalizadaFormatada = "00:00";
+  } else {
+    periodo.value = "";
+    horaInicioFormatada = "00:00";
+    horaFinalizadaFormatada = "00:00";
+  }
+
+  /* construindo a váriavel da dataInicio e dataFinalizada completa, precisa-se ter a data e a hora juntas */
+  const dataInicioCompleta =
+    dataInicio.value + "T" + horaInicioFormatada + ":00";
+  const dataFinalizadaCompleta =
+    dataFinalizada.value + "T" + horaFinalizadaFormatada + ":00";
+
+  /* construindo o objeto agendamento */
+  let agendamento = {
+    title: titulo.value,
+    descricao: descricao.value,
+    start: dataInicioCompleta,
+    end: dataFinalizadaCompleta,
+    periodo: periodo.value == "" ? null : periodo.value,
+    tipo: {
+      id: tipo.value,
+    },
+    usuario: {
+      id: payload.id,
+    },
+  };
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("Authorization", token);
+
+  /* construindo o fetchData, indicando o método que vamos usar e colocando o objeto json que criamos no corpo do fetch */
+  let fetchData = {
+    method: "POST",
+    body: JSON.stringify(agendamento),
+    headers: myHeaders,
+  };
+
+  /* fazendo a conexão com a api */
+  fetch(urlAgendamento, fetchData)
+    .then((resp) => {
+      console.log(resp);
+      resp
+        .json()
+        .then((resposta) => {
+          console.log(resposta);
+          if (resposta.error == "OK") {
+            console.log("sucesso");
+            type = "success";
+            createMessage("Sucesso ao cadastrar o agendamento!", type);
+            clearForm();
+            setTimeout(() => {
+              window.location.reload();
+            }, 3500);
+          } else {
+            console.log("erro");
+            type = "error";
+            createMessage(resposta.message, type);
+          }
+          deleteMessage();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
