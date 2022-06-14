@@ -313,7 +313,7 @@ function calendar(meses, ano) {
 
     // colocar a API para consumir
     nextDayThreshold: "00:00:00",
-    events: "http://10.92.198.22:8080/api/agendamento",
+    events: "http://10.92.198.22:8080/api/agendamento/semRecusado",
 
     // limitando a quantidade de ventos
     eventLimit: true,
