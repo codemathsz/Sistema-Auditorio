@@ -230,9 +230,17 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Agendamento> lista(Agendamento agendamento) { // TRAZ DO BANCO E RETORNA
 
-		return repository.findAgendamentos();
+		return repository.findAllByOrderByDataInicioDesc();
 	}
+	 
+	 @Publico
+	@RequestMapping(value = "/semRecusado", method = RequestMethod.GET)
+	 public Iterable<Agendamento> listaSemRecusado(Agendamento agendamento) { // TRAZ DO BANCO E RETORNA
 
+			return repository.findAgendamentos();
+		}
+
+	 
 	/*
 	 *
 	 * METODO QUE TRAZ OS AGENDAMENTOS DO BANCO POR ID
@@ -281,17 +289,28 @@ public class AgendamentoRestController {
 		System.out.println(id);
 		System.out.println(agendamento);
 		if (id == agendamento.getId()) {// SALVA A ALTERAÇÃO QUE FOI FEITA NO BANCO
-			if (verificacaoAgendamento(agendamento, request) == true) {
+			Agendamento agendamentoVaidacao = repository.findById(id).get();
+			
+			if (agendamento.getDataInicio() != agendamentoVaidacao.getDataInicio()) {
+				
+				repository.save(agendamento);
 				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
 				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
-			} else {
-				System.err.println("\n JÁ EXISTI UM AGENDAMENTO CADASTRADO\n");
-				// ERRO PERSONALIZADO
-				Erro erro = new Erro(HttpStatus.UNAUTHORIZED, "O *Horario* selecionado não está disponível.", null);
-				// RETORNO DO METODO, RETORNA O ERRO
-				return new ResponseEntity<Object>(erro, HttpStatus.UNAUTHORIZED);
-			}
+				
 
+			}else {
+				if (verificacaoAgendamento(agendamento, request) == true) {
+					Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+					return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+				} else {
+					System.err.println("\n JÁ EXISTI UM AGENDAMENTO CADASTRADO\n");
+					// ERRO PERSONALIZADO
+					Erro erro = new Erro(HttpStatus.UNAUTHORIZED, "O *Horario* selecionado não está disponível.", null);
+					// RETORNO DO METODO, RETORNA O ERRO
+					return new ResponseEntity<Object>(erro, HttpStatus.UNAUTHORIZED);
+				}
+			}
+			
 		} else {
 			// SE O ID PASSADO NÃO EXISTIR
 			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
