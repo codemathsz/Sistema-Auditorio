@@ -23,7 +23,6 @@ import br.com.senaisp.sistemaauditorio.model.Erro;
 import br.com.senaisp.sistemaauditorio.model.Sucesso;
 import br.com.senaisp.sistemaauditorio.model.TipoEvento;
 import br.com.senaisp.sistemaauditorio.repository.TipoEventoRepository;
-import br.com.senaisp.sistemaauditorio.services.LogService;
 
 @CrossOrigin
 @RestController
@@ -33,8 +32,6 @@ public class TipoEventoRestController {
 	@Autowired
 	private TipoEventoRepository repository;
 
-	@Autowired
-	private LogService logService;
 
 	@Administrador
 	@RequestMapping(value = "", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

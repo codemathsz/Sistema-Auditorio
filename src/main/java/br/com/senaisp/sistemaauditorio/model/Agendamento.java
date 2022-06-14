@@ -20,7 +20,7 @@ import lombok.Data;
 @Entity
 public class Agendamento {
 	
-	//aplicando o pull request teste 2
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,13 +41,17 @@ public class Agendamento {
 	@JsonProperty("end")
 	@NotNull(message = "{agendamento.dataFinalizada.null}")
 	private Calendar dataFinalizada;
+	
 	@NotNull(message = "{agendamento.status.null}")
 	private Status status;
+	
 	@NotNull(message = "{agendamento.periodo.null}")
 	private Periodo periodo;
+	
 	@NotNull(message = "{agendamento.tipo.null}")
 	@OneToOne
 	private TipoEvento tipo;
+	
 	@NotNull(message = "{agendamento.usuario.null}")
 	@ManyToOne
 	private Usuario usuario;

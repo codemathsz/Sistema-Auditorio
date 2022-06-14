@@ -59,79 +59,85 @@ public class AgendamentoRestController {
 	public ResponseEntity<Object> criar(@RequestBody Agendamento agendamento, HttpServletRequest request) {
 		try {
 
-			System.out.println( agendamento.getPeriodo());
+			System.out.println(agendamento.getPeriodo());
 			System.out.println(agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY));
-			
+
 			if (agendamento.getPeriodo() == null && agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) == 0) {
-				
+
 				System.out.println("entrou if dia todo");
 				agendamento.setPeriodo(Periodo.MANHA_TARDE_NOITE);
 				agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
 				agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
 				agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
-				
-			}else if(agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) == 0){
-				
+
+			} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) == 0) {
+
 				System.out.println("if hora inicio");
 
-				if (agendamento.getPeriodo() == Periodo.MANHA) { 
-					
+				if (agendamento.getPeriodo() == Periodo.MANHA) {
+
 					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
 					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 12);
-					
+
 				} else if (agendamento.getPeriodo() == Periodo.TARDE) {
-					
+
 					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 13);
 					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 17);
-					
+
 				} else if (agendamento.getPeriodo() == Periodo.NOITE) {
-					
+
 					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 18);
 					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
 					agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
-					
+
 				} else if (agendamento.getPeriodo() == Periodo.MANHA_TARDE) {
-					
+
 					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
 					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 17);
-					
+
 				} else if (agendamento.getPeriodo() == Periodo.TARDE_NOITE) {
-					
+
 					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 13);
 					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
 					agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
-					
+
 				} else {
-					
+
 					agendamento.getDataInicio().set(Calendar.HOUR_OF_DAY, 8);
 					agendamento.getDataFinalizada().set(Calendar.HOUR_OF_DAY, 22);
 					agendamento.getDataFinalizada().set(Calendar.MINUTE, 30);
-					
+
 				}
-				
-			}else if (agendamento.getPeriodo() == null) {
-				
+
+			} else if (agendamento.getPeriodo() == null) {
+
 				System.out.println("entrou if periodo vazio");
-				
-				if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
+
+				if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 12) {
 					agendamento.setPeriodo(Periodo.MANHA);
-				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 13 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
-					
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 13
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
+
 					agendamento.setPeriodo(Periodo.TARDE);
-					
-				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 18 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
-					
+
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 18
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+
 					agendamento.setPeriodo(Periodo.NOITE);
-					
-				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
-					
+
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) <= 18) {
+
 					agendamento.setPeriodo(Periodo.MANHA_TARDE);
-					
-				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 13 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 13
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
 					agendamento.setPeriodo(Periodo.TARDE_NOITE);
-					
-				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8 && agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
-					
+
+				} else if (agendamento.getDataInicio().get(Calendar.HOUR_OF_DAY) >= 8
+						&& agendamento.getDataFinalizada().get(Calendar.HOUR_OF_DAY) < 23) {
+
 					agendamento.setPeriodo(Periodo.MANHA_TARDE_NOITE);
 				}
 
@@ -140,45 +146,10 @@ public class AgendamentoRestController {
 			// IF CRIADO PARA QUE A VALIDAÇÃO NÃO
 			// DEIXE CADASTRAR NO MESMO DIA OU
 			// HORARIO
-			if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty() 
-				&& repository.validacaoDataFora(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()
-				&& repository.validacaoDataMaior(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()
-				&& repository.validacaoDataMenor(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()){
-				
-				
-				
-				System.out.println("entrou if data e hora");
-				String token = request.getHeader("Authorization");
-
-				// BUSCANDO O ALGORITMO NO USUARIO
-				Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
-
-				// OBJ PARA VERIFICAR O TOKEN
-				JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
-
-				// DECODIFICA O TOKEN
-				DecodedJWT jwt = verifier.verify(token);
-
-				// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
-				Map<String, Claim> claims = jwt.getClaims();
-
-				agendamento.setStatus(Status.PENDENTE);
-
-				// SE O USUARIO ESCOLHER O DIA INTEIRO, ESSE PARAMETROS VAI VIM NULOS, ENTÃO
-				// VAMO SETTAR O PERIODO E O HORARIO
-				System.out.println("antes if dia todo");
-				
-				
-				System.out.println("depois de passar por todos os ifs");
-				
-				repository.save(agendamento); // RETORNO DO METODO
-				logService.log("O " + claims.get("nivel").toString() + " " + claims.get("nome") + "criou um evento.",TipoLog.CADASTRO_AGENDAMENTO, request);
-
+			if (verificacaoAgendamento(agendamento, request) == true) {
 				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
 				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
-
-			}else {
-
+			} else {
 				System.err.println("\n JÁ EXISTI UM AGENDAMENTO CADASTRADO\n");
 				// ERRO PERSONALIZADO
 				Erro erro = new Erro(HttpStatus.UNAUTHORIZED, "O *Horario* selecionado não está disponível.", null);
@@ -187,8 +158,7 @@ public class AgendamentoRestController {
 			}
 
 		} catch (Exception e) {
-			
-			
+
 			if (agendamento.getTitulo() == null) {// *** TITULO AGENDAMENTO NULO e.printStackTrace();
 				// ERRO PERSONALIZADO
 				Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "O campo *Titulo* não pode ser vazio!",
@@ -260,7 +230,7 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Iterable<Agendamento> lista(Agendamento agendamento) { // TRAZ DO BANCO E RETORNA
 
-		return repository.findAllByOrderByDataInicioDesc();
+		return repository.findAgendamentos();
 	}
 
 	/*
@@ -308,12 +278,20 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> alterar(@PathVariable("id") Long id, @RequestBody Agendamento agendamento,
 			HttpServletRequest request) {// SE O ID PASSADO EXISTIR
-		 System.out.println(id);
-		 System.out.println(agendamento);
+		System.out.println(id);
+		System.out.println(agendamento);
 		if (id == agendamento.getId()) {// SALVA A ALTERAÇÃO QUE FOI FEITA NO BANCO
-			repository.save(agendamento);// RETORNO DO METODO
-			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
-			return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+			if (verificacaoAgendamento(agendamento, request) == true) {
+				Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
+				return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
+			} else {
+				System.err.println("\n JÁ EXISTI UM AGENDAMENTO CADASTRADO\n");
+				// ERRO PERSONALIZADO
+				Erro erro = new Erro(HttpStatus.UNAUTHORIZED, "O *Horario* selecionado não está disponível.", null);
+				// RETORNO DO METODO, RETORNA O ERRO
+				return new ResponseEntity<Object>(erro, HttpStatus.UNAUTHORIZED);
+			}
+
 		} else {
 			// SE O ID PASSADO NÃO EXISTIR
 			Erro erro = new Erro(HttpStatus.INTERNAL_SERVER_ERROR, "ID inválido", null);
@@ -330,12 +308,12 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "/alterarStatusAceito/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> alterarStatusAceito(@PathVariable("id") Long id, @RequestBody Agendamento agendamento,
 			HttpServletRequest request) {// VERIFICA SE O STATUS É DO AGENDAMENTO É IGUAL A PENDENTE
-		
-		 	agendamento = repository.findById(id).get();
-			// IGUAL A PENDENTE
-			if (agendamento.getStatus() == Status.PENDENTE) {
-				agendamento.setStatus(Status.ACEITO);
-				repository.save(agendamento);
+
+		agendamento = repository.findById(id).get();
+		// IGUAL A PENDENTE
+		if (agendamento.getStatus() == Status.PENDENTE) {
+			agendamento.setStatus(Status.ACEITO);
+			repository.save(agendamento);
 			Sucesso sucesso = new Sucesso(HttpStatus.OK, "Sucesso");
 			return new ResponseEntity<Object>(sucesso, HttpStatus.OK);
 		} else {
@@ -354,8 +332,8 @@ public class AgendamentoRestController {
 	@RequestMapping(value = "/alterarStatusRecusado/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> alterarStatusRecusado(@PathVariable("id") Long id,
 			@RequestBody Agendamento agendamento, HttpServletRequest request) {// VERIFICA SE O STATUS DO AGENDAMENTO É
-		
-		agendamento = repository.findById(id).get();	
+
+		agendamento = repository.findById(id).get();
 		// IGUAL A PENDENTE
 		if (agendamento.getStatus() == Status.PENDENTE) {
 			agendamento.setStatus(Status.RECUSADO);
@@ -425,4 +403,87 @@ public class AgendamentoRestController {
 		return repository.findByPeriodo(periodo);
 	}
 
+	public boolean verificaRecusado(List<Agendamento> agendamentos) {
+		
+
+		
+		System.err.println(agendamentos.size());
+		for (int i = 0; i < agendamentos.size(); i++) {
+			if (agendamentos.get(i).getStatus() == Status.RECUSADO) {
+				continue;
+			} else {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void salvaAltera(HttpServletRequest request, Agendamento agendamento) {
+		String token = request.getHeader("Authorization");
+
+		// BUSCANDO O ALGORITMO NO USUARIO
+		Algorithm algoritmo = Algorithm.HMAC512(UsuarioRestController.SECRET);
+
+		// OBJ PARA VERIFICAR O TOKEN
+		JWTVerifier verifier = JWT.require(algoritmo).withIssuer(UsuarioRestController.EMISSOR).build();
+
+		// DECODIFICA O TOKEN
+		DecodedJWT jwt = verifier.verify(token);
+
+		// RECUPERA OS DADOS DO PLAYLOAD (CLAIMS SÃO VALORES QUE VEM NO PLAYLOAD)
+		Map<String, Claim> claims = jwt.getClaims();
+
+		// SE O USUARIO ESCOLHER O DIA INTEIRO, ESSE PARAMETROS VAI VIM NULOS, ENTÃO
+		// VAMO SETTAR O PERIODO E O HORARIO
+		System.out.println("antes if dia todo");
+
+		System.out.println("depois de passar por todos os ifs");
+
+		repository.save(agendamento);
+		logService.log("O " + claims.get("nivel").toString() + " " + claims.get("nome") + "criou um evento.",
+				TipoLog.CADASTRO_AGENDAMENTO, request);
+
+	}
+
+	public boolean verificacaoAgendamento(Agendamento agendamento, HttpServletRequest request) {
+		
+		
+		if (repository.validacaoDataEHora(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()
+				&& repository.validacaoDataFora(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()
+				&& repository.validacaoDataMaior(agendamento.getDataInicio(), agendamento.getDataFinalizada()).isEmpty()
+				&& repository.validacaoDataMenor(agendamento.getDataInicio(), agendamento.getDataFinalizada())
+						.isEmpty()) {
+
+			System.out.println("entrou if data e hora");
+			agendamento.setStatus(Status.PENDENTE);
+			salvaAltera(request, agendamento);
+			return true;
+
+		} else {
+			if (verificaRecusado(repository.validacaoDataEHora(agendamento.getDataInicio(),
+					agendamento.getDataFinalizada())) == true) {
+				agendamento.setStatus(Status.PENDENTE);
+				salvaAltera(request, agendamento);
+				return true;
+			} else if (verificaRecusado(repository.validacaoDataFora(agendamento.getDataInicio(),
+					agendamento.getDataFinalizada())) == true) {
+				agendamento.setStatus(Status.PENDENTE);
+				salvaAltera(request, agendamento);
+				return true;
+			} else if (verificaRecusado(repository.validacaoDataMaior(agendamento.getDataInicio(),
+					agendamento.getDataFinalizada())) == true) {
+				agendamento.setStatus(Status.PENDENTE);
+				salvaAltera(request, agendamento);
+				return true;
+			} else if (verificaRecusado(repository.validacaoDataMenor(agendamento.getDataInicio(),
+					agendamento.getDataFinalizada())) == true) {
+				agendamento.setStatus(Status.PENDENTE);
+				salvaAltera(request, agendamento);
+				return true;
+			} else {
+				return false;
+			}
+
+		}
+	}
 }

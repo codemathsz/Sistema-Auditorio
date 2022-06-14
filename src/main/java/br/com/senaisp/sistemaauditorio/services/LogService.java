@@ -16,7 +16,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import br.com.senaisp.sistemaauditorio.model.Log;
 import br.com.senaisp.sistemaauditorio.model.TipoLog;
-import br.com.senaisp.sistemaauditorio.model.Usuario;
 import br.com.senaisp.sistemaauditorio.repository.LogRepository;
 import br.com.senaisp.sistemaauditorio.rest.UsuarioRestController;
 

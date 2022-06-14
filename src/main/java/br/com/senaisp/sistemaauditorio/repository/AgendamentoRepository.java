@@ -46,8 +46,8 @@ public interface AgendamentoRepository extends PagingAndSortingRepository<Agenda
 	@Query("SELECT a FROM Agendamento a WHERE a.descricao LIKE %:descricao%")
 	public List<Agendamento> findByDescricao(@Param("descricao") String descricao);
 	
-	
-	public List<Agendamento> findAllByOrderByDataInicioDesc();
+	@Query("SELECT a FROM Agendamento a WHERE a.status != 2")
+	public List<Agendamento> findAgendamentos();
 	
 	//@Query("UPDATE Agendamento a SET a.status = 1 WHERE a.status = 0 AND a.id = :id")
 	//public List<Agendamento> updatePendenteToAceito(@Param("id") Long id);
