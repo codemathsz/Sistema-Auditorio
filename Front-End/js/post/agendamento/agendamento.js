@@ -33,7 +33,8 @@ const submit = getById("submit");
 submit.disabled = true;
 
 const checks = document.getElementsByName("check");
-let validaChecks = "";
+let validaChecks = -1;
+console.log(validaChecks)
 
 const mensagens = getById("mensagens");
 let type = "";
@@ -92,12 +93,15 @@ if (token == null) {
           showHoras();
 
           validaChecks = 0;
+          console.log("1: "+validaChecks);
         } else if (i == 1) {
           showPeriodo();
           validaChecks = 1;
+          console.log("2: "+validaChecks);
         } else {
           hiddenChoice();
           validaChecks = 2;
+          console.log("3 : "+validaChecks);
         }
         validaCadastro();
       });
@@ -500,7 +504,7 @@ function validaCadastro() {
     tipo.value != "" &&
     dataInicio.value != "" &&
     dataFinalizada.value != "" &&
-    validaChecks.value != ""
+    validaChecks != -1 
   ) {
     submit.classList.add("btn_active");
     submit.disabled = false;
